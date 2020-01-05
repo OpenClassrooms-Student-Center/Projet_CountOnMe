@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SimpleCalc
+//@testable import SimpleCalc
 
 class SimpleCalcTests: XCTestCase {
 
