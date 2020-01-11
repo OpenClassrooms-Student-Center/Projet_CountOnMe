@@ -74,10 +74,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047B93A823C96E1F00E445A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		047B93A923C96E3400E445A7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
+				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		047B93AA23C96EA300E445A7 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		047B93AB23C96F2900E445A7 /* Supported Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
+				1FA43BDE224E569A00F565CB /* Info.plist */,
+			);
+			path = "Supported Files";
+			sourceTree = "<group>";
+		};
 		1FA43BC6224E569900F565CB = {
 			isa = PBXGroup;
 			children = (
 				1FA43BD1224E569900F565CB /* CountOnMe */,
+				047B93AA23C96EA300E445A7 /* Controller */,
 				1FA43BE6224E569A00F565CB /* CountOnMeTests */,
 				1FA43BF1224E569A00F565CB /* CountOnMeUITests */,
 				1FA43BD0224E569900F565CB /* Products */,
@@ -97,12 +132,9 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
-				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
-				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
-				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
-				1FA43BDE224E569A00F565CB /* Info.plist */,
+				047B93AB23C96F2900E445A7 /* Supported Files */,
+				047B93A823C96E1F00E445A7 /* Model */,
+				047B93A923C96E3400E445A7 /* View */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -434,7 +466,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 56PJN96NRT;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supported files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -452,7 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 56PJN96NRT;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supported files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

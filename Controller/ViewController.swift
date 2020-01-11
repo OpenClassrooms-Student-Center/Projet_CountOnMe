@@ -6,6 +6,10 @@
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
 //
 
+// separer mode MVC
+// recherche protocole delegate
+// closure
+// taille controller 56 lignes
 import UIKit
 
 class ViewController: UIViewController {
@@ -108,6 +112,5 @@ class ViewController: UIViewController {
         
         textView.text.append(" = \(operationsToReduce.first!)")
     }
-
 }
 
