@@ -10,9 +10,12 @@
 import UIKit // 56 lignes
 
 class ViewController: UIViewController {
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     let calculator = Calculator()
+
+     
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,17 +28,32 @@ class ViewController: UIViewController {
             return
         }
         calculator.tapNumberButton(numberText: numberText)
+        calculator.delegate = self as? TranslateCalcul
+              textView.text = calculator.calculString
+       
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         calculator.addition()
+        calculator.delegate = self as? TranslateCalcul
+              textView.text = calculator.calculString
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         calculator.substraction()
+        calculator.delegate = self as? TranslateCalcul
+              textView.text = calculator.calculString
+
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        calculator.equal()
+         calculator.equal()
+        calculator.delegate = self as? TranslateCalcul
+        textView.text = calculator.calculString
     }
 }
+
+
+
+
+
