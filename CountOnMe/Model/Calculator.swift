@@ -5,20 +5,21 @@
 //  Created by mac on 2020/1/13.
 //  Copyright © 2020 Vincent Saluzzo. All rights reserved.
 //
-
+//1 + 1 ==
+// -1
 import Foundation
-protocol TranslateCalcul {
-    func result(withText: String)
+protocol CalculatorComunication: class {
+    func updateResult(calculString: String)
+    func displayAlert(message: String)
 }
 
 class Calculator {
     
-    var delegate: TranslateCalcul?
+    weak var delegate: CalculatorComunication?
     
     var calculString: String = "1 + 1 = 2" {
         didSet {
-            print(calculString)
-            delegate?.result(withText: "here there are youre text")
+            delegate?.updateResult(calculString: calculString)
         }
     }
     
@@ -48,11 +49,7 @@ class Calculator {
     func addition() {
         if canAddOperator {
             calculString.append(" + ")
-        } else {
-            //            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            //            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            //            self.present(alertVC, animated: true, completion: nil)
-        }
+        } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
     }
     
     func equal() {

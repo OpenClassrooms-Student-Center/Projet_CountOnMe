@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        calculator.delegate = self
     }
     
     // View actions
@@ -28,32 +28,33 @@ class ViewController: UIViewController {
             return
         }
         calculator.tapNumberButton(numberText: numberText)
-        calculator.delegate = self as? TranslateCalcul
-              textView.text = calculator.calculString
-       
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         calculator.addition()
-        calculator.delegate = self as? TranslateCalcul
-              textView.text = calculator.calculString
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         calculator.substraction()
-        calculator.delegate = self as? TranslateCalcul
-              textView.text = calculator.calculString
-
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
          calculator.equal()
-        calculator.delegate = self as? TranslateCalcul
-        textView.text = calculator.calculString
     }
 }
 
-
+extension ViewController: CalculatorComunication {
+    func displayAlert(message: String) {
+        let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func updateResult(calculString: String) {
+        textView.text = calculString
+    }
+}
 
 
 
