@@ -55,6 +55,7 @@ class Calculator {
     func equal() {
         
         guard expressionIsCorrect else {
+            
             //            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             //            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             //            return self.present(alertVC, animated: true, completion: nil)
@@ -105,7 +106,6 @@ class Calculator {
         if expressionHaveResult {
             calculString = ""
         }
-        
         calculString.append(numberText)
     }
 }
