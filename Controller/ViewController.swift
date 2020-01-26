@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     let calculator = Calculator()
-
-     
+    
+    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,17 +39,40 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-         calculator.equal()
+        calculator.equal()
     }
 }
 
 extension ViewController: CalculatorComunication {
-    func displayAlert(message: String) {
+    
+    func displayAlertAddition(message: String) {
         let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
+    
+    func displayAlertCorrectExpression(message: String) {
+        let alertController = UIAlertController(title: "Zéro", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayAlertEnoughElement(message: String) {
+        let alertController = UIAlertController(title: "Zéro", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayAlertOperatorAdded(message: String) {
+        let alertController = UIAlertController(title: "Zéro", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     
     func updateResult(calculString: String) {
         textView.text = calculString

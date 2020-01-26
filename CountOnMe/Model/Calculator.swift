@@ -10,7 +10,10 @@
 import Foundation
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
-    func displayAlert(message: String)
+    func displayAlertAddition(message: String)
+    func displayAlertCorrectExpression(message: String)
+    func displayAlertEnoughElement(message: String)
+    func displayAlertOperatorAdded(message: String)
 }
 
 class Calculator {
@@ -49,23 +52,26 @@ class Calculator {
     func addition() {
         if canAddOperator {
             calculString.append(" + ")
-        } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
+        } else { delegate?.displayAlertAddition(message: "Un operateur est déja mis !") }
+    }
+    
+    func substraction() {
+        if canAddOperator {
+            calculString.append(" - ")
+        } else {
+            delegate?.displayAlertOperatorAdded(message: "Un operateur est déjà mis !")
+        }
     }
     
     func equal() {
         
         guard expressionIsCorrect else {
-            
-            //            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            //            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            //            return self.present(alertVC, animated: true, completion: nil)
+            delegate?.displayAlertCorrectExpression(message: "Entrez une expression correcte !")
             return
         }
         
         guard expressionHaveEnoughElement else {
-            //            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            //            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            //            return self.present(alertVC, animated: true, completion: nil)
+            delegate?.displayAlertEnoughElement(message: "Demarrez un nouveau calcul !")
             return
         }
         
@@ -90,16 +96,6 @@ class Calculator {
         }
         
         calculString.append(" = \(operationsToReduce.first!)")
-    }
-    
-    func substraction() {
-        if canAddOperator {
-            calculString.append(" - ")
-        } else {
-            //            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            //            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            //            self.present(alertVC, animated: true, completion: nil)
-        }
     }
     
     func tapNumberButton(numberText: String) {
