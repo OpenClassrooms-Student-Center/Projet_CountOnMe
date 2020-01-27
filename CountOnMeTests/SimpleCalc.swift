@@ -25,15 +25,33 @@ class SimpleCalcTests: XCTestCase {
         calculator = nil
     }
     
-    func testGivenAdditionCalcul_ThenApplyLeftAndRightOpperator_ThenGiveResult() {
-        
+    func testGivenAdditionCalcul_ThenApplyAdditionSign_ThenGiveResult() {
+        calculator.tapNumberButton(numberText: "1")
+        calculator.addition()
+        calculator.tapNumberButton(numberText: "1")
+        calculator.equal()
+        XCTAssertEqual(calculator.calculString, "1 + 1 = 2")
+    }
+    
+    
+    func testGivenSubstractionCalcul_ThenApplyOperator_ThenGiveResult() {
+     calculator.tapNumberButton(numberText: "1")
+     calculator.substraction()
+     calculator.tapNumberButton(numberText: "1")
+     calculator.equal()
+     XCTAssertEqual(calculator.calculString, "1 - 1 = 0")
+    }
+    
+    func testGivenAdditionCalcul_ThenApplyAdditionSign_ThenGiveResultError() {
+        calculator.tapNumberButton(numberText: "1")
+        calculator.addition()
+        calculator.addition()
+        XCTAssertEqual(calculator.calculString, "1 + ")
     }
     
 // =======  Éléments a tester  =============
     
 //     var delegate: TranslateCalcul?
-//
-//     var calculString: String { get set }
 //
 //     var elements: [String] { get }
 //
@@ -45,11 +63,7 @@ class SimpleCalcTests: XCTestCase {
 //
 //     var expressionHaveResult: Bool { get }
 //
-//     func addition()
-//
 //     func equal()
-//
-//     func substraction()
 //
 //     func tapNumberButton(numberText: String)
 

@@ -44,38 +44,19 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CalculatorComunication {
+    func updateResult(calculString: String) {
+        textView.text = calculString
+    }
     
-    func displayAlertAddition(message: String) {
+    
+    func displayAlert(message: String) {
         let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
     
-    func displayAlertCorrectExpression(message: String) {
-        alertWithTitleZero(message: message)
-    }
-    
-    func displayAlertEnoughElement(message: String) {
-        alertWithTitleZero(message: message)
-        
-    }
-    
-    func displayAlertOperatorAdded(message: String) {
-        alertWithTitleZero(message: message)
-    }
-    
-    
-    func updateResult(calculString: String) {
-        textView.text = calculString
-    }
-    
-    func alertWithTitleZero(message: String) {
-        let alertController = UIAlertController(title: "Zéro", message: message, preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alertController.addAction(action)
-        present(alertController, animated: true, completion: nil)
-    }
+   
 }
 
 

@@ -5,15 +5,17 @@
 //  Created by mac on 2020/1/13.
 //  Copyright © 2020 Vincent Saluzzo. All rights reserved.
 //
-//1 + 1 ==
-// -1
+
+// deballer optionnel
+// terminer test
+// integrer X diviser
+// AC a mettre en place
+
 import Foundation
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
-    func displayAlertAddition(message: String)
-    func displayAlertCorrectExpression(message: String)
-    func displayAlertEnoughElement(message: String)
-    func displayAlertOperatorAdded(message: String)
+    func displayAlert(message: String)
+    
 }
 
 class Calculator {
@@ -52,26 +54,29 @@ class Calculator {
     func addition() {
         if canAddOperator {
             calculString.append(" + ")
-        } else { delegate?.displayAlertAddition(message: "Un operateur est déja mis !") }
+        } else {
+            delegate?.displayAlert(message: "Un operateur est déja mis !")
+            
+        }
     }
     
     func substraction() {
         if canAddOperator {
             calculString.append(" - ")
         } else {
-            delegate?.displayAlertOperatorAdded(message: "Un operateur est déjà mis !")
+            delegate?.displayAlert(message: "Un operateur est déjà mis !")
         }
     }
     
     func equal() {
         
         guard expressionIsCorrect else {
-            delegate?.displayAlertCorrectExpression(message: "Entrez une expression correcte !")
+            delegate?.displayAlert(message: "Entrez une expression correcte !")
             return
         }
         
         guard expressionHaveEnoughElement else {
-            delegate?.displayAlertEnoughElement(message: "Demarrez un nouveau calcul !")
+            delegate?.displayAlert(message: "Demarrez un nouveau calcul !")
             return
         }
         
@@ -80,15 +85,15 @@ class Calculator {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
+            let left = Int(operationsToReduce[0])! // !! unwrapped
             let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+            let right = Int(operationsToReduce[2])! // !! unwrapped
             
             let result: Int
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
-            default: fatalError("Unknown operator !")
+            default: return
             }
             
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
