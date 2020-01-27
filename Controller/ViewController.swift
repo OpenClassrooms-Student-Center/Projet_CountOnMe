@@ -6,8 +6,7 @@
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
 //
 
-// closure
-import UIKit // 56 lignes
+import UIKit
 
 class ViewController: UIViewController {
     
@@ -55,8 +54,6 @@ extension ViewController: CalculatorComunication {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
-    
-   
 }
 
 

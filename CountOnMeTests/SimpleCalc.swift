@@ -13,7 +13,7 @@ import XCTest
 class SimpleCalcTests: XCTestCase {
     
     var calculator: Calculator!
-
+    
     
     override func setUp() {
         super.setUp()
@@ -35,11 +35,11 @@ class SimpleCalcTests: XCTestCase {
     
     
     func testGivenSubstractionCalcul_ThenApplyOperator_ThenGiveResult() {
-     calculator.tapNumberButton(numberText: "1")
-     calculator.substraction()
-     calculator.tapNumberButton(numberText: "1")
-     calculator.equal()
-     XCTAssertEqual(calculator.calculString, "1 - 1 = 0")
+        calculator.tapNumberButton(numberText: "1")
+        calculator.substraction()
+        calculator.tapNumberButton(numberText: "1")
+        calculator.equal()
+        XCTAssertEqual(calculator.calculString, "1 - 1 = 0")
     }
     
     func testGivenAdditionCalcul_ThenApplyAdditionSign_ThenGiveResultError() {
@@ -49,23 +49,35 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 + ")
     }
     
-// =======  Éléments a tester  =============
     
-//     var delegate: TranslateCalcul?
-//
-//     var elements: [String] { get }
-//
-//     var expressionIsCorrect: Bool { get }
-//
-//     var expressionHaveEnoughElement: Bool { get }
-//
-//     var canAddOperator: Bool { get }
-//
-//     var expressionHaveResult: Bool { get }
-//
-//     func equal()
-//
-//     func tapNumberButton(numberText: String)
+    func testGivenSubstractionCalcul_ThenApplySubstractionSign_ThenGiveResultError() {
+        calculator.tapNumberButton(numberText: "1")
+        calculator.substraction()
+        calculator.substraction()
+        XCTAssertEqual(calculator.calculString, "1 - ")
+    }
+    
+    func testGiven_When_Then() {
+        calculator.tapNumberButton(numberText: "1")
+        calculator.substraction()
+        calculator.substraction()
+    }
+    
+    func testGiven_When_Then2() {
 
-   
+    }
+    
+//    func equal() {
+//           guard expressionIsCorrect else {
+//               delegate?.displayAlert(message: "Entrez une expression correcte !")
+//               return
+//           }
+//
+//           guard expressionHaveEnoughElement else {
+//               delegate?.displayAlert(message: "Demarrez un nouveau calcul !")
+//               return
+//           }
+    
+
+    
 }
