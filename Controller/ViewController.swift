@@ -40,13 +40,25 @@ class ViewController: UIViewController {
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.equal()
     }
+    
+    @IBAction func tappedResetButton(_ sender: UIButton) {
+        calculator.resetCalculator()
+        textView.text = "0"
+        
+        
+    }
 }
 
 extension ViewController: CalculatorComunication {
+   
     func updateResult(calculString: String) {
         textView.text = calculString
     }
     
+    func resetScore(numberText: String) {
+        textView.text = "0"
+       }
+       
     
     func displayAlert(message: String) {
         let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
@@ -54,6 +66,7 @@ extension ViewController: CalculatorComunication {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
+    
 }
 
 

@@ -25,59 +25,70 @@ class SimpleCalcTests: XCTestCase {
         calculator = nil
     }
     
-    func testGivenAdditionCalcul_ThenApplyAdditionSign_ThenGiveResult() {
+    func testGivenNumberOne_ThenApplyAdditionSign_ThenGiveResult() {
         calculator.tapNumberButton(numberText: "1")
+        
         calculator.addition()
         calculator.tapNumberButton(numberText: "1")
         calculator.equal()
+        
         XCTAssertEqual(calculator.calculString, "1 + 1 = 2")
     }
     
     
-    func testGivenSubstractionCalcul_ThenApplyOperator_ThenGiveResult() {
+    func testGivenNumberOne_ThenApplySubstraction_ThenGiveResult() {
         calculator.tapNumberButton(numberText: "1")
+        
         calculator.substraction()
         calculator.tapNumberButton(numberText: "1")
         calculator.equal()
+        
         XCTAssertEqual(calculator.calculString, "1 - 1 = 0")
     }
     
-    func testGivenAdditionCalcul_ThenApplyAdditionSign_ThenGiveResultError() {
+    func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultError() {
         calculator.tapNumberButton(numberText: "1")
+       
         calculator.addition()
         calculator.addition()
+        
         XCTAssertEqual(calculator.calculString, "1 + ")
     }
     
     
-    func testGivenSubstractionCalcul_ThenApplySubstractionSign_ThenGiveResultError() {
+    func testGivenNumberOne_ThenApplySubstractionTwoTimes_ThenGiveAlert() {
         calculator.tapNumberButton(numberText: "1")
+        
         calculator.substraction()
         calculator.substraction()
+        
         XCTAssertEqual(calculator.calculString, "1 - ")
     }
     
-    func testGiven_When_Then() {
+    func testGivenNumberOne_WhenExpressionIsNotCorrect_ThenAlertMessage() {
         calculator.tapNumberButton(numberText: "1")
+        
         calculator.substraction()
-        calculator.substraction()
+        calculator.equal()
+        
+        XCTAssertEqual(calculator.calculString, "1 - ")
     }
     
-    func testGiven_When_Then2() {
+    func testGivenNumberOne_WhenExpressionDontHaveEnoughElement_ThenAlertMessage() {
+        calculator.tapNumberButton(numberText: "1")
 
+        calculator.equal()
+
+        XCTAssertEqual(calculator.calculString, "1")
     }
     
-//    func equal() {
-//           guard expressionIsCorrect else {
-//               delegate?.displayAlert(message: "Entrez une expression correcte !")
-//               return
-//           }
-//
-//           guard expressionHaveEnoughElement else {
-//               delegate?.displayAlert(message: "Demarrez un nouveau calcul !")
-//               return
-//           }
-    
-
+    func testGivennumberOne_WhenDoReset_ThenResetScreen_Withzero() {
+        calculator.tapNumberButton(numberText: "1")
+        
+        calculator.resetCalculator()
+        
+        XCTAssertEqual(calculator.calculString, "0")
+        
+    }
     
 }

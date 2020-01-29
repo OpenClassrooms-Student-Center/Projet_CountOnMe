@@ -7,14 +7,13 @@
 //
 
 // deballer optionnel
-// terminer test
 // integrer X diviser
-// AC a mettre en place
 
 import Foundation
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
     func displayAlert(message: String)
+    func resetScore(numberText: String)
     
 }
 
@@ -69,7 +68,6 @@ class Calculator {
     }
     
     func equal() {
-        
         guard expressionIsCorrect else {
             delegate?.displayAlert(message: "Entrez une expression correcte !")
             return
@@ -108,5 +106,9 @@ class Calculator {
             calculString = ""
         }
         calculString.append(numberText)
+    }
+    
+    func resetCalculator() {
+        delegate?.resetScore(numberText: "0")
     }
 }
