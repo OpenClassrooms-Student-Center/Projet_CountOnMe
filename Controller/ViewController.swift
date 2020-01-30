@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     let calculator = Calculator()
     
-    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,12 +67,12 @@ extension ViewController: CalculatorComunication {
         present(alertController, animated: true, completion: nil)
     }
     
-    func diaplayAlertDivideByZero(message: String) {
-           let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
-           let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-           alertController.addAction(action)
-           present(alertController, animated: true, completion: nil)
-       }
+//    func diaplayAlertDivideByZero(message: String) {
+//           let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
+//           let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//           alertController.addAction(action)
+//           present(alertController, animated: true, completion: nil)
+//       }
 }
 
 

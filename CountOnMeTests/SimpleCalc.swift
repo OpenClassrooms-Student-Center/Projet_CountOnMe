@@ -47,10 +47,10 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 - 1 = 0.0")
     }
     
-// MARK: Alert
+    // MARK: Alert
     func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultAlert() {
         calculator.tapNumberButton(numberText: "1")
-       
+        
         calculator.addition()
         calculator.addition()
         
@@ -78,13 +78,13 @@ class SimpleCalcTests: XCTestCase {
     
     func testGivenNumberOne_WhenExpressionDontHaveEnoughElement_ThenAlertMessage() {
         calculator.tapNumberButton(numberText: "1")
-
+        
         calculator.equal()
-
+        
         XCTAssertEqual(calculator.calculString, "1")
     }
     
-    func testGivenNumberOne_WhenApplyTimesTwo_ThenResultCorect() {
+    func testGivenNumberOne_WhenApplyTimesTen_ThenResultCorect() {
         calculator.tapNumberButton(numberText: "1")
         
         calculator.multiplication()
@@ -94,7 +94,29 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 x 10 = 10.0")
     }
     
-    func testGiven_When_Then() {
+    func testGivenNumberOne_WhenDivideByTwo_ThenResultIsCorrect() {
+        calculator.tapNumberButton(numberText: "1")
         
+        calculator.division()
+        calculator.tapNumberButton(numberText: "2")
+        calculator.equal()
+        
+        XCTAssertEqual(calculator.calculString, "1 ÷ 2 = 0.5")
+    }
+    
+    func testGivenNumberOne_WhenCanAddOperatorIsRepeat_ThenPrintAlert() {
+        calculator.tapNumberButton(numberText: "1")
+        
+        calculator.division()
+        calculator.division()
+        
+        XCTAssertEqual(calculator.calculString, "1 ÷ ")
+    
+        calculator.tapNumberButton(numberText: "1")
+        
+        calculator.multiplication()
+        calculator.multiplication()
+        
+        XCTAssertEqual(calculator.calculString, "1 ÷ 1 x ")
     }
 }

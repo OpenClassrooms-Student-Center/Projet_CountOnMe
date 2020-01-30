@@ -13,7 +13,7 @@ import Foundation
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
     func displayAlert(message: String)
-    func diaplayAlertDivideByZero(message: String)
+   // func diaplayAlertDivideByZero(message: String)
 }
 
 class Calculator {
@@ -41,16 +41,16 @@ class Calculator {
     }
     
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "÷"
+        return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
     var expressionHaveResult: Bool {
         return calculString.firstIndex(of: "=") != nil
     }
     
-    var divideByZero: Bool {
-        return elements.description != "/0"
-    }
+//    var divideByZero: Bool {
+//        return elements.contains("/ 0")
+//    }
     
     func addition() {
         if canAddOperator {
@@ -71,10 +71,10 @@ class Calculator {
     
     func division() {
         if canAddOperator {
-        calculString.append(" ÷ ")
-        } else if divideByZero {
-            delegate?.diaplayAlertDivideByZero(message: "Impossible de diviser par zéro !")
-       } else {
+            calculString.append(" ÷ ")
+//        } else if divideByZero {
+//            delegate?.diaplayAlertDivideByZero(message: "Impossible de diviser par zéro !")
+        } else {
             delegate?.displayAlert(message: "Un operateur est déjà mis !")
         }
     }
@@ -104,11 +104,11 @@ class Calculator {
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Double(operationsToReduce[0])! // !! unwrapped
-
             
             
-        //            if let unwrapped   {
-//                left = Int?
+            
+//            if let unwrapped != nil {
+//                left = Double(operationsToReduce[0]) as? Double
 //            }
             let operand = operationsToReduce[1]
             let right = Float(operationsToReduce[2])! // !! unwrapped
