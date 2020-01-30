@@ -25,6 +25,7 @@ class SimpleCalcTests: XCTestCase {
         calculator = nil
     }
     
+    // MARK: Test Model
     func testGivenNumberOne_ThenApplyAdditionSign_ThenGiveResult() {
         calculator.tapNumberButton(numberText: "1")
         
@@ -32,7 +33,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.tapNumberButton(numberText: "1")
         calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "1 + 1 = 2")
+        XCTAssertEqual(calculator.calculString, "1 + 1 = 2.0")
     }
     
     
@@ -43,10 +44,11 @@ class SimpleCalcTests: XCTestCase {
         calculator.tapNumberButton(numberText: "1")
         calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "1 - 1 = 0")
+        XCTAssertEqual(calculator.calculString, "1 - 1 = 0.0")
     }
     
-    func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultError() {
+// MARK: Alert
+    func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultAlert() {
         calculator.tapNumberButton(numberText: "1")
        
         calculator.addition()
@@ -82,13 +84,17 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1")
     }
     
-    func testGivennumberOne_WhenDoReset_ThenResetScreen_Withzero() {
+    func testGivenNumberOne_WhenApplyTimesTwo_ThenResultCorect() {
         calculator.tapNumberButton(numberText: "1")
         
-        calculator.resetCalculator()
+        calculator.multiplication()
+        calculator.tapNumberButton(numberText: "10")
+        calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "0")
-        
+        XCTAssertEqual(calculator.calculString, "1 x 10 = 10.0")
     }
     
+    func testGiven_When_Then() {
+        
+    }
 }
