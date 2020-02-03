@@ -41,8 +41,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedResetButton(_ sender: UIButton) {
-        textView.text = ""
-        calculator.calculString = ""
+        calculator.reset()
     }
     
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
@@ -66,13 +65,6 @@ extension ViewController: CalculatorComunication {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
-    
-//    func diaplayAlertDivideByZero(message: String) {
-//           let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
-//           let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//           alertController.addAction(action)
-//           present(alertController, animated: true, completion: nil)
-//       }
 }
 
 

@@ -6,17 +6,14 @@
 //  Copyright © 2020 Vincent Saluzzo. All rights reserved.
 //
 
-// deballer optionnel
-// integrer X diviser
 
 import Foundation
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
     func displayAlert(message: String)
-   // func diaplayAlertDivideByZero(message: String)
 }
 
-class Calculator {
+class Calculator: NSObject {
     
     weak var delegate: CalculatorComunication?
     
@@ -27,7 +24,7 @@ class Calculator {
     }
     
     var elements: [String] {
-        //.map return array of the given closure
+        //Separate calcul by "" and do loop
         return calculString.split(separator: " ").map { "\($0)" }
     }
     
@@ -48,9 +45,11 @@ class Calculator {
         return calculString.firstIndex(of: "=") != nil
     }
     
-//    var divideByZero: Bool {
-//        return elements.contains("/ 0")
-//    }
+    var divideByZero: Bool {
+       
+        return calculString.contains("/ 0")
+        
+    }
     
     func addition() {
         if canAddOperator {
@@ -72,8 +71,6 @@ class Calculator {
     func division() {
         if canAddOperator {
             calculString.append(" ÷ ")
-//        } else if divideByZero {
-//            delegate?.diaplayAlertDivideByZero(message: "Impossible de diviser par zéro !")
         } else {
             delegate?.displayAlert(message: "Un operateur est déjà mis !")
         }
@@ -103,22 +100,24 @@ class Calculator {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let left = Double(operationsToReduce[0])! // !! unwrapped
             
+            guard let left = Float(operationsToReduce[0]) else { return } 
             
-            
-//            if let unwrapped != nil {
-//                left = Double(operationsToReduce[0]) as? Double
-//            }
             let operand = operationsToReduce[1]
-            let right = Float(operationsToReduce[2])! // !! unwrapped
+            let right = Float(operationsToReduce[2])
             
-            let result: Float
+            guard let unwrappedRight = right else {
+                         print("No value or Wrong value")
+                         return
+                     }
+            
+            var result: Float
+            
             switch operand {
-            case "+": result = Float(left) + Float(right)
-            case "-": result = Float(left) - Float(right)
-            case "÷": result = Float(left) / Float(right)
-            case "x": result = Float(left) * Float(right)
+            case "+": result = left + Float(unwrappedRight)
+            case "-": result = left - Float(unwrappedRight)
+            case "÷": result = left / Float(unwrappedRight)
+            case "x": result = left * Float(unwrappedRight)
             default: return
             }
             
@@ -126,7 +125,8 @@ class Calculator {
             operationsToReduce.insert("\(result)", at: 0)
         }
         
-        calculString.append(" = \(operationsToReduce.first!)") // !! unwrapped
+        guard let result = operationsToReduce.first else { return }
+        calculString.append(" = \(result)")
     }
     
     func tapNumberButton(numberText: String) {
@@ -134,5 +134,9 @@ class Calculator {
             calculString = ""
         }
         calculString.append(numberText)
+    }
+    
+    func reset() {
+        calculString = ""
     }
 }

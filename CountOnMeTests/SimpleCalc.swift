@@ -9,11 +9,9 @@
 import XCTest
 @testable import CountOnMe
 
-
 class SimpleCalcTests: XCTestCase {
     
     var calculator: Calculator!
-    
     
     override func setUp() {
         super.setUp()
@@ -35,7 +33,6 @@ class SimpleCalcTests: XCTestCase {
         
         XCTAssertEqual(calculator.calculString, "1 + 1 = 2.0")
     }
-    
     
     func testGivenNumberOne_ThenApplySubstraction_ThenGiveResult() {
         calculator.tapNumberButton(numberText: "1")
