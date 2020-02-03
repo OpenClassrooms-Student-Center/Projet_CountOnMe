@@ -101,7 +101,7 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 ÷ 2 = 0.5")
     }
     
-    func testGivenNumberOne_WhenCanAddOperatorIsRepeat_ThenPrintAlert() {
+    func testGivenNumberOne_WhenCanAddOperatorIsRepeat_ThenPrintAlertAndReset() {
         calculator.tapNumberButton(numberText: "1")
         
         calculator.division()
@@ -115,5 +115,21 @@ class SimpleCalcTests: XCTestCase {
         calculator.multiplication()
         
         XCTAssertEqual(calculator.calculString, "1 ÷ 1 x ")
+        
+        calculator.reset()
+        
+        XCTAssertEqual(calculator.calculString, "")
+   
     }
+    
+    func testGivenNumberOne_WhenTryDivideByZero_ThenInitialiseNil() {
+        calculator.tapNumberButton(numberText: "1")
+        
+        calculator.division()
+        calculator.tapNumberButton(numberText: "0")
+        calculator.equal()
+        
+        XCTAssertEqual(calculator.calculString, "")
+    }
+
 }

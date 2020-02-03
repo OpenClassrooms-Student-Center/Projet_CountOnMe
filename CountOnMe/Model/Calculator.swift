@@ -46,8 +46,8 @@ class Calculator: NSObject {
     }
     
     var divideByZero: Bool {
-       
-        return calculString.contains("/ 0")
+        return calculString.contains("÷ 0")
+        
         
     }
     
@@ -95,6 +95,11 @@ class Calculator: NSObject {
             return
         }
         
+        guard divideByZero == false  else {
+            calculString = ""
+            return
+        }
+        
         // Create local copy of operations
         var operationsToReduce = elements
         
@@ -104,20 +109,15 @@ class Calculator: NSObject {
             guard let left = Float(operationsToReduce[0]) else { return } 
             
             let operand = operationsToReduce[1]
-            let right = Float(operationsToReduce[2])
-            
-            guard let unwrappedRight = right else {
-                         print("No value or Wrong value")
-                         return
-                     }
-            
+            guard let right = Float(operationsToReduce[2]) else { return }
+ 
             var result: Float
             
             switch operand {
-            case "+": result = left + Float(unwrappedRight)
-            case "-": result = left - Float(unwrappedRight)
-            case "÷": result = left / Float(unwrappedRight)
-            case "x": result = left * Float(unwrappedRight)
+            case "+": result = left + right
+            case "-": result = left - right
+            case "÷": result = left / right
+            case "x": result = left * right
             default: return
             }
             
