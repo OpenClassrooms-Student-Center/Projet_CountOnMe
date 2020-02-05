@@ -30,7 +30,7 @@ class Calculator: NSObject {
     
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" || elements.last != "-"
     }
     
     var expressionHaveEnoughElement: Bool {
@@ -47,8 +47,6 @@ class Calculator: NSObject {
     
     var divideByZero: Bool {
         return calculString.contains("÷ 0")
-        
-        
     }
     
     func addition() {
