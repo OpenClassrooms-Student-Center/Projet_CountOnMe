@@ -13,24 +13,24 @@ protocol CalculatorComunication: class {
     func displayAlert(message: String)
 }
 
-class Calculator: NSObject {
+class Calculator {
     
     weak var delegate: CalculatorComunication?
     
-    var calculString: String = "1 + 1 = 2" {
+    var calculString = "1 + 1 = 2" {
         didSet {
             delegate?.updateResult(calculString: calculString)
         }
     }
     
     var elements: [String] {
-        //Separate calcul by "" and do loop
+        //Separate calcul by "" and loop inside
         return calculString.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" || elements.last != "-"
+        return elements.last != "+" || elements.last != "-" || elements.last != "÷" || elements.last != "x"
     }
     
     var expressionHaveEnoughElement: Bool {
@@ -104,27 +104,50 @@ class Calculator: NSObject {
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             
-            guard let left = Float(operationsToReduce[0]) else { return } 
+            guard var left = Float(operationsToReduce[0]) else { return }
+            var operand = operationsToReduce[1]
+            guard var right = Float(operationsToReduce[2]) else { return }
             
-            let operand = operationsToReduce[1]
-            guard let right = Float(operationsToReduce[2]) else { return }
- 
-            var result: Float
+            let result: Float
             
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "÷": result = left / right
-            case "x": result = left * right
-            default: return
+            var operandIndex = 1 // Start at one for we can remove extra calcul for priorities
+            
+            // Search if there is multiply of divide take
+            if let index = operationsToReduce.firstIndex(where: {["x","÷"].contains($0)}) {
+                
+                operandIndex = index
+                left = Float(operationsToReduce[index - 1])!
+                operand = operationsToReduce[index]
+                right = Float(operationsToReduce[index + 1])!
+                
             }
             
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            result = calculate(left: left, right: right, operand: operand)
+            
+            for _ in 1...3 {
+                
+                operationsToReduce.remove(at: operandIndex - 1)
+                print(operationsToReduce)
+                print(result)
+            }
+            operationsToReduce.insert("\(result)", at: operandIndex - 1 )
+            print(operationsToReduce)
         }
+        guard let finalResult = operationsToReduce.first else { return }
+        calculString.append(" = \(finalResult)")
+    }
+    
+    func calculate(left: Float, right: Float, operand: String) -> Float {
         
-        guard let result = operationsToReduce.first else { return }
-        calculString.append(" = \(result)")
+        let result: Float
+        switch operand {
+        case "+": result = left + right
+        case "-": result = left - right
+        case "÷": result = left / right
+        case "x": result = left * right
+        default: fatalError()
+        }
+        return result
     }
     
     func tapNumberButton(numberText: String) {

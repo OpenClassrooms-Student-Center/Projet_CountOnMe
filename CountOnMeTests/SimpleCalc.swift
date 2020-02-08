@@ -101,6 +101,8 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 ÷ 2 = 0.5")
     }
     
+    //MARK: TDD
+    
     func testGivenNumberOne_WhenCanAddOperatorIsRepeat_ThenPrintAlertAndReset() {
         calculator.tapNumberButton(numberText: "1")
         
