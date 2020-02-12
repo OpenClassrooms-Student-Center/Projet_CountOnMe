@@ -9,11 +9,11 @@
 
 import Foundation
 protocol CalculatorComunication: class {
-    func updateResult(calculString: String)
+     func updateResult(calculString: String)
     func displayAlert(message: String)
 }
 
-class Calculator {
+final class Calculator {
     
     weak var delegate: CalculatorComunication?
     
@@ -34,13 +34,16 @@ class Calculator {
     }
     
     var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
+        return elements.count >= 3 || elements.count % 2 == 1
     }
     
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
+    var firstOperator: Bool {
+        return  elements.first != "÷" || elements.first != "x" || elements.first != "+" || elements.first != "-"
+    }
     var expressionHaveResult: Bool {
         return calculString.firstIndex(of: "=") != nil
     }
@@ -50,39 +53,42 @@ class Calculator {
     }
     
     func addition() {
+//        guard !firstOperator else {
+//            delegate?.displayAlert(message: "imposible")
+//            return
+//   }
         if canAddOperator {
             calculString.append(" + ")
-        } else {
-            delegate?.displayAlert(message: "Un operateur est déja mis !")
-            
-        }
+        } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
     }
-    
+
     func substraction() {
-        if canAddOperator {
+        if canAddOperator  {
             calculString.append(" - ")
-        } else {
-            delegate?.displayAlert(message: "Un operateur est déjà mis !")
-        }
+        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
     }
     
     func division() {
-        if canAddOperator {
+        if canAddOperator  {
             calculString.append(" ÷ ")
-        } else {
-            delegate?.displayAlert(message: "Un operateur est déjà mis !")
-        }
+        } else if firstOperator {
+            delegate?.displayAlert(message: "Vous ne pouvez pas commencer par une division !")
+            
+        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
     }
     
     func multiplication() {
         if canAddOperator {
             calculString.append(" x ")
-        } else {
-            delegate?.displayAlert(message: "Un operateur est déjà mis !")
-        }
+        } else if firstOperator {
+            delegate?.displayAlert(message: "Vous ne pouvez pas commencer par une multiplication !")
+            
+        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
     }
     
     func equal() {
+        
+        
         guard expressionIsCorrect else {
             delegate?.displayAlert(message: "Entrez une expression correcte !")
             return
@@ -94,6 +100,7 @@ class Calculator {
         }
         
         guard divideByZero == false  else {
+            delegate?.displayAlert(message: "Il est impossible de diviser par zéro !")
             calculString = ""
             return
         }
@@ -112,20 +119,20 @@ class Calculator {
             
             var operandIndex = 1 // Start at one for we can remove extra calcul for priorities
             
-            // Search if there is multiply of divide take
-            if let index = operationsToReduce.firstIndex(where: {["x","÷"].contains($0)}) {
+            // Search if there is multiply of divide then assign index
+            if let index = operationsToReduce.firstIndex(where: { $0 == "x" || $0 == "÷" }) {
                 
                 operandIndex = index
-                left = Float(operationsToReduce[index - 1])!
+                if let leftunwrapp = Float(operationsToReduce[index - 1]) { left = leftunwrapp }
                 operand = operationsToReduce[index]
-                right = Float(operationsToReduce[index + 1])!
-                
+                if let rightUnwrapp = Float(operationsToReduce[index + 1]) { right = rightUnwrapp }
             }
             
             result = calculate(left: left, right: right, operand: operand)
             
-            for _ in 1...3 {
-                
+            
+            for _ in 1...3 { // Loop inside index to remove extra operator
+
                 operationsToReduce.remove(at: operandIndex - 1)
                 print(operationsToReduce)
                 print(result)
@@ -136,16 +143,16 @@ class Calculator {
         guard let finalResult = operationsToReduce.first else { return }
         calculString.append(" = \(finalResult)")
     }
-    
+
     func calculate(left: Float, right: Float, operand: String) -> Float {
         
-        let result: Float
+        var result: Float
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
         case "÷": result = left / right
         case "x": result = left * right
-        default: fatalError()
+        default: return 0
         }
         return result
     }
@@ -161,3 +168,4 @@ class Calculator {
         calculString = ""
     }
 }
+
