@@ -9,7 +9,7 @@
 
 import Foundation
 protocol CalculatorComunication: class {
-     func updateResult(calculString: String)
+    func updateResult(calculString: String)
     func displayAlert(message: String)
 }
 
@@ -34,15 +34,24 @@ final class Calculator {
     }
     
     var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3 || elements.count % 2 == 1
+        return elements.count >= 3
     }
     
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
-    var firstOperator: Bool {
-        return  elements.first != "÷" || elements.first != "x" || elements.first != "+" || elements.first != "-"
+    var canStartByOperator: Bool {
+        if calculString >= "0" && calculString <= "9" {
+            return elements.count >= 1
+        } else {
+            delegate?.displayAlert(message: "S'il vous plait ne commencer pas par un operateur !")
+        }
+        return false
+    }
+    
+    var canFinishByOperator: Bool {
+        return calculString.last == "+" && calculString.last == "-" && calculString.last == "÷" && calculString.last == "x"
     }
     var expressionHaveResult: Bool {
         return calculString.firstIndex(of: "=") != nil
@@ -53,41 +62,36 @@ final class Calculator {
     }
     
     func addition() {
-//        guard !firstOperator else {
-//            delegate?.displayAlert(message: "imposible")
-//            return
-//   }
-        if canAddOperator {
-            calculString.append(" + ")
-        } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
+        if canStartByOperator {
+            if canAddOperator {
+                calculString.append(" + ")
+            } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
+        }
     }
-
     func substraction() {
-        if canAddOperator  {
-            calculString.append(" - ")
-        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        if canStartByOperator {
+            if canAddOperator {
+                calculString.append(" - ")
+            } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        }
     }
-    
     func division() {
-        if canAddOperator  {
-            calculString.append(" ÷ ")
-        } else if firstOperator {
-            delegate?.displayAlert(message: "Vous ne pouvez pas commencer par une division !")
-            
-        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        if canStartByOperator {
+            if canAddOperator {
+                calculString.append(" ÷ ")
+            } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        }
     }
     
     func multiplication() {
-        if canAddOperator {
-            calculString.append(" x ")
-        } else if firstOperator {
-            delegate?.displayAlert(message: "Vous ne pouvez pas commencer par une multiplication !")
-            
-        } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        if canStartByOperator {
+            if canAddOperator {
+                calculString.append(" x ")
+            } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
+        }
     }
     
     func equal() {
-        
         
         guard expressionIsCorrect else {
             delegate?.displayAlert(message: "Entrez une expression correcte !")
@@ -99,8 +103,14 @@ final class Calculator {
             return
         }
         
-        guard divideByZero == false  else {
+        guard !divideByZero else {
             delegate?.displayAlert(message: "Il est impossible de diviser par zéro !")
+            calculString = ""
+            return
+        }
+        
+        guard canFinishByOperator else {
+            delegate?.displayAlert(message: "Malheureusement il est impossible de finir par un operateur")
             calculString = ""
             return
         }
@@ -132,7 +142,7 @@ final class Calculator {
             
             
             for _ in 1...3 { // Loop inside index to remove extra operator
-
+                
                 operationsToReduce.remove(at: operandIndex - 1)
                 print(operationsToReduce)
                 print(result)
@@ -143,7 +153,7 @@ final class Calculator {
         guard let finalResult = operationsToReduce.first else { return }
         calculString.append(" = \(finalResult)")
     }
-
+    
     func calculate(left: Float, right: Float, operand: String) -> Float {
         
         var result: Float
@@ -152,9 +162,15 @@ final class Calculator {
         case "-": result = left - right
         case "÷": result = left / right
         case "x": result = left * right
-        default: return 0
+        default: return 0.0
         }
+        //        if let resultInt = result.truncatingRemainder(dividingBy: 1) == 0 {
+        //            return resultInt(Int)
+        //        } else {
+        //            return result
+        //        }
         return result
+        
     }
     
     func tapNumberButton(numberText: String) {

@@ -9,7 +9,7 @@
 import XCTest
 @testable import CountOnMe
 
-class SimpleCalcTests: XCTestCase {
+final class SimpleCalcTests: XCTestCase {
     
     var calculator: Calculator!
     
@@ -29,12 +29,50 @@ class SimpleCalcTests: XCTestCase {
         
         calculator.addition()
         calculator.tapNumberButton(numberText: "1")
+        calculator.multiplication()
+        calculator.tapNumberButton(numberText: "1")
+        calculator.division()
+        calculator.tapNumberButton(numberText: "1")
+        calculator.substraction()
+        calculator.tapNumberButton(numberText: "1")
+
         calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "1 + 1 = 2.0")
+        XCTAssertEqual(calculator.calculString, "1 + 1 x 1 ÷ 1 - 1 = 1.0")
     }
     
+    //
+    func testGivenNumberOne_WhenApplyTenZero_ThenResultCorect() {
+         calculator.tapNumberButton(numberText: "10000000000")
+
+         calculator.multiplication()
+         calculator.tapNumberButton(numberText: "10000000000")
+         calculator.equal()
+
+         XCTAssertEqual(calculator.calculString, "10000000000 x 10000000000 = 1e+20")
+     }
+    
     // MARK: Test Alert
+    
+    // ExpressionIsCorrect
+       func testGivenNumberOne_WhenExpressionIsNotCorrect_ThenAlertMessage() {
+           calculator.tapNumberButton(numberText: "1")
+           
+           calculator.substraction()
+           calculator.equal()
+           
+           XCTAssertEqual(calculator.calculString, "1 - ")
+       }
+       
+       // ExpressionHaveEnoughElements
+       func testGivenNumberOne_WhenExpressionDontHaveEnoughElement_ThenAlertMessage() {
+           calculator.tapNumberButton(numberText: "1")
+           
+           calculator.equal()
+           
+           XCTAssertEqual(calculator.calculString, "1")
+       }
+    
     // Test canAddOperator
     func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultAlert() {
         calculator.tapNumberButton(numberText: "1")
@@ -45,34 +83,14 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 + ")
     }
     
-    // ExpressionIsCorrect
-    func testGivenNumberOne_WhenExpressionIsNotCorrect_ThenAlertMessage() {
+    //Minimum number
+    func testGivenNumberOne_WhenHasEnoughMinimumNumber_ThenGiveAlert() {
         calculator.tapNumberButton(numberText: "1")
         
-        calculator.substraction()
-        calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "1 - ")
-    }
-    
-    // ExpressionHaveEnoughElements
-    func testGivenNumberOne_WhenExpressionDontHaveEnoughElement_ThenAlertMessage() {
-        calculator.tapNumberButton(numberText: "1")
-        
-        calculator.equal()
-        
-        XCTAssertEqual(calculator.calculString, "1")
-    }
-    
-    func testGivenNumberOne_WhenApplyTimesTen_ThenResultCorect() {
-        calculator.tapNumberButton(numberText: "1")
 
-        calculator.multiplication()
-        calculator.tapNumberButton(numberText: "10")
-        calculator.equal()
-
-        XCTAssertEqual(calculator.calculString, "1 x 10 = 10.0")
     }
+    // Finish By operator
     
     func testGivenNumberOne_WhenDivideByTwo_ThenResultIsCorrect() {
         calculator.tapNumberButton(numberText: "1")
