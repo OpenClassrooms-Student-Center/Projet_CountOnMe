@@ -10,8 +10,8 @@ import UIKit
 
 final class ViewController: UIViewController {
     
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
+    @IBOutlet weak private var textView: UITextView!
+    @IBOutlet private var numberButtons: [UIButton]!
     let calculator = Calculator()
     
     // View Life cycles
@@ -28,27 +28,27 @@ final class ViewController: UIViewController {
         calculator.tapNumberButton(numberText: numberText)
     }
     
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
+    @IBAction private func tappedAdditionButton(_ sender: UIButton) {
         calculator.addition()
     }
     
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
+    @IBAction private func tappedSubstractionButton(_ sender: UIButton) {
         calculator.substraction()
     }
     
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
+    @IBAction private func tappedEqualButton(_ sender: UIButton) {
         calculator.equal()
     }
     
-    @IBAction func tappedResetButton(_ sender: UIButton) {
+    @IBAction private func tappedResetButton(_ sender: UIButton) {
         calculator.reset()
     }
     
-    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+    @IBAction private func tappedMultiplicationButton(_ sender: UIButton) {
         calculator.multiplication()
     }
     
-    @IBAction func tappedDivisionButton(_ sender: UIButton) {
+    @IBAction private func tappedDivisionButton(_ sender: UIButton) {
         calculator.division()
     }
 }

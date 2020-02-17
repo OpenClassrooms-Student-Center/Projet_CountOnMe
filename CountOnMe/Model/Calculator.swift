@@ -23,25 +23,25 @@ final class Calculator {
         }
     }
     
-    var elements: [String] {
+    private var elements: [String] {
         //Separate calcul by "" and loop inside
         return calculString.split(separator: " ").map { "\($0)" }
     }
     
     // Error check computed variables
-    var expressionIsCorrect: Bool {
+    private var expressionIsCorrect: Bool {
         return elements.last != "+" || elements.last != "-" || elements.last != "÷" || elements.last != "x"
     }
     
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
-    var canAddOperator: Bool {
+    private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
-    var canStartByOperator: Bool {
+    private var canStartByOperator: Bool {
         if calculString >= "0" && calculString <= "9" {
             return elements.count >= 1
         } else {
@@ -50,17 +50,20 @@ final class Calculator {
         return false
     }
     
-    var canFinishByOperator: Bool {
-        return calculString.last == "+" && calculString.last == "-" && calculString.last == "÷" && calculString.last == "x"
+    private var canFinishByOperator: Bool {
+        return calculString.last == "="
+        
+        //        return calculString.last != "+" && calculString.last != "-" && calculString.last != "÷" && calculString.last != "x"
     }
-    var expressionHaveResult: Bool {
+    private var expressionHaveResult: Bool {
         return calculString.firstIndex(of: "=") != nil
     }
     
-    var divideByZero: Bool {
+    private var divideByZero: Bool {
         return calculString.contains("÷ 0")
     }
     
+    //MARK: Operator
     func addition() {
         if canStartByOperator {
             if canAddOperator {
@@ -68,6 +71,7 @@ final class Calculator {
             } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
         }
     }
+    
     func substraction() {
         if canStartByOperator {
             if canAddOperator {
@@ -75,6 +79,7 @@ final class Calculator {
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
         }
     }
+    
     func division() {
         if canStartByOperator {
             if canAddOperator {
@@ -109,7 +114,7 @@ final class Calculator {
             return
         }
         
-        guard canFinishByOperator else {
+        guard !canFinishByOperator else {
             delegate?.displayAlert(message: "Malheureusement il est impossible de finir par un operateur")
             calculString = ""
             return
@@ -144,17 +149,15 @@ final class Calculator {
             for _ in 1...3 { // Loop inside index to remove extra operator
                 
                 operationsToReduce.remove(at: operandIndex - 1)
-                print(operationsToReduce)
-                print(result)
             }
-            operationsToReduce.insert("\(result)", at: operandIndex - 1 )
+            operationsToReduce.insert(formatResult(result: result), at: operandIndex - 1 )
             print(operationsToReduce)
         }
         guard let finalResult = operationsToReduce.first else { return }
         calculString.append(" = \(finalResult)")
     }
     
-    func calculate(left: Float, right: Float, operand: String) -> Float {
+    private func calculate(left: Float, right: Float, operand: String) -> Float {
         
         var result: Float
         switch operand {
@@ -164,13 +167,7 @@ final class Calculator {
         case "x": result = left * right
         default: return 0.0
         }
-        //        if let resultInt = result.truncatingRemainder(dividingBy: 1) == 0 {
-        //            return resultInt(Int)
-        //        } else {
-        //            return result
-        //        }
         return result
-        
     }
     
     func tapNumberButton(numberText: String) {
@@ -183,5 +180,13 @@ final class Calculator {
     func reset() {
         calculString = ""
     }
+    
+    private func formatResult(result: Float) -> String {
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 3
+        guard let resultFormated = formatter.string(from: NSNumber(value: result)) else { return String()
+        }
+        return resultFormated
+    }
 }
-
