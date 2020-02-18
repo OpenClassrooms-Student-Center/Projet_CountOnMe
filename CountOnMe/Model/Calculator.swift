@@ -30,7 +30,7 @@ final class Calculator {
     
     // Error check computed variables
     private var expressionIsCorrect: Bool {
-        return elements.last != "+" || elements.last != "-" || elements.last != "÷" || elements.last != "x"
+        return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
     private var expressionHaveEnoughElement: Bool {
@@ -50,11 +50,6 @@ final class Calculator {
         return false
     }
     
-    private var canFinishByOperator: Bool {
-        return calculString.last == "="
-        
-        //        return calculString.last != "+" && calculString.last != "-" && calculString.last != "÷" && calculString.last != "x"
-    }
     private var expressionHaveResult: Bool {
         return calculString.firstIndex(of: "=") != nil
     }
@@ -114,12 +109,6 @@ final class Calculator {
             return
         }
         
-        guard !canFinishByOperator else {
-            delegate?.displayAlert(message: "Malheureusement il est impossible de finir par un operateur")
-            calculString = ""
-            return
-        }
-        
         // Create local copy of operations
         var operationsToReduce = elements
         
@@ -149,9 +138,11 @@ final class Calculator {
             for _ in 1...3 { // Loop inside index to remove extra operator
                 
                 operationsToReduce.remove(at: operandIndex - 1)
+                print(operandIndex - 1)
             }
             operationsToReduce.insert(formatResult(result: result), at: operandIndex - 1 )
-            print(operationsToReduce)
+            //print(operationsToReduce)
+            print(result)
         }
         guard let finalResult = operationsToReduce.first else { return }
         calculString.append(" = \(finalResult)")
