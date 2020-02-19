@@ -115,11 +115,11 @@ final class Calculator {
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             
-            guard var left = Float(operationsToReduce[0]) else { return }
+            guard var left = Double(operationsToReduce[0]) else { return }
             var operand = operationsToReduce[1]
-            guard var right = Float(operationsToReduce[2]) else { return }
+            guard var right = Double(operationsToReduce[2]) else { return }
             
-            let result: Float
+            let result: Double
             
             var operandIndex = 1 // Start at one for we can remove extra calcul for priorities
             
@@ -127,30 +127,31 @@ final class Calculator {
             if let index = operationsToReduce.firstIndex(where: { $0 == "x" || $0 == "÷" }) {
                 
                 operandIndex = index
-                if let leftunwrapp = Float(operationsToReduce[index - 1]) { left = leftunwrapp }
+                if let leftunwrapp = Double(operationsToReduce[index - 1]) { left = leftunwrapp }
                 operand = operationsToReduce[index]
-                if let rightUnwrapp = Float(operationsToReduce[index + 1]) { right = rightUnwrapp }
+                if let rightUnwrapp = Double(operationsToReduce[index + 1]) { right = rightUnwrapp }
             }
             
-            result = calculate(left: left, right: right, operand: operand)
+            result = calculate(left: Double(left), right: Double(right), operand: operand)
             
             
             for _ in 1...3 { // Loop inside index to remove extra operator
                 
                 operationsToReduce.remove(at: operandIndex - 1)
-                print(operandIndex - 1)
+                print("Nous avons supprimé :\(operationsToReduce)")
             }
-            operationsToReduce.insert(formatResult(result: result), at: operandIndex - 1 )
-            //print(operationsToReduce)
-            print(result)
+            operationsToReduce.insert(formatResult(result: Double(result)), at: operandIndex - 1 )
+            print("Votre resultat :\(result)")
+            print("Le resultat formater :\(operationsToReduce)")
+            
         }
         guard let finalResult = operationsToReduce.first else { return }
         calculString.append(" = \(finalResult)")
     }
     
-    private func calculate(left: Float, right: Float, operand: String) -> Float {
+    private func calculate(left: Double, right: Double, operand: String) -> Double {
         
-        var result: Float
+        var result: Double
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
@@ -172,12 +173,17 @@ final class Calculator {
         calculString = ""
     }
     
-    private func formatResult(result: Float) -> String {
+    private func formatResult(result: Double) -> String {
         let formatter = NumberFormatter()
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 3
-        guard let resultFormated = formatter.string(from: NSNumber(value: result)) else { return String()
-        }
+        
+        guard let resultFormated = formatter.string(from: NSNumber(value: result)) else { return String() }
+        
+        if resultFormated.count >= 10 {
+            return String(result)
+        } else {
         return resultFormated
+        }
     }
 }
