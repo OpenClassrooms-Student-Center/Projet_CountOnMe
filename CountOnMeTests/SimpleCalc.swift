@@ -49,7 +49,7 @@ final class SimpleCalcTests: XCTestCase {
         calculator.tapNumberButton(numberText: "10000000000")
         calculator.equal()
         
-        XCTAssertEqual(calculator.calculString, "10000000000 x 10000000000 = 100000002004087730000")
+        XCTAssertEqual(calculator.calculString, "10000000000 x 10000000000 = 1e+20")
     }
     
     // MARK: Test Alert
