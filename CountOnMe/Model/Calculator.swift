@@ -37,10 +37,6 @@ final class Calculator {
         return elements.count >= 3
     }
     
-    private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
-    }
-    
     private var canStartByOperator: Bool {
         if calculString >= "0" && calculString <= "9" {
             return elements.count >= 1
@@ -61,7 +57,7 @@ final class Calculator {
     //MARK: Operator
     func addition() {
         if canStartByOperator {
-            if canAddOperator {
+            if expressionIsCorrect {
                 calculString.append(" + ")
             } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
         }
@@ -69,7 +65,7 @@ final class Calculator {
     
     func substraction() {
         if canStartByOperator {
-            if canAddOperator {
+            if expressionIsCorrect {
                 calculString.append(" - ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
         }
@@ -77,7 +73,7 @@ final class Calculator {
     
     func division() {
         if canStartByOperator {
-            if canAddOperator {
+            if expressionIsCorrect {
                 calculString.append(" ÷ ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
         }
@@ -85,7 +81,7 @@ final class Calculator {
     
     func multiplication() {
         if canStartByOperator {
-            if canAddOperator {
+            if expressionIsCorrect {
                 calculString.append(" x ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
         }
@@ -175,7 +171,6 @@ final class Calculator {
     
     private func formatResult(result: Double) -> String {
         let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 3
         
         guard let resultFormated = formatter.string(from: NSNumber(value: result)) else { return String() }
