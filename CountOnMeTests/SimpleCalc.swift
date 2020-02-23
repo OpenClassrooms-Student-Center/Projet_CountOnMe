@@ -41,17 +41,6 @@ final class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "1 + 1 x 1 ÷ 1 - 1 = 1")
     }
     
-    //
-    func testGivenNumberOne_WhenApplyTenZero_ThenResultCorect() {
-        calculator.tapNumberButton(numberText: "10000000000")
-        
-        calculator.multiplication()
-        calculator.tapNumberButton(numberText: "10000000000")
-        calculator.equal()
-        
-        XCTAssertEqual(calculator.calculString, "10000000000 x 10000000000 = 1e+20")
-    }
-    
     // MARK: Test Alert
     
     // ExpressionIsCorrect
@@ -76,7 +65,7 @@ final class SimpleCalcTests: XCTestCase {
         
         XCTAssertEqual(calculator.calculString, "1")
     }
-
+    
     // Start By operator
     func testGivenPresentationCalcul_WhenTryMultiplicationOrAddition_ThenShowAlert() {
         calculator.reset()
@@ -109,7 +98,14 @@ final class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "10 ÷ 3 = 3.333")
     }
     
-    func testGivenNumberTen_WhenDoFormatFailed_ThenGiveResult() {
+    //
+    func testGivenNumberOne_WhenApplyTenZero_ThenResultCorect() {
+        calculator.tapNumberButton(numberText: "10000000000")
         
+        calculator.multiplication()
+        calculator.tapNumberButton(numberText: "10000000000")
+        calculator.equal()
+        
+        XCTAssertEqual(calculator.calculString, "10000000000 x 10000000000 = 1e+20")
     }
 }
