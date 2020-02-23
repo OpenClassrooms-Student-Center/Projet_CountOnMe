@@ -54,11 +54,12 @@ final class ViewController: UIViewController {
 }
 
 extension ViewController: CalculatorComunication {
-   
+    
     func updateResult(calculString: String) {
         textView.text = calculString
     }
     
+    /// Alert for all case in model 
     func displayAlert(message: String) {
         let alertController = UIAlertController(title: "OK", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)

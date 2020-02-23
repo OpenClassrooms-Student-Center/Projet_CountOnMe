@@ -76,17 +76,7 @@ final class SimpleCalcTests: XCTestCase {
         
         XCTAssertEqual(calculator.calculString, "1")
     }
-    
-    // Test canAddOperator
-    func testGivenNumberOne_ThenApplyAdditionTwoTimes_ThenGiveResultAlert() {
-        calculator.tapNumberButton(numberText: "1")
-        
-        calculator.addition()
-        calculator.addition()
-        
-        XCTAssertEqual(calculator.calculString, "1 + ")
-    }
-    
+
     // Start By operator
     func testGivenPresentationCalcul_WhenTryMultiplicationOrAddition_ThenShowAlert() {
         calculator.reset()
@@ -106,5 +96,20 @@ final class SimpleCalcTests: XCTestCase {
         calculator.equal()
         
         XCTAssertEqual(calculator.calculString, "")
+    }
+    
+    // Format Result
+    func testGivenNumberOne_WhenDoFormat_ThenGiveResult() {
+        calculator.tapNumberButton(numberText: "10")
+        
+        calculator.division()
+        calculator.tapNumberButton(numberText: "3")
+        calculator.equal()
+        
+        XCTAssertEqual(calculator.calculString, "10 ÷ 3 = 3.333")
+    }
+    
+    func testGivenNumberTen_WhenDoFormatFailed_ThenGiveResult() {
+        
     }
 }

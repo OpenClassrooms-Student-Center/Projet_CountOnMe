@@ -8,6 +8,8 @@
 
 
 import Foundation
+//MARK: Protocol
+/// Contract to update and alert when alert its needed
 protocol CalculatorComunication: class {
     func updateResult(calculString: String)
     func displayAlert(message: String)
@@ -28,7 +30,7 @@ final class Calculator {
         return calculString.split(separator: " ").map { "\($0)" }
     }
     
-    // Error check computed variables
+    /// Error check computed variables
     private var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
@@ -88,7 +90,7 @@ final class Calculator {
     }
     
     func equal() {
-        
+        // Check properties
         guard expressionIsCorrect else {
             delegate?.displayAlert(message: "Entrez une expression correcte !")
             return
@@ -117,9 +119,9 @@ final class Calculator {
             
             let result: Double
             
-            var operandIndex = 1 // Start at one for we can remove extra calcul for priorities
+            var operandIndex = 1 // Start at one or we can't assign index to (index - 1)
             
-            // Search if there is multiply of divide then assign index
+            // Search if there is multiply of divide sign then assign index
             if let index = operationsToReduce.firstIndex(where: { $0 == "x" || $0 == "÷" }) {
                 
                 operandIndex = index
@@ -145,9 +147,11 @@ final class Calculator {
         calculString.append(" = \(finalResult)")
     }
     
+    // MARK: Calcul
+    /// calculate to update result
     private func calculate(left: Double, right: Double, operand: String) -> Double {
         
-        var result: Double
+        let result: Double
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
@@ -175,10 +179,9 @@ final class Calculator {
         
         guard let resultFormated = formatter.string(from: NSNumber(value: result)) else { return String() }
         
-        if resultFormated.count >= 10 {
+        guard resultFormated.count <= 10 else {
             return String(result)
-        } else {
-        return resultFormated
         }
+        return resultFormated
     }
 }
