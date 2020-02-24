@@ -58,35 +58,31 @@ final class Calculator {
     
     //MARK: Operator
     func addition() {
-        if canStartByOperator {
-            if expressionIsCorrect {
+        if canStartByOperator && expressionIsCorrect {
                 calculString.append(" + ")
             } else { delegate?.displayAlert(message: "Un operateur est déja mis !") }
         }
-    }
+    
     
     func substraction() {
-        if canStartByOperator {
-            if expressionIsCorrect {
+        if canStartByOperator && expressionIsCorrect {
                 calculString.append(" - ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
-        }
+        
     }
     
     func division() {
-        if canStartByOperator {
-            if expressionIsCorrect {
+        if canStartByOperator && expressionIsCorrect {
                 calculString.append(" ÷ ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
         }
-    }
+    
     
     func multiplication() {
-        if canStartByOperator {
-            if expressionIsCorrect {
+        if canStartByOperator && expressionIsCorrect {
                 calculString.append(" x ")
             } else { delegate?.displayAlert(message: "Un operateur est déjà mis !") }
-        }
+        
     }
     
     func equal() {

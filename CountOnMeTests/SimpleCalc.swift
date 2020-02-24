@@ -77,6 +77,7 @@ final class SimpleCalcTests: XCTestCase {
     }
     
     //MARK: TDD
+    // Division by zero
     func testGivenNumberOne_WhenTryDivideByZero_ThenInitialiseNil() {
         calculator.tapNumberButton(numberText: "1")
         
@@ -98,7 +99,7 @@ final class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculString, "10 ÷ 3 = 3.333")
     }
     
-    //
+    // Big number
     func testGivenNumberOne_WhenApplyTenZero_ThenResultCorect() {
         calculator.tapNumberButton(numberText: "10000000000")
         
