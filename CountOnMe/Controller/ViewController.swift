@@ -11,23 +11,10 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    let model = Model()
+
     
-    var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
-    }
-    
-    // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
-    }
-    
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-    
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
-    }
+   
     
     var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil
@@ -37,8 +24,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(updateText),
+        name: Notification.Name("updateCalcul"), object: nil)
     }
-    
     
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
@@ -54,7 +43,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator {
+        if model.canAddOperator {
             textView.text.append(" + ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -64,7 +53,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
+        if model.canAddOperator {
             textView.text.append(" - ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -74,7 +63,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        if canAddOperator {
+        if model.canAddOperator {
             textView.text.append(" x ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -83,7 +72,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func tappedDivisionButton(_ sender: UIButton) {if canAddOperator {
+    @IBAction func tappedDivisionButton(_ sender: UIButton) {if model.canAddOperator {
             textView.text.append(" / ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -91,22 +80,31 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
+    
+    
+    @IBAction func tappedClearButton(_ sender: UIButton) {
+        textView.text = ""
+    }
+    
+    @objc func updateText() {
+        textView.text = model.calculString
+    }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
+        guard model.expressionIsCorrect else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
         
-        guard expressionHaveEnoughElement else {
+        guard model.expressionHaveEnoughElement else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
         
         // Create local copy of operations
-        var operationsToReduce = elements
+        var operationsToReduce = model.elements
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
