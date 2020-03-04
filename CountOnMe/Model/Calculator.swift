@@ -24,6 +24,7 @@ class Calculator {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
     }
     
+    // Check if we have: Operand - Operator - Operand
     var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
@@ -42,6 +43,8 @@ class Calculator {
         }
         operationStr.append(number)
     }
+    
+    // MARK: - Operation
     
     func addition() {
         if canAddOperator {
@@ -90,6 +93,7 @@ class Calculator {
             }
         }
     }
+    
     func processCalcul() {
         var operationsToReduce = elements
             

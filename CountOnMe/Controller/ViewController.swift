@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     let calculator = Calculator()
     
-    // View Life cycles
+    // MARK: - App Life Running
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -22,7 +22,8 @@ class ViewController: UIViewController {
         name: Notification.Name("updateCalcul"), object: nil)
     }
     
-    // View actions
+    // MARK: - When a button is tapped
+
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -51,10 +52,12 @@ class ViewController: UIViewController {
         calculator.reset()
     }
     
+    // When a Button is tapped -> Display is updated
     @objc func updateText() {
         textView.text = calculator.operationStr
     }
 
+    // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard calculator.expressionIsCorrect else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
