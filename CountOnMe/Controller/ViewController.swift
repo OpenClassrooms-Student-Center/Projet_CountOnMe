@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(updateText),
         name: Notification.Name("updateCalcul"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)), name: Notification.Name("error"), object: nil)
     }
     
     // MARK: - When a button is tapped
@@ -59,19 +60,21 @@ class ViewController: UIViewController {
 
     // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard calculator.expressionIsCorrect else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
+        calculator.tappedEqual()
+    }
+
+    func alert(_ message: String) {
+        let alertVC = UIAlertController(title: "Erreur", message: message, preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            present(alertVC, animated: true, completion: nil)
         }
-        
-        guard calculator.expressionHaveEnoughElement else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !!!", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+
+    @objc func displayError(_ notif:Notification)  {
+        if let message = notif.userInfo?["message"] as? String {
+            alert(message)
+        }else{
+            alert("Erreur Inconnue")
         }
-        calculator.processCalcul()
     }
 
 }
-
