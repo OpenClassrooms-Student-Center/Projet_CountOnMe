@@ -12,17 +12,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     let calculator = Calculator()
-    
+
     // MARK: - App Life Running
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        textView.isEditable = false
+
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(updateText),
         name: Notification.Name("updateCalcul"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)), name: Notification.Name("error"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)), name: .MyNotification, object: nil)
     }
-    
+
     // MARK: - When a button is tapped
 
     @IBAction func tappedNumberButton(_ sender: UIButton) {
@@ -31,15 +33,19 @@ class ViewController: UIViewController {
         }
         calculator.addNumber(numberText)
     }
-    
+
+    @IBAction func tappedCommaButton(_ sender: UIButton) {
+
+    }
+
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         calculator.addition()
     }
-    
+
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         calculator.substraction()
     }
-    
+
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
         calculator.multiplication()
     }
@@ -47,12 +53,11 @@ class ViewController: UIViewController {
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
         calculator.division()
     }
-    
-    
+
     @IBAction func tappedClearButton(_ sender: UIButton) {
         calculator.reset()
     }
-    
+
     // When a Button is tapped -> Display is updated
     @objc func updateText() {
         textView.text = calculator.operationStr
@@ -69,10 +74,10 @@ class ViewController: UIViewController {
             present(alertVC, animated: true, completion: nil)
         }
 
-    @objc func displayError(_ notif:Notification)  {
+    @objc func displayError(_ notif: Notification) {
         if let message = notif.userInfo?["message"] as? String {
             alert(message)
-        }else{
+        } else {
             alert("Erreur Inconnue")
         }
     }
