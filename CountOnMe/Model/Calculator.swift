@@ -37,52 +37,84 @@ class Calculator {
         return operationStr.firstIndex(of: "=") != nil
     }
 
+    var atLeastOneNumber: Bool {
+        if operationStr >= "0" {
+            return elements.count >= 1
+        } else {
+           NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                    userInfo: ["message": "Vous ne pouvez pas mettre un opérateur sans un nombre avant !"]))
+        }
+        return false
+    }
+
     var divideByZero: Bool {
          return operationStr.contains("/ 0")
+    }
+
+    var isDecimal: Bool {
+        return elements.last?.firstIndex(of: ".") != nil
+//            return elements.last?.firstIndex(of: ".") != nil
     }
 
     func addNumber(_ number: String) {
         if expressionHaveResult {
             operationStr = ""
-        }
+    }
         operationStr.append(number)
     }
 
+    func addDecimal() {
+        if !isDecimal && !expressionHaveResult {
+            operationStr += "0"
+        }
+    }
     // MARK: - Operation
 
     func addition() {
-        if canAddOperator {
-           result()
-           operationStr.append(" + ")
-        } else {
-            NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message": "Un operateur est déja mis !"])
-       }
+        if atLeastOneNumber {
+            if canAddOperator {
+               result()
+               operationStr.append(" + ")
+            } else {
+               NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                        userInfo: ["message": "Un operateur est déja mis !"]))
+           }
+        }
     }
 
     func substraction() {
-      if canAddOperator {
-            result()
-            operationStr.append(" - ")
-         } else {
-            NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message": "Un operateur est déja mis !"])
+        if atLeastOneNumber {
+          if canAddOperator {
+                result()
+                operationStr.append(" - ")
+             } else {
+                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                        userInfo: ["message": "Un operateur est déja mis !"]))
+            }
         }
     }
 
     func multiplication() {
-       if canAddOperator {
-            result()
-            operationStr.append(" x ")
-         } else {
-            NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message": "Un operateur est déja mis !"])
+        if atLeastOneNumber {
+           if canAddOperator {
+                result()
+                operationStr.append(" x ")
+             } else {
+                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                        userInfo: ["message": "Un operateur est déja mis !"]))
+            }
         }
     }
 
     func division() {
-       if canAddOperator {
-            result()
-            operationStr.append(" / ")
-         } else {
-            NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message": "Un operateur est déja mis !"])
+        if atLeastOneNumber {
+           if canAddOperator {
+                result()
+                operationStr.append(" / ")
+             } else {
+                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                        userInfo: ["message": "Un operateur est déja mis !"]))
+            }
         }
     }
 
@@ -100,13 +132,16 @@ class Calculator {
 
     func tappedEqual() {
         guard expressionIsCorrect else {
-            return NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message":"Entrez une expression correcte !"])
+            return NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                            userInfo: ["message": "Entrez une expression correcte !"]))
             }
         guard expressionHaveEnoughElement else {
-            return NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message":"Démarrez un nouveau calcul !!!"])
-            }
+            return  NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                            userInfo: ["message": "Démarrez un nouveau calcul !!!"]))
+        }
         guard !divideByZero else {
-             return NotificationCenter.default.post(name: .MyNotification, object: self, userInfo: ["message":"Impossible de diviser par 0 !"])
+            return  NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                            userInfo: ["message": "Impossible de diviser par 0 !"]))
         }
             processCalcul()
         }
@@ -136,7 +171,3 @@ class Calculator {
         }
 
     }
-
-extension Notification.Name {
-    static var MyNotification = Notification.Name("Error")
-}

@@ -22,7 +22,8 @@ class ViewController: UIViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(updateText),
         name: Notification.Name("updateCalcul"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)), name: .MyNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)),
+                                            name: Notification.Name("error"), object: nil)
     }
 
     // MARK: - When a button is tapped
@@ -34,8 +35,12 @@ class ViewController: UIViewController {
         calculator.addNumber(numberText)
     }
 
-    @IBAction func tappedCommaButton(_ sender: UIButton) {
+    @IBAction func tappedNegativeButton(_ sender: UIButton) {
 
+    }
+
+    @IBAction func tappedCommaButton(_ sender: UIButton) {
+        calculator.addDecimal()
     }
 
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
@@ -66,6 +71,11 @@ class ViewController: UIViewController {
     // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.tappedEqual()
+//        if calcul.expressionHaveResult {
+//            calcul.calculString = ""
+//        } else {
+//            calcul.orderOfOperationAndCalculate()
+//        }
     }
 
     func alert(_ message: String) {

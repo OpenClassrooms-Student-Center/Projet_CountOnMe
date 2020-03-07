@@ -81,9 +81,11 @@ class CalculatorTests: XCTestCase {
         calculator.addNumber("4")
         calculator.division()
 
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addNumber("0")
         calculator.processCalcul()
 
+        waitForExpectations(timeout: 0.1, handler: nil)
     }
 
     func testGivenNumberAndSubstractionOperator_WhenSubstractedNumberGreater_ThenNegativeResult() {
@@ -97,13 +99,13 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
-        calculator.addNumber("1,3")
+        calculator.addNumber("1.3")
         calculator.multiplication()
-        calculator.addNumber("2,7")
+        calculator.addNumber("2.7")
 
         calculator.processCalcul()
 
-        XCTAssert(calculator.operationStr == "1,3 x 2,7 = 3,51")
+        XCTAssert(calculator.operationStr == "1.3 x 2.7 = 3.51")
     }
 
     // MARK: - Syntax
@@ -111,9 +113,10 @@ class CalculatorTests: XCTestCase {
     func testGivenEmptyDisplay_WhenOperatorTapped_ThenDisplayErrorMessage() {
         calculator.operationStr = ""
 
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addition()
 
-        XCTAssert(calculator.operationStr == "Erreur")
+        waitForExpectations(timeout: 0.1, handler: nil)
     }
 
     func testGivenNumberAndOperator_WhenOperatorTapped_ThenConvertOldOperatorForLastTappedOne() {
