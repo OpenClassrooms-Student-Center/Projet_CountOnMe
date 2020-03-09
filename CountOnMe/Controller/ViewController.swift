@@ -35,9 +35,9 @@ class ViewController: UIViewController {
         calculator.addNumber(numberText)
     }
 
-    @IBAction func tappedNegativeButton(_ sender: UIButton) {
-
-    }
+//    @IBAction func tappedNegativeButton(_ sender: UIButton) {
+//
+//    }
 
     @IBAction func tappedCommaButton(_ sender: UIButton) {
         calculator.addDecimal()

@@ -64,10 +64,21 @@ class Calculator {
     }
 
     func addDecimal() {
-        if !isDecimal && !expressionHaveResult {
-            operationStr += "0"
+        if atLeastOneNumber {
+            operationStr.append(",")
+        } else {
+            operationStr.append("0,")
         }
     }
+
+    func format(number: Double) -> String {
+        let formater = NumberFormatter()
+        formater.minimumFractionDigits = 0
+        formater.maximumFractionDigits = 2
+        guard let value = formater.string(from: NSNumber(value:number)) else { return ""}
+        return value
+    }
+
     // MARK: - Operation
 
     func addition() {
