@@ -20,10 +20,7 @@ class CalculatorTests: XCTestCase {
 
     // Check if clear
     func testGivenCalculSolved_WhenNumberTapped_ThenDisplayOnlyThisNumber() {
-        calculator.addNumber("2")
-        calculator.addition()
-        calculator.addNumber("3")
-        calculator.tappedEqual()
+        calculator.operationStr = "2 + 3 = 5"
 
         calculator.addNumber("7")
 
@@ -31,10 +28,7 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenCalculSolved_WhenClearTapped_ThenDisplayEmpty() {
-        calculator.addNumber("4")
-        calculator.addition()
-        calculator.addNumber("6")
-        calculator.tappedEqual()
+        calculator.operationStr = "2 + 3 = 5"
 
         calculator.reset()
 
@@ -42,9 +36,7 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenCalculUnsolved_WhenClearTapped_ThenDisplayEmpty() {
-        calculator.addNumber("2")
-        calculator.addition()
-        calculator.addNumber("3")
+        calculator.operationStr = "2 + 3"
 
         calculator.reset()
 
@@ -53,12 +45,29 @@ class CalculatorTests: XCTestCase {
 
     // MARK: - Operation
 
-    func testGivenAlreadyAdditionUnsolved_WhenMultiplication_ThenMultiplicationIsPrioritary() {
-        calculator.addNumber("4")
-        calculator.addition()
-        calculator.addNumber("6")
+    func testGivenOperand_WhenAddOperatorAndOperand_ThenDisplayResult() {
+        calculator.operationStr = "4"
 
-        calculator.multiplication()
+        calculator.addOperator("+")
+        calculator.addNumber("2")
+        calculator.tappedEqual()
+
+        XCTAssert(calculator.operationStr == "4 + 2 = 6")
+    }
+
+    func testGivenOperand_WhenAddInexistantOperator_ThenDisplayErrorMessage() {
+        calculator.operationStr = "4"
+
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.addOperator("!")
+
+        waitForExpectations(timeout: 0.1, handler: nil)
+    }
+
+    func testGivenAlreadyAdditionUnsolved_WhenMultiplication_ThenMultiplicationIsPrioritary() {
+        calculator.operationStr = "4 + 6"
+
+        calculator.addOperator("x")
         calculator.addNumber("2")
         calculator.tappedEqual()
 
@@ -66,11 +75,9 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenAlreadyAdditionUnsolved_WhenDivision_ThenDivisionIsPrioritary() {
-        calculator.addNumber("4")
-        calculator.addition()
-        calculator.addNumber("6")
+        calculator.operationStr = "4 + 6"
 
-        calculator.division()
+        calculator.addOperator("/")
         calculator.addNumber("2")
         calculator.tappedEqual()
 
@@ -78,8 +85,7 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenNumberAndDivisionOperator_WhenDivisorNumberIs0_ThenDisplayErrorMessage() {
-        calculator.addNumber("4")
-        calculator.division()
+        calculator.operationStr = "4 / "
 
         expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addNumber("0")
@@ -89,8 +95,7 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenNumberAndSubstractionOperator_WhenSubstractedNumberGreater_ThenNegativeResult() {
-        calculator.addNumber("2")
-        calculator.substraction()
+        calculator.operationStr = "2 - "
 
         calculator.addNumber("4")
         calculator.tappedEqual()
@@ -99,21 +104,21 @@ class CalculatorTests: XCTestCase {
     }
 
     func testGivenDecimalNumber_WhenCommaButtonTappedAgain_ThenDisplayErrorMessage() {
-        calculator.addNumber("1,3")
+        calculator.operationStr = "1.3"
 
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addDecimal()
 
-        XCTAssert(calculator.operationStr == "error")
+        waitForExpectations(timeout: 0.1, handler: nil)
+        XCTAssert(calculator.operationStr == "1.3")
     }
 
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
-        calculator.addNumber("1,3")
-        calculator.multiplication()
-        calculator.addNumber("2,7")
+        calculator.operationStr = "1.3 x 2.7"
 
         calculator.tappedEqual()
 
-        XCTAssert(calculator.operationStr == "1,3 x 2,7 = 3,51")
+        XCTAssert(calculator.operationStr == "1.3 x 2.7 = 3.51")
     }
 
     // MARK: - Syntax
@@ -122,29 +127,70 @@ class CalculatorTests: XCTestCase {
         calculator.operationStr = ""
 
         expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
-        calculator.addition()
+        calculator.addOperator("+")
 
         waitForExpectations(timeout: 0.1, handler: nil)
     }
 
-    func testGivenNumberAndOperator_WhenOperatorTapped_ThenConvertOldOperatorForLastTappedOne() {
-        calculator.addNumber("4")
-        calculator.addition()
+    func testGivenNumberAndOperator_WhenOperatorTapped_ThenDisplayErrorMessage() {
+        calculator.operationStr = "4 + "
 
-        calculator.substraction()
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.addOperator("-")
 
-        XCTAssert(calculator.operationStr == "4 - ")
+        waitForExpectations(timeout: 0.1, handler: nil)
+    }
+
+    func testGivenNumberAndOperator_WhenEqualButtonTapped_ThenDisplayErrorMessage() {
+        calculator.operationStr = "4 + "
+
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.tappedEqual()
+
+        waitForExpectations(timeout: 0.1, handler: nil)
     }
 
     func testGivenNumberAndOperator_WhenEqualTapped_ThenDisplayErrorMessage() {
-        calculator.addNumber("4")
-        calculator.addition()
+        calculator.operationStr = "4 + "
+
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.tappedEqual()
+
+        waitForExpectations(timeout: 0.1, handler: nil)
+    }
+
+    func testOperationSolved_WhenOperatorTapped_ThenResultBecomeFirstOperand() {
+        calculator.operationStr = "4 + 3 = 7 "
+
+        calculator.addOperator("-")
+
+        calculator.operationStr = "7 - "
+    }
+
+    func testGivenEmptyDisplay_WhenCommaButton_ThenDisplayErrorMessageAndAddZeroBeforeComma() {
+        calculator.operationStr = ""
+
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.addDecimal()
+
+        waitForExpectations(timeout: 0.1, handler: nil)
+        XCTAssert(calculator.operationStr == "0.")
+    }
+
+    func testGivenNumberTapped_WhenCommaButton_ThenAddComma() {
+        calculator.operationStr = "5"
+
+        calculator.addDecimal()
+
+        XCTAssert(calculator.operationStr == "5.")
+    }
+
+    func testGivenUnexactDivision_WhenEqualButtonTapped_ThenFormatResult() {
+        calculator.operationStr = "7 / 3"
 
         calculator.tappedEqual()
 
-        XCTAssert(calculator.operationStr == "Erreur")
-//        let expect = NotificationExpectation(name: "error")
-//        wait(for: [expect], timeout: 0.1)
+        XCTAssert(calculator.operationStr == "7 / 3 = 2.33")
     }
 
     override func tearDown() {

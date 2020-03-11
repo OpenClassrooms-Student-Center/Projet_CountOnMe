@@ -16,28 +16,28 @@ class Calculator {
         }
     }
 
-    var elements: [String] {
+   private var elements: [String] {
           return operationStr.split(separator: " ").map { "\($0)" }
     }
 
-    var expressionIsCorrect: Bool {
+    private var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
     }
 
     // Check if we have: Operand - Operator - Operand
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
 
-    var canAddOperator: Bool {
+    private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
     }
 
-    var expressionHaveResult: Bool {
+    private var expressionHaveResult: Bool {
         return operationStr.firstIndex(of: "=") != nil
     }
 
-    var atLeastOneNumber: Bool {
+   private var atLeastOneNumber: Bool {
         if operationStr >= "0" {
             return elements.count >= 1
         } else {
@@ -47,12 +47,12 @@ class Calculator {
         return false
     }
 
-    var divideByZero: Bool {
+    private var divideByZero: Bool {
          return operationStr.contains("/ 0")
     }
 
-    var isDecimal: Bool {
-        return elements.last?.firstIndex(of: ",") != nil
+    private var isDecimal: Bool {
+        return elements.last?.firstIndex(of: ".") != nil
     }
 
     func addNumber(_ number: String) {
@@ -64,9 +64,14 @@ class Calculator {
 
     func addDecimal() {
         if atLeastOneNumber {
-            operationStr.append(",")
+            if !isDecimal {
+            operationStr.append(".")
+            } else {
+                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                                                        userInfo: ["message": "Il s'agit déjà d'un décimal !"]))
+            }
         } else {
-            operationStr.append("0,")
+            operationStr.append("0.")
         }
     }
 
@@ -80,50 +85,26 @@ class Calculator {
 
     // MARK: - Operation
 
-    func addition() {
+    func addOperator(_ element: String) {
+    result()
         if atLeastOneNumber {
             if canAddOperator {
-               result()
-               operationStr.append(" + ")
+                switch element {
+                case "+":
+                    operationStr.append(" + ")
+                case "-":
+                    operationStr.append(" - ")
+                case "x":
+                    operationStr.append(" x ")
+                case "/":
+                    operationStr.append(" / ")
+                default:
+                    NotificationCenter.default.post(Notification(name: Notification.Name("error"),
+                    userInfo: ["message": "Ceci n'est pas un opérateur !"]))
+                }
             } else {
-               NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                        userInfo: ["message": "Un operateur est déja mis !"]))
-           }
-        }
-    }
-
-    func substraction() {
-        if atLeastOneNumber {
-          if canAddOperator {
-                result()
-                operationStr.append(" - ")
-             } else {
                 NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                        userInfo: ["message": "Un operateur est déja mis !"]))
-            }
-        }
-    }
-
-    func multiplication() {
-        if atLeastOneNumber {
-           if canAddOperator {
-                result()
-                operationStr.append(" x ")
-             } else {
-                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                        userInfo: ["message": "Un operateur est déja mis !"]))
-            }
-        }
-    }
-
-    func division() {
-        if atLeastOneNumber {
-           if canAddOperator {
-                result()
-                operationStr.append(" / ")
-             } else {
-                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                        userInfo: ["message": "Un operateur est déja mis !"]))
+                                                             userInfo: ["message": "Un operateur est déja mis !"]))
             }
         }
     }
@@ -132,7 +113,7 @@ class Calculator {
         operationStr = ""
     }
 
-    func result() {
+    private func result() {
         if expressionHaveResult {
            if let resultat = elements.last {
                    operationStr = resultat
@@ -181,7 +162,7 @@ class Calculator {
                 operationStr += " = \(operation[0])"
         }
 
-    func processCalcul(left: Double, right: Double, operand: String) -> Double {
+    private func processCalcul(left: Double, right: Double, operand: String) -> Double {
         var result: Double = 0
             switch operand {
             case "+": result = left + right
