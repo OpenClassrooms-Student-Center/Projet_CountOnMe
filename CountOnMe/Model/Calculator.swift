@@ -41,8 +41,8 @@ class Calculator {
         if operationStr >= "0" {
             return elements.count >= 1
         } else {
-           NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                    userInfo: ["message": "Vous ne pouvez pas mettre un opérateur sans un nombre avant !"]))
+           NotificationCenter.default.post(Notification(name: Notification.Name("error"), userInfo:
+            ["message": "Vous ne pouvez pas mettre un opérateur sans un nombre avant !"]))
         }
         return false
     }
@@ -52,8 +52,7 @@ class Calculator {
     }
 
     var isDecimal: Bool {
-        return elements.last?.firstIndex(of: ".") != nil
-//            return elements.last?.firstIndex(of: ".") != nil
+        return elements.last?.firstIndex(of: ",") != nil
     }
 
     func addNumber(_ number: String) {
@@ -75,7 +74,7 @@ class Calculator {
         let formater = NumberFormatter()
         formater.minimumFractionDigits = 0
         formater.maximumFractionDigits = 2
-        guard let value = formater.string(from: NSNumber(value:number)) else { return ""}
+        guard let value = formater.string(from: NSNumber(value: number)) else { return ""}
         return value
     }
 
@@ -142,6 +141,11 @@ class Calculator {
     }
 
     func tappedEqual() {
+        var operation = elements
+        let prioritaryOperator = ["x", "/"]
+        let regularOperator = ["+", "-"]
+        var result = ""
+        var operatorIndex: Int?
         guard expressionIsCorrect else {
             return NotificationCenter.default.post(Notification(name: Notification.Name("error"),
                                                             userInfo: ["message": "Entrez une expression correcte !"]))
@@ -154,31 +158,38 @@ class Calculator {
             return  NotificationCenter.default.post(Notification(name: Notification.Name("error"),
                                                             userInfo: ["message": "Impossible de diviser par 0 !"]))
         }
-            processCalcul()
-        }
-
-    func processCalcul() {
-        var operationsToReduce = elements
-
-            // Iterate over operations while an operand still here
-            while operationsToReduce.count > 1 {
-                let left = Double(operationsToReduce[0])!
-                let operand = operationsToReduce[1]
-                let right = Double(operationsToReduce[2])!
-                let result: Double
-                switch operand {
-                case "+": result = left + right
-                case "-": result = left - right
-                case "x": result = left * right
-                case "/": result = left / right
-                default: return
-                }
-
-                operationsToReduce = Array(operationsToReduce.dropFirst(3))
-                operationsToReduce.insert("\(result)", at: 0)
+         while operation.count > 1 {
+                    let firstIndexPriorityOperator = operation.firstIndex(where: {prioritaryOperator.contains($0)})
+                    if let priorityOperatorIndex = firstIndexPriorityOperator {
+                        operatorIndex = priorityOperatorIndex
+                    } else {
+                        let firstIndexOfOperation = operation.firstIndex(where: {regularOperator.contains($0)})
+                        if let normalOperatorIndex = firstIndexOfOperation {
+                            operatorIndex = normalOperatorIndex
+                        }
+                    }
+                    if let index = operatorIndex {
+                        let calculOperator = operation[index]
+                        let left = Double(operation[index - 1])
+                        let right = Double(operation[index + 1])
+                        result = format(number: processCalcul(left: left!, right: right!, operand: calculOperator))
+                        operation[index] = result
+                        operation.remove(at: index + 1)
+                        operation.remove(at: index - 1)
+                    }
             }
-
-            operationStr.append(" = \(operationsToReduce.first!)")
+                operationStr += " = \(operation[0])"
         }
 
+    func processCalcul(left: Double, right: Double, operand: String) -> Double {
+        var result: Double = 0
+            switch operand {
+            case "+": result = left + right
+            case "-": result = left - right
+            case "x": result = left * right
+            case "/": result = left / right
+            default: break
+            }
+            return result
+        }
     }

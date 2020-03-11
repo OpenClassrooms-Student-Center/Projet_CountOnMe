@@ -23,7 +23,7 @@ class CalculatorTests: XCTestCase {
         calculator.addNumber("2")
         calculator.addition()
         calculator.addNumber("3")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         calculator.addNumber("7")
 
@@ -34,7 +34,7 @@ class CalculatorTests: XCTestCase {
         calculator.addNumber("4")
         calculator.addition()
         calculator.addNumber("6")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         calculator.reset()
 
@@ -60,7 +60,7 @@ class CalculatorTests: XCTestCase {
 
         calculator.multiplication()
         calculator.addNumber("2")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         XCTAssert(calculator.operationStr == "4 + 6 x 2 = 16")
     }
@@ -72,7 +72,7 @@ class CalculatorTests: XCTestCase {
 
         calculator.division()
         calculator.addNumber("2")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         XCTAssert(calculator.operationStr == "4 + 6 / 2 = 7")
     }
@@ -83,7 +83,7 @@ class CalculatorTests: XCTestCase {
 
         expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addNumber("0")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         waitForExpectations(timeout: 0.1, handler: nil)
     }
@@ -93,19 +93,27 @@ class CalculatorTests: XCTestCase {
         calculator.substraction()
 
         calculator.addNumber("4")
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         XCTAssert(calculator.operationStr == "2 - 4 = -2")
     }
 
+    func testGivenDecimalNumber_WhenCommaButtonTappedAgain_ThenDisplayErrorMessage() {
+        calculator.addNumber("1,3")
+
+        calculator.addDecimal()
+
+        XCTAssert(calculator.operationStr == "error")
+    }
+
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
-        calculator.addNumber("1.3")
+        calculator.addNumber("1,3")
         calculator.multiplication()
-        calculator.addNumber("2.7")
+        calculator.addNumber("2,7")
 
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
-        XCTAssert(calculator.operationStr == "1.3 x 2.7 = 3.51")
+        XCTAssert(calculator.operationStr == "1,3 x 2,7 = 3,51")
     }
 
     // MARK: - Syntax
@@ -132,7 +140,7 @@ class CalculatorTests: XCTestCase {
         calculator.addNumber("4")
         calculator.addition()
 
-        calculator.processCalcul()
+        calculator.tappedEqual()
 
         XCTAssert(calculator.operationStr == "Erreur")
 //        let expect = NotificationExpectation(name: "error")
