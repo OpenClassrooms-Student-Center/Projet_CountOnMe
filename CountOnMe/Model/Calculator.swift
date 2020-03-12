@@ -75,14 +75,6 @@ class Calculator {
         }
     }
 
-    func format(number: Double) -> String {
-        let formater = NumberFormatter()
-        formater.minimumFractionDigits = 0
-        formater.maximumFractionDigits = 2
-        guard let value = formater.string(from: NSNumber(value: number)) else { return ""}
-        return value
-    }
-
     // MARK: - Operation
 
     func addOperator(_ element: String) {
@@ -122,11 +114,6 @@ class Calculator {
     }
 
     func tappedEqual() {
-        var operation = elements
-        let prioritaryOperator = ["x", "/"]
-        let regularOperator = ["+", "-"]
-        var result = ""
-        var operatorIndex: Int?
         guard expressionIsCorrect else {
             return NotificationCenter.default.post(Notification(name: Notification.Name("error"),
                                                             userInfo: ["message": "Entrez une expression correcte !"]))
@@ -139,6 +126,16 @@ class Calculator {
             return  NotificationCenter.default.post(Notification(name: Notification.Name("error"),
                                                             userInfo: ["message": "Impossible de diviser par 0 !"]))
         }
+        operationPriority()
+    }
+
+    func operationPriority() {
+        var operation = elements
+        let prioritaryOperator = ["x", "/"]
+        let regularOperator = ["+", "-"]
+        var result = ""
+        var operatorIndex: Int?
+
          while operation.count > 1 {
                     let firstIndexPriorityOperator = operation.firstIndex(where: {prioritaryOperator.contains($0)})
                     if let priorityOperatorIndex = firstIndexPriorityOperator {
@@ -173,4 +170,12 @@ class Calculator {
             }
             return result
         }
+
+    func format(number: Double) -> String {
+        let formater = NumberFormatter()
+        formater.minimumFractionDigits = 0
+        formater.maximumFractionDigits = 2
+        guard let value = formater.string(from: NSNumber(value: number)) else { return ""}
+        return value
     }
+}
