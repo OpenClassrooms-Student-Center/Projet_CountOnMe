@@ -123,38 +123,11 @@ class CalculatorTests: XCTestCase {
 
     // MARK: - Syntax
 
-    func testGivenEmptyDisplay_WhenOperatorTapped_ThenDisplayErrorMessage() {
-        calculator.operationStr = ""
-
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
-        calculator.addOperator("+")
-
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
     func testGivenNumberAndOperator_WhenOperatorTapped_ThenDisplayErrorMessage() {
         calculator.operationStr = "4 + "
 
         expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addOperator("-")
-
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
-    func testGivenNumberAndOperator_WhenEqualButtonTapped_ThenDisplayErrorMessage() {
-        calculator.operationStr = "4 + "
-
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
-        calculator.tappedEqual()
-
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
-    func testGivenNumberAndOperator_WhenEqualTapped_ThenDisplayErrorMessage() {
-        calculator.operationStr = "4 + "
-
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
-        calculator.tappedEqual()
 
         waitForExpectations(timeout: 0.1, handler: nil)
     }

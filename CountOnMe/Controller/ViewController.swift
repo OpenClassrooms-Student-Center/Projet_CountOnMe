@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    @IBOutlet var allButtons: [UIButton]!
+
     let calculator = Calculator()
 
     // MARK: - App Life Running
@@ -18,6 +20,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         textView.isEditable = false
+
+        for button in allButtons {
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOffset = CGSize(width: 0, height: 2)
+            button.layer.shadowOpacity = 1
+            button.layer.cornerRadius = 4.0
+        }
+
+        textView.layer.cornerRadius = 6.0
 
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(updateText),
@@ -34,10 +45,6 @@ class ViewController: UIViewController {
         }
         calculator.addNumber(numberText)
     }
-
-//    @IBAction func tappedNegativeButton(_ sender: UIButton) {
-//
-//    }
 
     @IBAction func tappedCommaButton(_ sender: UIButton) {
         calculator.addDecimal()
@@ -71,11 +78,6 @@ class ViewController: UIViewController {
     // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.tappedEqual()
-//        if calcul.expressionHaveResult {
-//            calcul.calculString = ""
-//        } else {
-//            calcul.orderOfOperationAndCalculate()
-//        }
     }
 
     func alert(_ message: String) {
