@@ -94,6 +94,15 @@ class CalculatorTests: XCTestCase {
         waitForExpectations(timeout: 0.1, handler: nil)
     }
 
+    func testGivenSolvedEquation_WhenEqualTappedAgain_ThenDisplayErrorMessage() {
+        calculator.operationStr = "4 - 3 = 1"
+
+        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+        calculator.tappedEqual()
+
+        waitForExpectations(timeout: 0.1, handler: nil)
+    }
+
     func testGivenNumberAndSubstractionOperator_WhenSubstractedNumberGreater_ThenNegativeResult() {
         calculator.operationStr = "2 - "
 

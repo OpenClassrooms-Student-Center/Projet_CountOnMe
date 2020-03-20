@@ -13,7 +13,6 @@
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		1FA43BE8224E569A00F565CB /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BE7224E569A00F565CB /* CalculatorTests.swift */; };
-		5DC01336241A745300EFC890 /* CountOnMeTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BE3224E569A00F565CB /* CountOnMeTests.xctest */; };
 		5DF245F7240D443B00E6D2F6 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF245F6240D443B00E6D2F6 /* Calculator.swift */; };
 /* End PBXBuildFile section */
 
@@ -216,7 +215,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DC01336241A745300EFC890 /* CountOnMeTests.xctest in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
