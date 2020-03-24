@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         textView.isEditable = false
+        calculator.delegate = self
 
         for button in allButtons {
             button.layer.shadowColor = UIColor.black.cgColor
@@ -29,12 +30,6 @@ class ViewController: UIViewController {
         }
 
         textView.layer.cornerRadius = 6.0
-
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(updateText),
-        name: Notification.Name("updateCalcul"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(displayError(_:)),
-                                            name: Notification.Name("error"), object: nil)
     }
 
     // MARK: - When a button is tapped
@@ -70,28 +65,21 @@ class ViewController: UIViewController {
         calculator.reset()
     }
 
-    // When a Button is tapped -> Display is updated
-    @objc func updateText() {
-        textView.text = calculator.operationStr
-    }
-
     // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.tappedEqual()
     }
+}
 
-    func alert(_ message: String) {
-        let alertVC = UIAlertController(title: "Erreur", message: message, preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            present(alertVC, animated: true, completion: nil)
-        }
+extension ViewController: CalculatorDelegate {
 
-    @objc func displayError(_ notif: Notification) {
-        if let message = notif.userInfo?["message"] as? String {
-            alert(message)
-        } else {
-            alert("Erreur Inconnue")
-        }
+    func updateText(label: String) {
+        textView.text = label
     }
 
+    func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
 }

@@ -8,11 +8,22 @@
 
 import Foundation
 
+protocol CalculatorDelegate: class {
+    func updateText(label: String)
+    func presentAlert(title: String, message: String)
+}
+
 class Calculator {
+
+    weak var delegate: CalculatorDelegate?
+
+    func notificationDisplay(operationStr: String) {
+        delegate?.updateText(label: operationStr)
+    }
 
     var operationStr: String = ""{
         didSet {
-            NotificationCenter.default.post(name: Notification.Name("updateCalcul"), object: nil)
+            notificationDisplay(operationStr: operationStr)
         }
     }
 
@@ -45,8 +56,8 @@ class Calculator {
         if operationStr >= "0" {
             return elements.count >= 1
         } else {
-            NotificationCenter.default.post(Notification(name: Notification.Name("error"), userInfo:
-                ["message": "Vous ne pouvez pas mettre un opérateur sans un nombre avant !"]))
+            delegate?.presentAlert(title: "Erreur",
+                                   message: "Vous ne pouvez pas mettre un opérateur sans un nombre avant !")
         }
         return false
     }
@@ -71,8 +82,7 @@ class Calculator {
             if !isDecimal {
                 operationStr.append(".")
             } else {
-                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                     userInfo: ["message": "Il s'agit déjà d'un décimal !"]))
+                delegate?.presentAlert(title: "Erreur", message: "Il s'agit déjà d'un décimal !")
             }
         } else {
             operationStr.append("0.")
@@ -103,12 +113,10 @@ class Calculator {
                 case "/":
                     operationStr.append(" / ")
                 default:
-                     NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                     userInfo: ["message": "Ceci n'est pas un opérateur !"]))
+                    delegate?.presentAlert(title: "Erreur", message: "Ceci n'est pas un opérateur !")
                 }
             } else {
-                NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                                                              userInfo: ["message": "Un operateur est déja mis !"]))
+                delegate?.presentAlert(title: "Erreur", message: "Un operateur est déja mis !")
             }
         }
     }
@@ -150,12 +158,10 @@ class Calculator {
                     if let index = operationPriority(operation: operations) {
                         let calculOperator = operations[index]
                     guard let left = Double(operations[index - 1]) else {
-                        NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                        userInfo: ["message": "Entrez une expression correcte !"]))
+                        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
                         return }
                     guard let right = Double(operations[index + 1]) else {
-                        NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-                        userInfo: ["message": "Entrez une expression correcte !"]))
+                        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
                         return }
                         result = format(number: processCalcul(left: left, right: right, operand: calculOperator))
                         operations[index] = result
@@ -163,23 +169,22 @@ class Calculator {
                         operations.remove(at: index - 1)
                     }
             }
-                operationStr += " = \(operations[0])"
+                delegate?.updateText(label: result)
         } else {
-        NotificationCenter.default.post(Notification(name: Notification.Name("error"),
-        userInfo: ["message": "Entrez une expression correcte !"]))
+        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
         return
         }
     }
 
-    private func processCalcul(left: Double, right: Double, operand: String) -> Double {
-        var result: Double = 0
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "x": result = left * right
-            case "/": result = left / right
-            default: break
-            }
-            return result
+private func processCalcul(left: Double, right: Double, operand: String) -> Double {
+    var result: Double = 0
+        switch operand {
+        case "+": result = left + right
+        case "-": result = left - right
+        case "x": result = left * right
+        case "/": result = left / right
+        default: break
         }
+        return result
     }
+}
