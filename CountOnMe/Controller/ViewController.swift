@@ -73,8 +73,8 @@ class ViewController: UIViewController {
 
 extension ViewController: CalculatorDelegate {
 
-    func updateText(label: String) {
-        textView.text = label
+    func updateText(_ operation: String) {
+        textView.text = operation
     }
 
     func presentAlert(title: String, message: String) {

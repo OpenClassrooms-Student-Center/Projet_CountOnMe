@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CalculatorDelegate: class {
-    func updateText(label: String)
+    func updateText(_ operation: String)
     func presentAlert(title: String, message: String)
 }
 
@@ -17,13 +17,14 @@ class Calculator {
 
     weak var delegate: CalculatorDelegate?
 
-    func notificationDisplay(operationStr: String) {
-        delegate?.updateText(label: operationStr)
+    func displayText(operationStr: String) {
+        let operation = operationStr
+        delegate?.updateText(operation)
     }
 
     var operationStr: String = ""{
         didSet {
-            notificationDisplay(operationStr: operationStr)
+            displayText(operationStr: operationStr)
         }
     }
 
@@ -169,7 +170,7 @@ class Calculator {
                         operations.remove(at: index - 1)
                     }
             }
-                delegate?.updateText(label: result)
+                delegate?.updateText(result)
         } else {
         delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
         return
