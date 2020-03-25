@@ -58,10 +58,9 @@ class CalculatorTests: XCTestCase {
     func testGivenOperand_WhenAddInexistantOperator_ThenDisplayErrorMessage() {
         calculator.operationStr = "4"
 
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addOperator("!")
 
-        waitForExpectations(timeout: 0.1, handler: nil)
+        XCTAssertEqual(calculator.operationStr, "4")
     }
 
     func testGivenAlreadyAdditionUnsolved_WhenMultiplication_ThenMultiplicationIsPrioritary() {
@@ -87,20 +86,10 @@ class CalculatorTests: XCTestCase {
     func testGivenNumberAndDivisionOperator_WhenDivisorNumberIs0_ThenDisplayErrorMessage() {
         calculator.operationStr = "4 / "
 
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addNumber("0")
         calculator.tappedEqual()
 
-        waitForExpectations(timeout: 0.1, handler: nil)
-    }
-
-    func testGivenSolvedEquation_WhenEqualTappedAgain_ThenDisplayErrorMessage() {
-        calculator.operationStr = "4 - 3 = 1"
-
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
-        calculator.tappedEqual()
-
-        waitForExpectations(timeout: 0.1, handler: nil)
+        XCTAssertEqual(calculator.operationStr, "")
     }
 
     func testGivenNumberAndSubstractionOperator_WhenSubstractedNumberGreater_ThenNegativeResult() {
@@ -115,10 +104,10 @@ class CalculatorTests: XCTestCase {
     func testGivenDecimalNumber_WhenCommaButtonTappedAgain_ThenDisplayErrorMessage() {
         calculator.operationStr = "1.3"
 
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
+//        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addDecimal()
 
-        waitForExpectations(timeout: 0.1, handler: nil)
+//        waitForExpectations(timeout: 0.1, handler: nil)
         XCTAssert(calculator.operationStr == "1.3")
     }
 
@@ -135,10 +124,9 @@ class CalculatorTests: XCTestCase {
     func testGivenNumberAndOperator_WhenOperatorTapped_ThenDisplayErrorMessage() {
         calculator.operationStr = "4 + "
 
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addOperator("-")
 
-        waitForExpectations(timeout: 0.1, handler: nil)
+        XCTAssertEqual(calculator.operationStr, "4 + ")
     }
 
     func testOperationSolved_WhenOperatorTapped_ThenResultBecomeFirstOperand() {
@@ -146,16 +134,14 @@ class CalculatorTests: XCTestCase {
 
         calculator.addOperator("-")
 
-        calculator.operationStr = "7 - "
+        XCTAssert(calculator.operationStr == "7 - ")
     }
 
     func testGivenEmptyDisplay_WhenCommaButton_ThenDisplayErrorMessageAndAddZeroBeforeComma() {
         calculator.operationStr = ""
 
-        expectation(forNotification: NSNotification.Name(rawValue: "error"), object: nil, handler: nil)
         calculator.addDecimal()
 
-        waitForExpectations(timeout: 0.1, handler: nil)
         XCTAssert(calculator.operationStr == "0.")
     }
 

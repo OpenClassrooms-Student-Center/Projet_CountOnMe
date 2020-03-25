@@ -18,8 +18,7 @@ class Calculator {
     weak var delegate: CalculatorDelegate?
 
     func displayText(operationStr: String) {
-        let operation = operationStr
-        delegate?.updateText(operation)
+        delegate?.updateText(operationStr)
     }
 
     var operationStr: String = ""{
@@ -170,9 +169,11 @@ class Calculator {
                         operations.remove(at: index - 1)
                     }
             }
+                operationStr += " = \(operations[0])"
                 delegate?.updateText(result)
         } else {
         delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
+        operationStr = ""
         return
         }
     }
