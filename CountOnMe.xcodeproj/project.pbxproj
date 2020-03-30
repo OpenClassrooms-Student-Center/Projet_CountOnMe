@@ -97,12 +97,10 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
-				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
-				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
-				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
-				1FA43BDE224E569A00F565CB /* Info.plist */,
+				8C3D4757241BAC9B00527755 /* utils */,
+				8C3D4754241BAC3100527755 /* Model */,
+				8C3D4755241BAC4700527755 /* View */,
+				8C3D4756241BAC4D00527755 /* Controller */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -123,6 +121,40 @@
 				1FA43BF4224E569A00F565CB /* Info.plist */,
 			);
 			path = CountOnMeUITests;
+			sourceTree = "<group>";
+		};
+		8C3D4754241BAC3100527755 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8C3D4755241BAC4700527755 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C3D4756241BAC4D00527755 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8C3D4757241BAC9B00527755 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD9224E569A00F565CB /* Assets.xcassets */,
+				1FA43BDE224E569A00F565CB /* Info.plist */,
+				1FA43BD2224E569900F565CB /* AppDelegate.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,7 +465,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/utils/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,7 +483,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/utils/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
