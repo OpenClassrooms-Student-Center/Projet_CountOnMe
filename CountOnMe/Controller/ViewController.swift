@@ -79,7 +79,7 @@ extension ViewController: CalculatorDelegate {
 
     func presentAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { action in self.calculator.reset()}))
         present(alert, animated: true)
     }
 }
