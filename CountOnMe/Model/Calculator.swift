@@ -159,9 +159,11 @@ class Calculator {
                         let calculOperator = operations[index]
                     guard let left = Double(operations[index - 1]) else {
                         delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
+                        reset()
                         return }
                     guard let right = Double(operations[index + 1]) else {
                         delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
+                        reset()
                         return }
                         result = format(number: processCalcul(left: left, right: right, operand: calculOperator))
                         operations[index] = result
@@ -173,7 +175,7 @@ class Calculator {
                 delegate?.updateText(result)
         } else {
         delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
-        operationStr = ""
+        reset()
         return
         }
     }

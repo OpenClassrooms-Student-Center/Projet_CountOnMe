@@ -55,14 +55,6 @@ class CalculatorTests: XCTestCase {
         XCTAssert(calculator.operationStr == "4 + 2 = 6")
     }
 
-    func testGivenOperand_WhenAddInexistantOperator_ThenDisplayErrorMessage() {
-        calculator.operationStr = "4"
-
-        calculator.addOperator("!")
-
-        XCTAssertEqual(calculator.operationStr, "4")
-    }
-
     func testGivenAlreadyAdditionUnsolved_WhenMultiplication_ThenMultiplicationIsPrioritary() {
         calculator.operationStr = "4 + 6"
 
@@ -159,6 +151,30 @@ class CalculatorTests: XCTestCase {
         calculator.tappedEqual()
 
         XCTAssert(calculator.operationStr == "7 / 3 = 2.33")
+    }
+
+    func testGivenOperationWithInexistantLeftOperator_WhenEqualTapped_ThenDisplayErrorAndClear() {
+        calculator.operationStr = "d + 3"
+
+        calculator.tappedEqual()
+
+        XCTAssert(calculator.operationStr == "")
+    }
+
+    func testGivenOperationWithInexistantRightOperator_WhenEqualTapped_ThenDisplayErrorAndClear() {
+        calculator.operationStr = "7 + d"
+
+        calculator.tappedEqual()
+
+        XCTAssert(calculator.operationStr == "")
+    }
+
+    func testGivenOperand_WhenAddInexistantOperator_ThenDisplayErrorMessage() {
+        calculator.operationStr = "4"
+
+        calculator.addOperator("!")
+
+        XCTAssertEqual(calculator.operationStr, "4")
     }
 
     override func tearDown() {
