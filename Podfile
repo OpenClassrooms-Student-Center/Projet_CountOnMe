@@ -6,16 +6,6 @@ target 'CountOnMe' do
   use_frameworks!
 
   # Pods for CountOnMe
-  pod 'SwiftLint', '0.39'
-
-  target 'CountOnMeTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'CountOnMeUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'SwiftLint', '0.39.2'
 
 end
