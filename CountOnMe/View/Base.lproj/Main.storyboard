@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eqK-jh-KKu">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eqK-jh-KKu">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,24 +17,24 @@
                         <viewControllerLayoutGuide type="bottom" id="Fhl-dE-gDl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eIh-hr-C95">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
-                                <rect key="frame" x="20" y="44" width="335" height="277.66666666666669"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                                <rect key="frame" x="20" y="44" width="374" height="302"/>
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="43" translatesAutoresizingMaskIntoConstraints="NO" id="ZDd-Az-bP1">
-                                <rect key="frame" x="20" y="341.66666666666674" width="335" height="356"/>
+                                <rect key="frame" x="20" y="366" width="374" height="408"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="4bK-eZ-a2F">
-                                        <rect key="frame" x="0.0" y="0.0" width="83" height="267"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="96" height="306"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elo-YZ-bhm">
-                                                <rect key="frame" x="0.0" y="0.0" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="elo-YZ-bhm" secondAttribute="height" multiplier="1:1" id="ItE-ii-hqY"/>
@@ -45,9 +43,12 @@
                                                 <state key="normal" title="1">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="cQy-LZ-OPT"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTe-B5-RT7">
-                                                <rect key="frame" x="0.0" y="92" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="105" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="HTe-B5-RT7" secondAttribute="height" multiplier="1:1" id="z75-Yk-8aB"/>
@@ -56,9 +57,12 @@
                                                 <state key="normal" title="4">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="I1p-CU-Wgz"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLR-sk-r38">
-                                                <rect key="frame" x="0.0" y="183.99999999999994" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="210" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="KLR-sk-r38" secondAttribute="height" multiplier="1:1" id="YdX-x0-lUn"/>
@@ -67,14 +71,17 @@
                                                 <state key="normal" title="7">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="EDT-YK-ZJG"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TN3-tV-jzL">
-                                        <rect key="frame" x="126" y="0.0" width="83" height="356"/>
+                                        <rect key="frame" x="139" y="0.0" width="96" height="408"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qPd-Vc-hgY">
-                                                <rect key="frame" x="0.0" y="0.0" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qPd-Vc-hgY" secondAttribute="height" multiplier="1:1" id="91z-YG-V5I"/>
@@ -83,9 +90,12 @@
                                                 <state key="normal" title="2">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="umx-I4-0f5"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zcO-zC-HJr">
-                                                <rect key="frame" x="0.0" y="91" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="104" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="zcO-zC-HJr" secondAttribute="height" multiplier="1:1" id="vfE-10-yu9"/>
@@ -94,9 +104,12 @@
                                                 <state key="normal" title="5">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eeO-jQ-HHQ"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTo-Mh-eTx">
-                                                <rect key="frame" x="0.0" y="181.99999999999994" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="208" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909390000001" green="0.4628390074" blue="0.45427507160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qTo-Mh-eTx" secondAttribute="height" multiplier="1:1" id="XKh-Gd-1qT"/>
@@ -105,9 +118,12 @@
                                                 <state key="normal" title="8">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="NZy-2y-1L2"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mxH-Vf-txo">
-                                                <rect key="frame" x="0.0" y="272.99999999999994" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="312" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909393310547" green="0.46283900737762451" blue="0.45427507162094116" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="mxH-Vf-txo" secondAttribute="height" multiplier="1:1" id="aUk-Xf-KNa"/>
@@ -116,14 +132,17 @@
                                                 <state key="normal" title="0">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="s8S-Yq-4DL"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="O9R-fI-eyu">
-                                        <rect key="frame" x="252" y="0.0" width="83" height="267"/>
+                                        <rect key="frame" x="278" y="0.0" width="96" height="306"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="osJ-X9-C0f">
-                                                <rect key="frame" x="0.0" y="0.0" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909390000001" green="0.4628390074" blue="0.45427507160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="osJ-X9-C0f" secondAttribute="height" multiplier="1:1" id="g9V-Y3-wxG"/>
@@ -132,9 +151,12 @@
                                                 <state key="normal" title="3">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="FAY-N7-kha"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dAV-Aw-YHb">
-                                                <rect key="frame" x="0.0" y="92" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="105" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909390000001" green="0.4628390074" blue="0.45427507160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="dAV-Aw-YHb" secondAttribute="height" multiplier="1:1" id="1fM-MH-iAH"/>
@@ -143,9 +165,12 @@
                                                 <state key="normal" title="6">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="rnI-mJ-2ll"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZh-k3-mSb">
-                                                <rect key="frame" x="0.0" y="183.99999999999994" width="83" height="83"/>
+                                                <rect key="frame" x="0.0" y="210" width="96" height="96"/>
                                                 <color key="backgroundColor" red="0.48282909390000001" green="0.4628390074" blue="0.45427507160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="DZh-k3-mSb" secondAttribute="height" multiplier="1:1" id="UTc-Nl-MhR"/>
@@ -154,16 +179,19 @@
                                                 <state key="normal" title="9">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="tappedNumberButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="JcN-Wz-aAf"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="VJT-xt-fUU">
-                                <rect key="frame" x="19" y="705.66666666666663" width="337" height="64.333333333333371"/>
+                                <rect key="frame" x="19" y="782" width="376" height="72"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0W-TG-tbv">
-                                        <rect key="frame" x="0.0" y="0.0" width="64.333333333333329" height="64.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
                                         <color key="backgroundColor" red="0.23743388056755066" green="0.66820746660232544" blue="0.83934342861175537" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="i0W-TG-tbv" secondAttribute="height" multiplier="1:1" id="kAf-ee-JRa"/>
@@ -172,9 +200,12 @@
                                         <state key="normal" title="+">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="qcM-0D-Bmr"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KqH-9F-fDd">
-                                        <rect key="frame" x="68.333333333333329" y="0.0" width="63.999999999999986" height="64.333333333333329"/>
+                                        <rect key="frame" x="76" y="0.0" width="72" height="72"/>
                                         <color key="backgroundColor" red="0.23743388056755066" green="0.66820746660232544" blue="0.83934342861175537" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="KqH-9F-fDd" secondAttribute="height" multiplier="1:1" id="YaF-bP-nfu"/>
@@ -183,20 +214,23 @@
                                         <state key="normal" title="-">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tappedSubstractionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eCV-lD-Kd8"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSb-Zn-8Pn">
-                                        <rect key="frame" x="136.33333333333334" y="0.0" width="64.333333333333343" height="64.333333333333329"/>
+                                        <rect key="frame" x="152" y="0.0" width="72" height="72"/>
                                         <color key="backgroundColor" red="0.23743388056755066" green="0.66820746660232544" blue="0.83934342861175537" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="NSb-Zn-8Pn" secondAttribute="height" multiplier="1:1" id="65v-uK-JnM"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/>
                                         <state key="normal" title="✗">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MnR-cx-kRg">
-                                        <rect key="frame" x="204.66666666666666" y="0.0" width="63.999999999999972" height="64.333333333333329"/>
+                                        <rect key="frame" x="228" y="0.0" width="72" height="72"/>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="MnR-cx-kRg" secondAttribute="height" multiplier="1:1" id="oxg-wg-9py"/>
@@ -207,7 +241,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lf5-f0-KAy">
-                                        <rect key="frame" x="272.66666666666669" y="0.0" width="64.333333333333314" height="64.333333333333329"/>
+                                        <rect key="frame" x="304" y="0.0" width="72" height="72"/>
                                         <color key="backgroundColor" red="1" green="0.57457399369999995" blue="0.0019781978339999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Lf5-f0-KAy" secondAttribute="height" multiplier="1:1" id="UmB-SY-2lf"/>
@@ -216,6 +250,9 @@
                                         <state key="normal" title="=">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="UFF-09-jgZ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -237,6 +274,16 @@
                     </view>
                     <connections>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
+                        <outletCollection property="numberButtons" destination="elo-YZ-bhm" collectionClass="NSMutableArray" id="Vpy-wz-Pn4"/>
+                        <outletCollection property="numberButtons" destination="qPd-Vc-hgY" collectionClass="NSMutableArray" id="OK6-Yq-O6O"/>
+                        <outletCollection property="numberButtons" destination="osJ-X9-C0f" collectionClass="NSMutableArray" id="9kw-Vh-hxo"/>
+                        <outletCollection property="numberButtons" destination="HTe-B5-RT7" collectionClass="NSMutableArray" id="8rb-N6-w4G"/>
+                        <outletCollection property="numberButtons" destination="zcO-zC-HJr" collectionClass="NSMutableArray" id="9co-hc-7At"/>
+                        <outletCollection property="numberButtons" destination="dAV-Aw-YHb" collectionClass="NSMutableArray" id="Xxy-4k-kuq"/>
+                        <outletCollection property="numberButtons" destination="KLR-sk-r38" collectionClass="NSMutableArray" id="9tp-E0-1sH"/>
+                        <outletCollection property="numberButtons" destination="qTo-Mh-eTx" collectionClass="NSMutableArray" id="ETc-iM-IlP"/>
+                        <outletCollection property="numberButtons" destination="DZh-k3-mSb" collectionClass="NSMutableArray" id="evW-6e-Wy9"/>
+                        <outletCollection property="numberButtons" destination="mxH-Vf-txo" collectionClass="NSMutableArray" id="y86-Wl-yMa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
