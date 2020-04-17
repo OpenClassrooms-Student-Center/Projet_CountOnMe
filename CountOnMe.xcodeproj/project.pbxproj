@@ -17,6 +17,7 @@
 		AC2B64DD24464576002D8247 /* MathOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64DC24464576002D8247 /* MathOperator.swift */; };
 		AC2B64DF2447243B002D8247 /* CalculatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */; };
 		AC2B64E12447322A002D8247 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64E02447322A002D8247 /* Calculator.swift */; };
+		AC2B64E3244A16D1002D8247 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		AC2B64DC24464576002D8247 /* MathOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathOperator.swift; sourceTree = "<group>"; };
 		AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDelegate.swift; sourceTree = "<group>"; };
 		AC2B64E02447322A002D8247 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
+		AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */,
 				AC2B64E02447322A002D8247 /* Calculator.swift */,
 				AC2B64DC24464576002D8247 /* MathOperator.swift */,
+				AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
+				AC2B64E3244A16D1002D8247 /* ErrorMessage.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				AC2B64DB24464551002D8247 /* CalculatorImplementation.swift in Sources */,
 				AC2B64DD24464576002D8247 /* MathOperator.swift in Sources */,

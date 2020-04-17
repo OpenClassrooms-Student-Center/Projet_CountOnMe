@@ -14,7 +14,7 @@ class CalculatorImplementation: Calculator {
     
     var textToCompute = "" {
         didSet {
-            if expressionHaveResult {
+            if expressionHasResult {
                 textToCompute = ""
             } else {
                 delegate?.didUpdateTextToCompute(text: textToCompute)
@@ -38,15 +38,7 @@ class CalculatorImplementation: Calculator {
     }
     
     func calculate() -> Int? {
-        guard expressionIsCorrect else {
-            print("expression is not correct")
-            return nil
-        }
-        
-        guard expressionHaveEnoughElement else {
-            print("expression has not enough element")
-            return nil
-        }
+        guard verifyExpression() else { return nil }
         
         //Create local copy of operations
         var operationsToReduce = elements
@@ -63,8 +55,7 @@ class CalculatorImplementation: Calculator {
             default: fatalError("Unknown operator !")
             }
             
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            putResultAtFirst(of: &operationsToReduce)
         }
         textToCompute.append("= ")
         return result
@@ -75,24 +66,49 @@ class CalculatorImplementation: Calculator {
     private var elements: [String] {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
-    
+
     private var result = 0
 
-    private var expressionHaveResult: Bool {
+    private var expressionHasResult: Bool {
         return textToCompute.firstIndex(of: "=") != nil
     }
-    
+
     // Error check computed variables
     private var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-"
     }
-    
-    private var expressionHaveEnoughElement: Bool {
+
+    private var expressionHasEnoughElement: Bool {
         return elements.count >= 3
     }
-    
+
     private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-"
+    }
+
+    private func verifyExpression() -> Bool {
+        guard expressionIsCorrect else {
+            postNotification(ofName: ErrorMessage.notCorrect.name)
+            return false
+        }
+
+        guard expressionHasEnoughElement else {
+            postNotification(ofName: ErrorMessage.notEnough.name)
+            return false
+        }
+
+        return true
+    }
+
+    private func postNotification(ofName name: String) {
+        let name = Notification.Name(name)
+        let notification = Notification(name: name)
+        NotificationCenter.default.post(notification)
+    }
+
+    private func putResultAtFirst(of array: inout [String]) {
+        array = Array(array.dropFirst(3))
+        array.insert("\(result)", at: 0)
     }
 }
 
