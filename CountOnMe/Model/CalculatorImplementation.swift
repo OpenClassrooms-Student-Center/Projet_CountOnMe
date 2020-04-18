@@ -50,8 +50,8 @@ class CalculatorImplementation: Calculator {
             let right = Int(operationsToReduce[2])!
             
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
+            case MathOperator.plus.symbol: result = left + right
+            case MathOperator.minus.symbol: result = left - right
             default: fatalError("Unknown operator !")
             }
             
@@ -96,7 +96,6 @@ class CalculatorImplementation: Calculator {
             postNotification(ofName: ErrorMessage.notEnough.name)
             return false
         }
-
         return true
     }
 
