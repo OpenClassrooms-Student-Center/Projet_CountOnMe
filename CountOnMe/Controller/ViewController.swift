@@ -63,6 +63,7 @@ class ViewController: UIViewController {
         switch sender.name.rawValue {
         case ErrorMessage.notCorrect.name: return ErrorMessage.notCorrect.message
         case ErrorMessage.notEnough.name: return ErrorMessage.notEnough.message
+        case ErrorMessage.divideByZero.name: return ErrorMessage.divideByZero.message
         default: return "Please check the expression."
         }
     }

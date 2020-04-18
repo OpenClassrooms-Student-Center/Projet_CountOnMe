@@ -9,12 +9,13 @@
 import Foundation
 
 enum ErrorMessage: CaseIterable {
-    case notCorrect, notEnough
+    case notCorrect, notEnough, divideByZero
     
     var name: String {
         switch self {
         case .notCorrect: return "expression is not correct"
         case .notEnough: return "expression has not enough element"
+        case .divideByZero: return "try to dive by zero"
         }
     }
 
@@ -22,6 +23,7 @@ enum ErrorMessage: CaseIterable {
         switch self {
         case .notCorrect: return "The expression is not correct ! \nPlease enter a nuber after the operator."
         case .notEnough: return "The expression is not complete ! Please enter a number or an operator."
+        case .divideByZero: return "You are trying to divide by zero ! Please enter another number."
         }
     }
 

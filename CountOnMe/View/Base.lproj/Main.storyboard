@@ -189,7 +189,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6f7-ch-ewy">
                                                 <rect key="frame" x="0.0" y="93" width="186" height="88"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-jD-CIB">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-jD-CIB">
                                                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                                                         <color key="backgroundColor" red="0.066666670143604279" green="0.6671568751335144" blue="0.84656870365142822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -203,7 +203,7 @@
                                                             <action selector="didTapMathOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="5qA-R0-hf5"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYV-jU-BXj">
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYV-jU-BXj">
                                                         <rect key="frame" x="98" y="0.0" width="88" height="88"/>
                                                         <color key="backgroundColor" red="0.85625004768371582" green="0.7579658031463623" blue="0.064093142747879028" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
@@ -234,9 +234,6 @@
                                                         <state key="normal" title="⌫">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
-                                                        <connections>
-                                                            <action selector="didTapMathOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="EYm-A2-rxi"/>
-                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pJD-GU-eod">
                                                         <rect key="frame" x="0.0" y="93" width="88" height="88"/>
@@ -245,9 +242,6 @@
                                                         <state key="normal" title="AC">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
-                                                        <connections>
-                                                            <action selector="didTapMathOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="3hb-gW-Kzz"/>
-                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
