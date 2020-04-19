@@ -11,7 +11,7 @@ import Foundation
 class CalculatorImplementation: Calculator {
     
     var delegate: CalculatorDelegate?
-    
+
     var textToCompute = "" {
         didSet {
             if expressionHasResult {
@@ -42,7 +42,6 @@ class CalculatorImplementation: Calculator {
         
         //Create local copy of operations
         var operationsToReduce = elements
-        elementsToReduce = operationsToReduce
         var priorityOperatorIndex: Int?
         var left: Double
         var operand: String
@@ -76,8 +75,6 @@ class CalculatorImplementation: Calculator {
         return result
     }
     
-
-    
     private var elements: [String] {
         return textToCompute.split(separator: " ").map { "\($0)" }
     }
@@ -109,7 +106,6 @@ class CalculatorImplementation: Calculator {
         guard elementsToReduce[divideIndex + 1] == "0" else {
             return false
         }
-
         return true
     }
 
@@ -132,12 +128,6 @@ class CalculatorImplementation: Calculator {
             return false
         }
         return true
-    }
-
-    private func postNotification(ofName name: String) {
-        let name = Notification.Name(name)
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
     }
 
     private func getPriorityOperatorIndex(in array: [String]) -> Int? {
@@ -168,6 +158,24 @@ class CalculatorImplementation: Calculator {
         array = Array(array.dropFirst(3))
         array.insert("\(result)", at: 0)
         elementsToReduce = array
+    }
+}
+
+extension CalculatorImplementation {
+    func clearTextToCompute() {
+        textToCompute = String(textToCompute.dropLast())
+    }
+    
+    func clearAllTextToCompute() {
+        textToCompute = ""
+    }
+}
+
+extension CalculatorImplementation {
+    private func postNotification(ofName name: String) {
+        let name = Notification.Name(name)
+        let notification = Notification(name: name)
+        NotificationCenter.default.post(notification)
     }
 }
 

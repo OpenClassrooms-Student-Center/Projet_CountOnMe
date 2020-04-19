@@ -107,11 +107,8 @@
 		AC2B64D624462E09002D8247 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AC2B64DA24464551002D8247 /* CalculatorImplementation.swift */,
-				AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */,
-				AC2B64E02447322A002D8247 /* Calculator.swift */,
-				AC2B64DC24464576002D8247 /* MathOperator.swift */,
-				AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */,
+				ACCB8903244BAB5B0064ABDA /* Calculation */,
+				ACCB8904244BAB710064ABDA /* Enums */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -141,6 +138,25 @@
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ACCB8903244BAB5B0064ABDA /* Calculation */ = {
+			isa = PBXGroup;
+			children = (
+				AC2B64DA24464551002D8247 /* CalculatorImplementation.swift */,
+				AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */,
+				AC2B64E02447322A002D8247 /* Calculator.swift */,
+			);
+			path = Calculation;
+			sourceTree = "<group>";
+		};
+		ACCB8904244BAB710064ABDA /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				AC2B64DC24464576002D8247 /* MathOperator.swift */,
+				AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,7 +359,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -398,7 +414,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -415,6 +431,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y56L8SS28B;
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -433,6 +450,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y56L8SS28B;
 				INFOPLIST_FILE = "$(SRCROOT)/CountOnMe/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

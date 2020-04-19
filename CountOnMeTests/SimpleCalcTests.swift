@@ -23,7 +23,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(mathOperator: .minus)
         calculator.add(number: 111)
         
-        XCTAssertEqual(calculator!.textToCompute, "-111")
+        XCTAssertEqual(calculator.textToCompute, "-111")
     }
 
     func testGivenTextToComputeHasLeftExpressionAndPlus_WhenAddingMinus_ThenTextToComputeContainsMinusInstead() {
@@ -96,6 +96,24 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertNil(calculator.calculate())
     }
 
+    //MARK: - Verify clearing
+
+    func testGivenTextToComputeHasCompleteExpression_WhenClear_ThenTextToComputeHas1CharacterLess() {
+        addExpression(with: .plus)
+
+        calculator.clearTextToCompute()
+
+        XCTAssertEqual(calculator.textToCompute, "111 + 11")
+    }
+
+    func testGivenTextToComputeHasCompleteExpression_WhenClearAll_ThenTextToComputeIsEmpty() {
+        addExpression(with: .plus)
+
+        calculator.clearAllTextToCompute()
+
+        XCTAssertEqual(calculator.textToCompute, "")
+        
+    }
 
     //MARK: - Tools
     

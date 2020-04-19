@@ -32,6 +32,14 @@ class ViewController: UIViewController {
         guard let result = calculator.calculate() else { return }
         textView.text.append(" = \(result)")
     }
+
+    @IBAction func didTapClearButton(_ sender: UIButton) {
+        calculator.clearTextToCompute()
+    }
+
+    @IBAction func didTapClearAllButton(_ sender: UIButton) {
+        calculator.clearAllTextToCompute()
+    }
     
     private var calculator = CalculatorImplementation()
 
