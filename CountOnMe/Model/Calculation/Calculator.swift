@@ -13,5 +13,5 @@ protocol Calculator {
 
     func add(number: Int)
     func add(mathOperator: MathOperator)
-    func calculate() -> Double?
+    func calculate() -> Float?
 }

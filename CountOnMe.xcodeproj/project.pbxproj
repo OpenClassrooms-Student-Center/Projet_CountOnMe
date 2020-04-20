@@ -18,6 +18,9 @@
 		AC2B64DF2447243B002D8247 /* CalculatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */; };
 		AC2B64E12447322A002D8247 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64E02447322A002D8247 /* Calculator.swift */; };
 		AC2B64E3244A16D1002D8247 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */; };
+		AC95CA7D244C98F200707683 /* Cleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC95CA7C244C98F200707683 /* Cleaner.swift */; };
+		AC95CA80244C992500707683 /* CleanerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC95CA7F244C992500707683 /* CleanerDelegate.swift */; };
+		AC95CA82244C993300707683 /* CleanerImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC95CA81244C993300707683 /* CleanerImplementation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		AC2B64DE2447243B002D8247 /* CalculatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDelegate.swift; sourceTree = "<group>"; };
 		AC2B64E02447322A002D8247 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		AC2B64E2244A16D1002D8247 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		AC95CA7C244C98F200707683 /* Cleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cleaner.swift; sourceTree = "<group>"; };
+		AC95CA7F244C992500707683 /* CleanerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerDelegate.swift; sourceTree = "<group>"; };
+		AC95CA81244C993300707683 /* CleanerImplementation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerImplementation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +113,7 @@
 		AC2B64D624462E09002D8247 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AC95CA7E244C98FB00707683 /* Cleaning */,
 				ACCB8903244BAB5B0064ABDA /* Calculation */,
 				ACCB8904244BAB710064ABDA /* Enums */,
 			);
@@ -138,6 +145,16 @@
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AC95CA7E244C98FB00707683 /* Cleaning */ = {
+			isa = PBXGroup;
+			children = (
+				AC95CA7C244C98F200707683 /* Cleaner.swift */,
+				AC95CA7F244C992500707683 /* CleanerDelegate.swift */,
+				AC95CA81244C993300707683 /* CleanerImplementation.swift */,
+			);
+			path = Cleaning;
 			sourceTree = "<group>";
 		};
 		ACCB8903244BAB5B0064ABDA /* Calculation */ = {
@@ -262,8 +279,11 @@
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				AC2B64E3244A16D1002D8247 /* ErrorMessage.swift in Sources */,
+				AC95CA7D244C98F200707683 /* Cleaner.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
+				AC95CA80244C992500707683 /* CleanerDelegate.swift in Sources */,
 				AC2B64DB24464551002D8247 /* CalculatorImplementation.swift in Sources */,
+				AC95CA82244C993300707683 /* CleanerImplementation.swift in Sources */,
 				AC2B64DD24464576002D8247 /* MathOperator.swift in Sources */,
 				AC2B64DF2447243B002D8247 /* CalculatorDelegate.swift in Sources */,
 				AC2B64E12447322A002D8247 /* Calculator.swift in Sources */,

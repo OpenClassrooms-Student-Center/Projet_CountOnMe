@@ -26,6 +26,14 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.textToCompute, "-111")
     }
 
+    func testGivenTextToComputeHasRelativeSign_WhenAddingAnotherRelativeSign_ThenTextToComputeContainsTheOtherRelativeSign() {
+        calculator.add(mathOperator: .plus)
+
+        calculator.add(mathOperator: .minus)
+    
+        XCTAssertEqual(calculator.textToCompute, "-")
+    }
+
     func testGivenTextToComputeHasLeftExpressionAndPlus_WhenAddingMinus_ThenTextToComputeContainsMinusInstead() {
         calculator.add(number: -111)
         calculator.add(mathOperator: .plus)
@@ -62,13 +70,13 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculate(), 0)
     }
 
-    func testGivenTextToComputeHasCompleteExpressionOfMultiplication_WhenCalculate_ThenResultIs0() {
+    func testGivenTextToComputeHasCompleteExpressionOfMultiplication_WhenCalculate_ThenResultIs12321() {
         addExpression(with: .multiply)
 
         XCTAssertEqual(calculator.calculate(), 12321)
     }
 
-    func testGivenTextToComputeHasCompleteExpressionOfDivision_WhenCalculate_ThenResultIs0() {
+    func testGivenTextToComputeHasCompleteExpressionOfDivision_WhenCalculate_ThenResultIs1() {
         addExpression(with: .divide)
 
         XCTAssertEqual(calculator.calculate(), 1)

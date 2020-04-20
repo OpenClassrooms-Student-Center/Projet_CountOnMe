@@ -156,7 +156,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3Df-iB-n9a" userLabel="Stack View Operators">
                                         <rect key="frame" x="0.0" y="0.0" width="186" height="181"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Cvb-Ek-Pzl">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Cvb-Ek-Pzl" userLabel="Stack View Plus Minus">
                                                 <rect key="frame" x="0.0" y="0.0" width="186" height="88"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-P5-55X">
@@ -186,10 +186,10 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6f7-ch-ewy">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6f7-ch-ewy" userLabel="Stack View Multiply Divide">
                                                 <rect key="frame" x="0.0" y="93" width="186" height="88"/>
                                                 <subviews>
-                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-jD-CIB">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-jD-CIB">
                                                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                                                         <color key="backgroundColor" red="0.066666670143604279" green="0.6671568751335144" blue="0.84656870365142822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -203,7 +203,7 @@
                                                             <action selector="didTapMathOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="5qA-R0-hf5"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYV-jU-BXj">
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYV-jU-BXj">
                                                         <rect key="frame" x="98" y="0.0" width="88" height="88"/>
                                                         <color key="backgroundColor" red="0.85625004768371582" green="0.7579658031463623" blue="0.064093142747879028" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
@@ -291,6 +291,8 @@
                     </view>
                     <connections>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
+                        <outletCollection property="priorityOperatorButtons" destination="fNf-jD-CIB" collectionClass="NSMutableArray" id="tjK-3a-vhs"/>
+                        <outletCollection property="priorityOperatorButtons" destination="cYV-jU-BXj" collectionClass="NSMutableArray" id="PHZ-9b-9ln"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
