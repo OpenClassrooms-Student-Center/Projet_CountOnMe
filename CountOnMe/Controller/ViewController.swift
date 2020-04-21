@@ -13,21 +13,15 @@ class ViewController: UIViewController {
     @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var allButtons: [UIButton]!
 
-    let calculator = Calculator()
-
     // MARK: - App Life Running
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         textView.isEditable = false
         calculator.delegate = self
 
-        for button in allButtons {
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOffset = CGSize(width: 0, height: 2)
-            button.layer.shadowOpacity = 1
-            button.layer.cornerRadius = 4.0
-        }
+        setupButtons()
 
         textView.layer.cornerRadius = 6.0
     }
@@ -69,6 +63,17 @@ class ViewController: UIViewController {
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         calculator.tappedEqual()
     }
+
+    private let calculator = Calculator()
+
+    private func setupButtons() {
+        for button in allButtons {
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.layer.shadowOffset = CGSize(width: 0, height: 2)
+            button.layer.shadowOpacity = 1
+            button.layer.cornerRadius = 4.0
+        }
+    }
 }
 
 extension ViewController: CalculatorDelegate {
@@ -79,7 +84,7 @@ extension ViewController: CalculatorDelegate {
 
     func presentAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { action in self.calculator.reset()}))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in self.calculator.reset()}))
         present(alert, animated: true)
     }
 }

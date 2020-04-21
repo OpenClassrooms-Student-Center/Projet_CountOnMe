@@ -84,7 +84,6 @@
 				1FA43BDE224E569A00F565CB /* Info.plist */,
 				5DF245F5240D442100E6D2F6 /* Model */,
 				5DF245F4240D42AE00E6D2F6 /* Controller */,
-				5DBFC92A242F5E8C00FAC693 /* ViewModel */,
 				5DF245F3240D429A00E6D2F6 /* View */,
 			);
 			path = CountOnMe;
@@ -97,13 +96,6 @@
 				1FA43BE9224E569A00F565CB /* Info.plist */,
 			);
 			path = CountOnMeTests;
-			sourceTree = "<group>";
-		};
-		5DBFC92A242F5E8C00FAC693 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		5DF245F3240D429A00E6D2F6 /* View */ = {
