@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+class CleanerImplementation: Cleaner {
+    var delegate: CleanerDelegate?
+    
+    func clear(_ string: String) -> String  {
+        return string.last == " " ? String(string.dropLast(3)) : String(string.dropLast())
+    }
+
+    func clearAll() -> String {
+        return ""
+    }
+    
+}

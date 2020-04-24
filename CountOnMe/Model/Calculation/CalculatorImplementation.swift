@@ -9,25 +9,25 @@
 import Foundation
 
 class CalculatorImplementation: Calculator {
-
     var delegate: CalculatorDelegate?
-
-    var textToCompute = "" {
-        didSet {
-            if expressionHasResult {
-                textToCompute = ""
-            } else {
-                delegate?.didUpdateTextToCompute(text: textToCompute)
-            }
-        }
+    let calculatorDelegateMock: CalculatorDelegateMock?
+    
+    init(cleaner: CleanerImplementation, calculatorDelegateMock: CalculatorDelegateMock? = nil) {
+        self.calculatorDelegateMock = calculatorDelegateMock
+        self.cleaner = cleaner
+        self.cleaner.delegate = self
     }
 
     func add(number: Int) {
+        if shouldResetTextToCompute { textToCompute = "" }
         textToCompute.append("\(number)")
     }
     
     func add(mathOperator: MathOperator) {
-        if textToCompute.isEmpty {
+        if shouldResetTextToCompute { textToCompute = "" }
+        if isStartingWithWrongOperator(mathOperator: mathOperator) {
+            return
+        } else if textToCompute.isEmpty {
             textToCompute.append("\(mathOperator.symbol)")
         } else if textToComputeHasRelativeSign {
             textToCompute = String(textToCompute.dropLast())
@@ -40,40 +40,55 @@ class CalculatorImplementation: Calculator {
         }
     }
     
-    func calculate() -> Float? {
-        guard verifyExpression else { return nil }
+    func calculate() throws {
+        try verifyExpression()
         
         //Create local copy of operations
         var operationsToReduce = elements
         elementsToReduce = elements
         var priorityOperatorIndex: Int?
         var left: Float = 0
-        var operand = ""
+        var mathOperator = ""
         var right: Float = 0
-        var success = false
 
-        // Iterate over operations while an operand still here
+        // Iterate over operations while an mathOperator still here
         while operationsToReduce.count > 1 {
             priorityOperatorIndex = getPriorityOperatorIndex(in: operationsToReduce)
-            assignValueForEachPartOfExpression(from: operationsToReduce, priorityOperatorIndex, &left, &operand, &right)
-            success = canPerformCalculation(left, operand, right)
+
+            try assignValueForEachPartOfExpression(from: operationsToReduce, priorityOperatorIndex, &left, &mathOperator, &right)
+            
+            try performCalculation(left, mathOperator, right)
+
             replaceOperationByResult(in: &operationsToReduce, priorityOperatorIndex)
         }
-        textToCompute.append("= ")
-        if success { return result } else { return nil }
+        textToCompute.append(" = \(result)")
+        shouldResetTextToCompute = true
     }
 
-    private var result: Float = 0
+    private let cleaner: CleanerImplementation
 
-    //Equals operationToReduce to verify isDividingByZero
+    private var shouldResetTextToCompute = false
+
+    private var textToCompute = "" {
+        didSet {
+            resetShouldResetTextToComputeIfNeeded()
+            delegate?.didUpdateTextToCompute(text: textToCompute)
+            calculatorDelegateMock?.didUpdateTextToCompute(text: textToCompute)
+            print(textToCompute)
+        }
+    }
+
+    private var result: Float = 0 {
+        didSet {
+            calculatorDelegateMock?.didUpdateResult(number: result)
+        }
+    }
+
+    //Equals operationToReduce to verify if isDividingByZero
     private var elementsToReduce: [String] = []
     
     private var elements: [String] {
         return textToCompute.split(separator: " ").map { "\($0)" }
-    }
-
-    private var expressionHasResult: Bool {
-        return textToCompute.firstIndex(of: "=") != nil
     }
 
     // Error check computed variables
@@ -89,27 +104,33 @@ class CalculatorImplementation: Calculator {
         textToCompute == MathOperator.plus.symbol || textToCompute == MathOperator.minus.symbol
     }
 
+    private func isStartingWithWrongOperator(mathOperator: MathOperator) -> Bool {
+        return textToCompute.isEmpty && (mathOperator == MathOperator.multiply || mathOperator == MathOperator.divide)
+    }
+
     private var isDividingByZero: Bool {
         guard let divideIndex = elementsToReduce.firstIndex(of: MathOperator.divide.symbol) else { return false }
 
         // Cast to Int because "00" != "0"
         guard Int(elementsToReduce[divideIndex + 1]) == 0 else { return false }
         
-        postNotification(ofName: ErrorMessage.divideByZero.rawValue)
         return true
     }
 
-    private var verifyExpression: Bool {
+    private func resetShouldResetTextToComputeIfNeeded() {
+        if shouldResetTextToCompute {
+            shouldResetTextToCompute = false
+        }
+    }
+
+    private func verifyExpression() throws {
         guard expressionIsCorrect else {
-            postNotification(ofName: ErrorMessage.notCorrect.rawValue)
-            return false
+            throw CalculatorError.expressionIsIncorrect
         }
 
         guard expressionHasEnoughElement else {
-            postNotification(ofName: ErrorMessage.notEnough.rawValue)
-            return false
+            throw CalculatorError.expressionIsIncomplete
         }
-        return true
     }
 
     private func getPriorityOperatorIndex(in array: [String]) -> Int? {
@@ -121,27 +142,28 @@ class CalculatorImplementation: Calculator {
         return nil
     }
 
-    private func assignValueForEachPartOfExpression(from array: [String], _ priorityOperatorIndex: Int?, _ left: inout Float, _ operand:  inout String, _ right: inout Float) {
+    private func assignValueForEachPartOfExpression(from array: [String], _ priorityOperatorIndex: Int?, _ left: inout Float, _ mathOperator:  inout String, _ right: inout Float) throws {
         if let index = priorityOperatorIndex {
             left = Float(array[index - 1])!
-            operand = array[index]
+            mathOperator = array[index]
             right = Float(array[index + 1])!
-        } else {
+        } else if priorityOperatorIndex == nil {
             left = Float(array[0])!
-            operand = array[1]
+            mathOperator = array[1]
             right = Float(array[2])!
+        } else {
+            throw CalculatorError.cannotAssignValue
         }
     }
 
-    private func canPerformCalculation(_ left: Float, _ operand: String, _ right: Float) -> Bool {
-        switch operand {
+    private func performCalculation(_ left: Float, _ mathOperator: String, _ right: Float) throws {
+        switch mathOperator {
         case MathOperator.plus.symbol: result = left + right
         case MathOperator.minus.symbol: result = left - right
         case MathOperator.multiply.symbol: result = left * right
-        case MathOperator.divide.symbol: if !isDividingByZero { result = left / right } else { return false }
-        default: postNotification(ofName: ErrorMessage.unknownOperator.rawValue)
+        case MathOperator.divide.symbol: if !isDividingByZero { result = left / right } else { throw CalculatorError.cannotDivideByZero }
+        default: throw CalculatorError.unknownOperatorFound
         }
-        return true
     }
 
     private func replaceOperationByResult(in array: inout [String], _ priorityOperatorIndex: Int? ) {
@@ -166,22 +188,13 @@ class CalculatorImplementation: Calculator {
     }
 }
 
-extension CalculatorImplementation {
-    func clearTextToCompute() {
-        textToCompute = String(textToCompute.dropLast())
+extension CalculatorImplementation: CleanerDelegate {
+    func clearString() {
+        textToCompute = cleaner.clear(textToCompute)
     }
     
-    func clearAllTextToCompute() {
-        textToCompute = ""
+    func clearAllString() {
+        textToCompute = cleaner.clearAll()
     }
 }
-
-extension CalculatorImplementation {
-    private func postNotification(ofName name: String) {
-        let name = Notification.Name(name)
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
-    }
-}
-
 

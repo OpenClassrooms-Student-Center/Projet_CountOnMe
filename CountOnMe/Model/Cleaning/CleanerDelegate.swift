@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+protocol CleanerDelegate {
+    func clearString()
+    func clearAllString()
+}
