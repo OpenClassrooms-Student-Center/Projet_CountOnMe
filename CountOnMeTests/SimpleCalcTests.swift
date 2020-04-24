@@ -50,7 +50,7 @@ class SimpleCalcTests: XCTestCase {
     //MARK: - Verify correctness of expression
 
     func testGivenTextToComputeIsEmptySoExpressionHasNotEnoughElement_WhenCalculate_ThenResultIsNil() {
-        XCTAssertThrowsError(try calculator.calculate(), "explication 52") { (error) in
+        XCTAssertThrowsError(try calculator.calculate(), "explication 1") { (error) in
             let calculatorError = error as! CalculatorError
             XCTAssertEqual(calculatorError, CalculatorError.expressionIsIncomplete)
         }
@@ -60,7 +60,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(number: -111)
         calculator.add(mathOperator: .plus)
 
-        XCTAssertThrowsError(try calculator.calculate(), "explication 62") { (error) in
+        XCTAssertThrowsError(try calculator.calculate(), "explication 2") { (error) in
             let calculationError = error as! CalculatorError
             XCTAssertEqual(calculationError, CalculatorError.expressionIsIncorrect)
         }
@@ -120,7 +120,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(mathOperator: .divide)
         calculator.add(number: 0)
 
-        XCTAssertThrowsError(try calculator.calculate(), "explication 110", { (error) in
+        XCTAssertThrowsError(try calculator.calculate(), "explication 3", { (error) in
             let calculatorError = error as! CalculatorError
             XCTAssertEqual(calculatorError, CalculatorError.cannotDivideByZero)
         })
@@ -136,6 +136,15 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "111 + 11")
     }
 
+    func testGivenTextToComputeHasResult_WhenClear_ThenTextToComputeIsEmpty() {
+        addExpression(with: .plus)
+        try? calculator.calculate()
+
+        cleaner.delegate?.clearString()
+
+        XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "")
+    }
+
     func testGivenTextToComputeHasCompleteExpression_WhenClearAll_ThenTextToComputeIsEmpty() {
         addExpression(with: .plus)
 
@@ -143,6 +152,35 @@ class SimpleCalcTests: XCTestCase {
 
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "")
         
+    }
+
+    //MARK: - Verify textToCompute is reset when it has result
+
+    func testGivenTextToComputeHasResult_WhenAddingNumber_ThenTextToComputeContainsNumber() {
+        addExpression(with: .plus)
+        try? calculator.calculate()
+
+        calculator.add(number: 1)
+
+        XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "1")
+    }
+
+    func testGivenTextToComputeHasResult_WhenAddingRelativeSign_ThenTextToComputeContainsRelativeSign() {
+        addExpression(with: .plus)
+        try? calculator.calculate()
+
+        calculator.add(mathOperator: .minus)
+
+        XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "-")
+    }
+
+    func testGivenTextToComputeHasResult_WhenAddingWrongOperator_ThenTextToComputeIsEmpty() {
+        addExpression(with: .plus)
+        try? calculator.calculate()
+
+        calculator.add(mathOperator: .divide)
+
+        XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "")
     }
 
     //MARK: - Tools

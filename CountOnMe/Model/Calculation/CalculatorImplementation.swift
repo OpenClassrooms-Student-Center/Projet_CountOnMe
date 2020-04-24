@@ -144,18 +144,21 @@ class CalculatorImplementation: Calculator {
 
     private func assignValueForEachPartOfExpression(from array: [String], _ priorityOperatorIndex: Int?, _ left: inout Float, _ mathOperator:  inout String, _ right: inout Float) throws {
         if let index = priorityOperatorIndex {
-            left = Float(array[index - 1])!
+            guard let lhs = Float(array[index - 1]) else { throw CalculatorError.cannotAssignValue }
+            guard let rhs = Float(array[index + 1]) else { throw CalculatorError.cannotAssignValue }
+            
+            left = lhs
             mathOperator = array[index]
-            right = Float(array[index + 1])!
-        } else if priorityOperatorIndex == nil {
-            left = Float(array[0])!
-            mathOperator = array[1]
-            right = Float(array[2])!
+            right = rhs
         } else {
-            throw CalculatorError.cannotAssignValue
+            guard let lhs = Float(array[0]) else { throw CalculatorError.cannotAssignValue }
+            guard let rhs = Float(array[2]) else { throw CalculatorError.cannotAssignValue }
+            
+            left = lhs
+            mathOperator = array[1]
+            right = rhs
         }
     }
-
     private func performCalculation(_ left: Float, _ mathOperator: String, _ right: Float) throws {
         switch mathOperator {
         case MathOperator.plus.symbol: result = left + right
@@ -190,7 +193,11 @@ class CalculatorImplementation: Calculator {
 
 extension CalculatorImplementation: CleanerDelegate {
     func clearString() {
-        textToCompute = cleaner.clear(textToCompute)
+        if shouldResetTextToCompute {
+            clearAllString()
+        } else {
+            textToCompute = cleaner.clear(textToCompute)
+        }
     }
     
     func clearAllString() {
