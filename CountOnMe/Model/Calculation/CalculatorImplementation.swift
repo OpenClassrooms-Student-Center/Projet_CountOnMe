@@ -104,10 +104,6 @@ class CalculatorImplementation: Calculator {
         textToCompute == MathOperator.plus.symbol || textToCompute == MathOperator.minus.symbol
     }
 
-    private func isStartingWithWrongOperator(mathOperator: MathOperator) -> Bool {
-        return textToCompute.isEmpty && (mathOperator == MathOperator.multiply || mathOperator == MathOperator.divide)
-    }
-
     private var isDividingByZero: Bool {
         guard let divideIndex = elementsToReduce.firstIndex(of: MathOperator.divide.symbol) else { return false }
 
@@ -115,6 +111,10 @@ class CalculatorImplementation: Calculator {
         guard Int(elementsToReduce[divideIndex + 1]) == 0 else { return false }
         
         return true
+    }
+
+    private func isStartingWithWrongOperator(mathOperator: MathOperator) -> Bool {
+        return textToCompute.isEmpty && (mathOperator == MathOperator.multiply || mathOperator == MathOperator.divide)
     }
 
     private func resetShouldResetTextToComputeIfNeeded() {
@@ -134,10 +134,10 @@ class CalculatorImplementation: Calculator {
     }
 
     private func getPriorityOperatorIndex(in array: [String]) -> Int? {
-        if let multiplyIndex = array.firstIndex(of: MathOperator.multiply.symbol) {
-            return multiplyIndex
-        } else if let divideIndex = array.firstIndex(of: MathOperator.divide.symbol) {
+        if let divideIndex = array.firstIndex(of: MathOperator.divide.symbol) {
             return divideIndex
+        } else if let multiplyIndex = array.firstIndex(of: MathOperator.multiply.symbol) {
+            return multiplyIndex
         }
         return nil
     }
@@ -164,7 +164,9 @@ class CalculatorImplementation: Calculator {
         case MathOperator.plus.symbol: result = left + right
         case MathOperator.minus.symbol: result = left - right
         case MathOperator.multiply.symbol: result = left * right
-        case MathOperator.divide.symbol: if !isDividingByZero { result = left / right } else { throw CalculatorError.cannotDivideByZero }
+        case MathOperator.divide.symbol:
+            if !isDividingByZero { result = left / right } else { throw CalculatorError.cannotDivideByZero }
+        case "=": throw CalculatorError.equalSignFound
         default: throw CalculatorError.unknownOperatorFound
         }
     }
