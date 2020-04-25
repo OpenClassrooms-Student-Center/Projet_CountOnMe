@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 enum CalculatorError: Error {
     case expressionIsIncorrect
     case expressionIsIncomplete
@@ -16,8 +15,7 @@ enum CalculatorError: Error {
     case cannotAssignValue
     case equalSignFound
     case unknownOperatorFound
-    
-    
+
     var alertTitle: String {
         switch self {
         case .expressionIsIncorrect: return "Incorrect"
@@ -30,7 +28,7 @@ enum CalculatorError: Error {
     }
     var alertMessage: String {
         switch self {
-        case .expressionIsIncorrect: return "The expression is not correct ! \nPlease enter a number after the operator."
+        case .expressionIsIncorrect: return "The expression is not correct !  Please enter a number after the operator."
         case .expressionIsIncomplete: return "The expression is not complete ! Please enter a number or an operator."
         case .cannotDivideByZero: return "You are trying to divide by zero ! Please enter another number."
         case .cannotAssignValue: return "We cannot split the expression in 3 parts !"
@@ -38,5 +36,5 @@ enum CalculatorError: Error {
         case .unknownOperatorFound: return "You have entered an unknown operator !"
         }
     }
-    
+
 }

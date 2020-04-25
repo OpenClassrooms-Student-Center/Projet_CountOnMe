@@ -13,7 +13,7 @@ class SimpleCalcTests: XCTestCase {
     var calculator: CalculatorImplementation!
     var cleaner: CleanerImplementation!
     var calculatorDelegateMock: CalculatorDelegateMock!
-    
+
     override func setUp() {
         super.setUp()
         cleaner = CleanerImplementation()
@@ -21,12 +21,12 @@ class SimpleCalcTests: XCTestCase {
         calculator = CalculatorImplementation(cleaner: cleaner, calculatorDelegateMock: calculatorDelegateMock)
     }
 
-    //MARK: - Verify adding relative numbers in lhs and replace an operator with another
+    // MARK: - Verify adding relative numbers in lhs and replace an operator with another
 
     func testGiventTextToComputeIsEmpty_WhenAddingRelativeNumbers_ThenTextToComputeContainsRelativeNumbers() {
         calculator.add(mathOperator: .minus)
         calculator.add(number: 111)
-        
+
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "-111")
     }
 
@@ -34,24 +34,24 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(mathOperator: .plus)
 
         calculator.add(mathOperator: .minus)
-    
+
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "-")
     }
 
     func testGivenTextToComputeHasLeftExpressionAndPlus_WhenAddingMinus_ThenTextToComputeContainsMinusInstead() {
         calculator.add(number: -111)
         calculator.add(mathOperator: .plus)
-        
+
         calculator.add(mathOperator: .minus)
-        
+
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "-111 - ")
     }
 
-    //MARK: - Verify correctness of expression
+    // MARK: - Verify correctness of expression
 
     func testGivenTextToComputeIsEmptySoExpressionHasNotEnoughElement_WhenCalculate_ThenResultIsNil() {
         XCTAssertThrowsError(try calculator.calculate(), "explication 1") { (error) in
-            let calculatorError = error as! CalculatorError
+            let calculatorError = error as? CalculatorError
             XCTAssertEqual(calculatorError, CalculatorError.expressionIsIncomplete)
         }
     }
@@ -61,13 +61,13 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(mathOperator: .plus)
 
         XCTAssertThrowsError(try calculator.calculate(), "explication 2") { (error) in
-            let calculationError = error as! CalculatorError
+            let calculationError = error as? CalculatorError
             XCTAssertEqual(calculationError, CalculatorError.expressionIsIncorrect)
         }
     }
 
-    //MARK: - Verify correctness of result for each operator
-    
+    // MARK: - Verify correctness of result for each operator
+
     func testGivenTextToComputeHasCompleteExpressionOfAddidtion_WhenCalculate_ThenResultIs222() {
         addExpression(with: .plus)
 
@@ -100,9 +100,9 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculatorDelegateMock?.result, 1)
     }
 
-    //MARK: - Verify calculation priority rules and division by 0
+    // MARK: - Verify calculation priority rules and division by 0
 
-    func testGivenTextToComputeHasCompleteExpressionOfAddidtionAndMultiplication_WhenCalculate_ThenResultIsTwoHundredSeventySevenPointFive() {
+    func testGivenTextToComputeHasCompleteExpressionOfAddidtionAndMultiplication_WhenCalculate_ThenResultIs277Point5() {
         addExpression(with: .plus)
         calculator.add(mathOperator: .multiply)
         calculator.add(number: 3)
@@ -121,12 +121,12 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(number: 0)
 
         XCTAssertThrowsError(try calculator.calculate(), "explication 3", { (error) in
-            let calculatorError = error as! CalculatorError
+            let calculatorError = error as? CalculatorError
             XCTAssertEqual(calculatorError, CalculatorError.cannotDivideByZero)
         })
     }
 
-    //MARK: - Verify clearing
+    // MARK: - Verify clearing
 
     func testGivenTextToComputeHasCompleteExpression_WhenClear_ThenTextToComputeHas1CharacterLess() {
         addExpression(with: .plus)
@@ -151,10 +151,10 @@ class SimpleCalcTests: XCTestCase {
         cleaner.delegate?.clearAllString()
 
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "")
-        
+
     }
 
-    //MARK: - Verify textToCompute is reset when it has result
+    // MARK: - Verify textToCompute is reset when it has result
 
     func testGivenTextToComputeHasResult_WhenAddingNumber_ThenTextToComputeContainsNumber() {
         addExpression(with: .plus)
@@ -183,8 +183,8 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, "")
     }
 
-    //MARK: - Tools
-    
+    // MARK: - Tools
+
     private func addExpression(with mathOperator: MathOperator) {
         calculator.add(number: 111)
         calculator.add(mathOperator: mathOperator)

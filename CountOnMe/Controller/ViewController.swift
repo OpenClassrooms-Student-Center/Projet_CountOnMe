@@ -9,15 +9,20 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var textView: UITextView!
 
+    // MARK: - INTERNAL
+
+    // MARK: Properties
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet var priorityOperatorButtons: [UIButton]!
-    
+
+    // MARK: Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         calculator.delegate = self
     }
-    
+
     @IBAction func didTapNumberButton(_ sender: UIButton) {
         calculator.add(number: sender.tag)
     }
@@ -44,14 +49,27 @@ class ViewController: UIViewController {
         cleaner.delegate?.clearAllString()
     }
 
+    // MARK: - PRIVATE
+
+    // MARK: Properties
+
     private let cleaner = CleanerImplementation()
 
     lazy private var calculator = CalculatorImplementation(cleaner: cleaner)
 
+    ///Returns true if the text of textView is empty or contains a relative sign
+    /// in order to prevent starting with a wrong operator
     private var haveToDisablePriorityOperatorButtons: Bool {
-        return textView.text == "" || textView.text == MathOperator.plus.symbol || textView.text == " \(MathOperator.plus.symbol) " || textView.text == MathOperator.minus.symbol || textView.text == " \(MathOperator.minus.symbol) "
+        return textView.text == ""
+            || textView.text == MathOperator.plus.symbol
+            || textView.text == " \(MathOperator.plus.symbol) "
+            || textView.text == MathOperator.minus.symbol
+            || textView.text == " \(MathOperator.minus.symbol) "
     }
 
+    // MARK: Methods
+
+    ///Presents an alert with the given title and message
     private func presentAlert(title: String, message: String) {
         let alertVC = UIAlertController(
             title: title,
@@ -68,11 +86,22 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: CalculatorDelegate {
+
+    // MARK: - INTERNAL
+
+    // MARK: Methods
+
+    ///Assigns the value of the given String to textView.text and controls the enable state of priorityOperatorButtons
     func didUpdateTextToCompute(text: String) {
         textView.text = text
         switchPriorityOperatorButtonsEnableState()
     }
 
+    // MARK: - PRIVATE
+
+    // MARK: Methods
+
+    ///Switches the enable state of priorityOperatorButton according to haveToDisablePriorityOperatorButtons
     private func switchPriorityOperatorButtonsEnableState() {
         if haveToDisablePriorityOperatorButtons {
             priorityOperatorButtons.forEach { $0.isEnabled = false }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CleanerDelegate {
+protocol CleanerDelegate: AnyObject {
     func clearString()
     func clearAllString()
 }

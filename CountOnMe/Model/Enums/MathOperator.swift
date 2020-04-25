@@ -10,7 +10,7 @@ import Foundation
 
 enum MathOperator: CaseIterable {
     case plus, minus, multiply, divide
-    
+
     var symbol: String {
         switch self {
         case .divide: return "÷"
