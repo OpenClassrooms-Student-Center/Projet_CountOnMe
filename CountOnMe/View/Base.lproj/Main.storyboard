@@ -250,7 +250,7 @@
                                     <constraint firstAttribute="height" constant="80" id="8XD-Ae-XkZ"/>
                                 </constraints>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="1+1=2" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
                                 <rect key="frame" x="16" y="16" width="288" height="111"/>
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
