@@ -18,7 +18,7 @@ class CalculatorDelegateMock: CalculatorDelegate {
     var operationString: String = ""
 
     ///Equals to CalculatorImplementation's result
-    var result: Float = 0
+    var total: Float = 0
 
     // MARK: Methods
 
@@ -29,6 +29,6 @@ class CalculatorDelegateMock: CalculatorDelegate {
 
     ///Assigns the value of the given Float to result
     func didUpdateResult(number: Float) {
-        result = number
+        total = number
     }
 }
