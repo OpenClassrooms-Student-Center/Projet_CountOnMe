@@ -17,18 +17,10 @@ class CalculatorDelegateMock: CalculatorDelegate {
     ///Equals to CalculatorImplementation's textToCompute
     var operationString: String = ""
 
-    ///Equals to CalculatorImplementation's result
-    var total: Float = 0
-
     // MARK: Methods
 
     ///Assigns the value of the given String to operationString
     func didUpdateTextToCompute(text: String) {
         operationString = text
-    }
-
-    ///Assigns the value of the given Float to result
-    func didUpdateResult(number: Float) {
-        total = number
     }
 }

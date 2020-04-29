@@ -1,4 +1,4 @@
-//
+// swiftlint:disable vertical_whitespace
 //  Calculator.swift
 //  CountOnMe
 //
@@ -16,20 +16,14 @@ class CalculatorImplementation: Calculator {
 
     weak var delegate: CalculatorDelegate?
 
-    ///It is useful for checking textToCompute and result in unit tests
-    let calculatorDelegateMock: CalculatorDelegateMock?
+
 
     // MARK: Methods
-
-    init(cleaner: CleanerImplementation, calculatorDelegateMock: CalculatorDelegateMock? = nil) {
-        self.calculatorDelegateMock = calculatorDelegateMock
-        self.cleaner = cleaner
-        self.cleaner.delegate = self
-    }
 
     ///Appends a number to textToCompute and reset it if needed
     func add(number: Int) {
         if shouldResetTextToCompute { textToCompute = "" }
+        if number == 0 && isAddingUnnecessaryZero { return }
         textToCompute.append("\(number)")
     }
 
@@ -78,15 +72,30 @@ class CalculatorImplementation: Calculator {
 
             replaceOperationByResult(in: &operationsToReduce, priorityOperatorIndex)
         }
-        textToCompute.append(" = \(result)")
+        textToCompute.append(" = \(formatResult())")
         shouldResetTextToCompute = true
     }
+
+    ///Clears totally textToCompute if shouldResetTextToCompute is true otherwise it removes only its last character
+    func deleteLastElement() {
+        if shouldResetTextToCompute {
+            deleteAllElements()
+        }
+        textToCompute = cleaner.clearLastElement(of: textToCompute)
+    }
+
+    ///Clears totally textToCompute
+    func deleteAllElements() {
+        textToCompute = cleaner.clearAll()
+    }
+
+
 
     // MARK: - PRIVATE
 
     // MARK: Properties
 
-    private let cleaner: CleanerImplementation
+    private let cleaner: Cleaner = CleanerImplementation()
 
     ///If it is true textToCompute is reset
     private var shouldResetTextToCompute = false
@@ -96,16 +105,11 @@ class CalculatorImplementation: Calculator {
         didSet {
             resetShouldResetTextToComputeIfNeeded()
             delegate?.didUpdateTextToCompute(text: textToCompute)
-            calculatorDelegateMock?.didUpdateTextToCompute(text: textToCompute)
         }
     }
 
     ///Contains the result of the expression
-    private var result: Float = 0 {
-        didSet {
-            calculatorDelegateMock?.didUpdateResult(number: result)
-        }
-    }
+    private var result: Float = 0
 
     ///It is equal to operationToReduce in order to verify if isDividingByZero
     private var elementsToReduce: [String] = []
@@ -128,20 +132,16 @@ class CalculatorImplementation: Calculator {
         elements.count >= 3
     }
 
+    private var isAddingUnnecessaryZero: Bool {
+        textToCompute.isEmpty || textToComputeHasRelativeSign || textToCompute.last == " "
+    }
+
     ///Checks if there is only a plus or minus sign in textToCompute
     private var textToComputeHasRelativeSign: Bool {
         textToCompute == MathOperator.plus.symbol || textToCompute == MathOperator.minus.symbol
     }
 
-    ///Checks if the expression contains a division by 0
-    private var isDividingByZero: Bool {
-        guard let divideIndex = elementsToReduce.firstIndex(of: MathOperator.divide.symbol) else { return false }
 
-        // Cast to Int because "00" != "0"
-        guard Int(elementsToReduce[divideIndex + 1]) == 0 else { return false }
-
-        return true
-    }
 
     // MARK: Methods
 
@@ -189,15 +189,30 @@ class CalculatorImplementation: Calculator {
     ) throws {
 
         if let index = priorityOperatorIndex {
-            guard let lhs = Float(array[index - 1]) else { throw CalculatorError.cannotAssignValue }
-            guard let rhs = Float(array[index + 1]) else { throw CalculatorError.cannotAssignValue }
+
+            guard let lhs = Float(array[index - 1]) else {
+                assertionFailure("cannotAssignValue")
+                throw CalculatorError.cannotAssignValue
+            }
+            guard let rhs = Float(array[index + 1]) else {
+                assertionFailure("cannotAssignValue")
+                throw CalculatorError.cannotAssignValue
+            }
 
             left = lhs
             mathOperator = array[index]
             right = rhs
+
         } else {
-            guard let lhs = Float(array[0]) else { throw CalculatorError.cannotAssignValue }
-            guard let rhs = Float(array[2]) else { throw CalculatorError.cannotAssignValue }
+
+            guard let lhs = Float(array[0]) else {
+                assertionFailure("cannotAssignValue")
+                throw CalculatorError.cannotAssignValue
+            }
+            guard let rhs = Float(array[2]) else {
+                assertionFailure("cannotAssignValue")
+                throw CalculatorError.cannotAssignValue
+            }
 
             left = lhs
             mathOperator = array[1]
@@ -211,8 +226,7 @@ class CalculatorImplementation: Calculator {
         case MathOperator.plus.symbol: result = left + right
         case MathOperator.minus.symbol: result = left - right
         case MathOperator.multiply.symbol: result = left * right
-        case MathOperator.divide.symbol:
-            if !isDividingByZero { result = left / right } else { throw CalculatorError.cannotDivideByZero }
+        case MathOperator.divide.symbol: result = left / right
         case "=": throw CalculatorError.equalSignFound
         default: throw CalculatorError.unknownOperatorFound
         }
@@ -240,27 +254,9 @@ class CalculatorImplementation: Calculator {
         array.insert("\(result)", at: 0)
         elementsToReduce = array
     }
-}
 
-// MARK: - Extensions
-
-extension CalculatorImplementation: CleanerDelegate {
-
-    // MARK: - INTERNAL
-
-    // MARK: Methods
-
-    ///Clears totally textToCompute if shouldResetTextToCompute is true otherwise it removes only its last character
-    func clearString() {
-        if shouldResetTextToCompute {
-            clearAllString()
-        } else {
-            textToCompute = cleaner.clear(textToCompute)
-        }
-    }
-
-    ///Clears totally textToCompute
-    func clearAllString() {
-        textToCompute = cleaner.clearAll()
+    ///Returns result without .0 if it is a natural number
+    private func formatResult() -> String {
+        return  NumberFormatter.localizedString(from: NSNumber(value: result), number: .decimal)
     }
 }

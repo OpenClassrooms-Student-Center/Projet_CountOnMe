@@ -1,4 +1,4 @@
-//
+// swiftlint:disable vertical_whitespace
 //  ViewController.swift
 //  SimpleCalc
 //
@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     // MARK: - INTERNAL
 
     // MARK: Properties
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var priorityOperatorButtons: [UIButton]!
+
+
 
     // MARK: Methods
 
@@ -42,20 +44,18 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTapClearButton(_ sender: UIButton) {
-        cleaner.delegate?.clearString()
+        calculator.deleteLastElement()
     }
 
     @IBAction func didTapClearAllButton(_ sender: UIButton) {
-        cleaner.delegate?.clearAllString()
+        calculator.deleteAllElements()
     }
 
     // MARK: - PRIVATE
 
     // MARK: Properties
 
-    private let cleaner = CleanerImplementation()
-
-    lazy private var calculator = CalculatorImplementation(cleaner: cleaner)
+    private var calculator = CalculatorImplementation()
 
     ///Returns true if the text of textView is empty or contains a relative sign
     /// in order to prevent starting with a wrong operator
@@ -66,6 +66,8 @@ class ViewController: UIViewController {
             || textView.text == MathOperator.minus.symbol
             || textView.text == " \(MathOperator.minus.symbol) "
     }
+
+
 
     // MARK: Methods
 
@@ -83,9 +85,18 @@ class ViewController: UIViewController {
         alertVC.addAction(alertAction)
         present(alertVC, animated: true)
     }
+
+    ///Switches the enable state of priorityOperatorButton according to haveToDisablePriorityOperatorButtons
+    private func switchPriorityOperatorButtonsEnableState() {
+        if haveToDisablePriorityOperatorButtons {
+            priorityOperatorButtons.forEach { $0.isEnabled = false }
+        } else if priorityOperatorButtons[0].isEnabled == false {
+            priorityOperatorButtons.forEach { $0.isEnabled = true }
+        }
+    }
 }
 
-extension ViewController: CalculatorDelegate {
+extension CalculatorViewController: CalculatorDelegate {
 
     // MARK: - INTERNAL
 
@@ -95,18 +106,5 @@ extension ViewController: CalculatorDelegate {
     func didUpdateTextToCompute(text: String) {
         textView.text = text
         switchPriorityOperatorButtonsEnableState()
-    }
-
-    // MARK: - PRIVATE
-
-    // MARK: Methods
-
-    ///Switches the enable state of priorityOperatorButton according to haveToDisablePriorityOperatorButtons
-    private func switchPriorityOperatorButtonsEnableState() {
-        if haveToDisablePriorityOperatorButtons {
-            priorityOperatorButtons.forEach { $0.isEnabled = false }
-        } else if priorityOperatorButtons[0].isEnabled == false {
-            priorityOperatorButtons.forEach { $0.isEnabled = true }
-        }
     }
 }

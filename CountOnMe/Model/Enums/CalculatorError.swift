@@ -11,7 +11,6 @@ import Foundation
 enum CalculatorError: Error {
     case expressionIsIncorrect
     case expressionIsIncomplete
-    case cannotDivideByZero
     case cannotAssignValue
     case equalSignFound
     case unknownOperatorFound
@@ -20,7 +19,6 @@ enum CalculatorError: Error {
         switch self {
         case .expressionIsIncorrect: return "Incorrect"
         case .expressionIsIncomplete: return "Incomplete"
-        case .cannotDivideByZero: return "Dividing by 0"
         case .cannotAssignValue: return "Cannot assign value"
         case .equalSignFound: return "Equal sign found"
         case .unknownOperatorFound: return "Unknown operator"
@@ -30,7 +28,6 @@ enum CalculatorError: Error {
         switch self {
         case .expressionIsIncorrect: return "The expression is not correct !\nPlease enter a number after the operator."
         case .expressionIsIncomplete: return "The expression is not complete ! Please enter a number or an operator."
-        case .cannotDivideByZero: return "You are trying to divide by zero ! Please enter another number."
         case .cannotAssignValue: return "We cannot split the expression in 3 parts !"
         case .equalSignFound: return "There is already a result ! Please start a new operation."
         case .unknownOperatorFound: return "You have entered an unknown operator !"

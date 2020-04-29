@@ -12,14 +12,10 @@ class CleanerImplementation: Cleaner {
 
     // MARK: - INTERNAL
 
-    // MARK: Properties
-
-    weak var delegate: CleanerDelegate?
-
     // MARK: Methods
 
     ///Returns the given String without its last or 3 last characters if there is a space
-    func clear(_ string: String) -> String {
+    func clearLastElement(of string: String) -> String {
         return string.last == " " ? String(string.dropLast(3)) : String(string.dropLast())
     }
 

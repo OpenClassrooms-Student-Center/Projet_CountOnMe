@@ -9,8 +9,7 @@
 import Foundation
 
 protocol Cleaner {
-    var delegate: CleanerDelegate? { get set }
 
-    func clear(_ string: String) -> String
+    func clearLastElement(of string: String) -> String
     func clearAll() -> String
 }
