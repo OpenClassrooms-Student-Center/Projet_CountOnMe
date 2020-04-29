@@ -18,7 +18,8 @@ class SimpleCalcTests: XCTestCase {
         super.setUp()
         cleaner = CleanerImplementation()
         calculatorDelegateMock = CalculatorDelegateMock()
-        calculator = CalculatorImplementation(cleaner: cleaner, calculatorDelegateMock: calculatorDelegateMock)
+        calculator = CalculatorImplementation()
+        calculator.delegate = calculatorDelegateMock
     }
 
     // MARK: - Verify adding relative numbers in lhs and replace an operator with another
@@ -45,6 +46,31 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(mathOperator: .minus)
 
         checkOperationStringEqualsTo("-111 - ")
+    }
+
+    // MARK: - Verify cannot add unnecessary 0
+
+    func testGivenTextToComputeIsEmpty_WhenAdding0_ThenTextToComputeRemainsEmpty() {
+        calculator.add(number: 0)
+
+        checkOperationStringEqualsTo("")
+    }
+
+    func testGivenTextToComputeHasRelativeSign_WhenAdding0_ThenTextTocomputeRemainsEmpty() {
+        calculator.add(mathOperator: .minus)
+
+        calculator.add(number: 0)
+
+        checkOperationStringEqualsTo("-")
+    }
+
+    func testGivenTextToComputeHasIncompleteExpression_WhenAdding0_ThenTextTocomputeRemainsUnchanged() {
+        calculator.add(number: 1)
+        calculator.add(mathOperator: .divide)
+
+        calculator.add(number: 0)
+
+        checkOperationStringEqualsTo("1 ÷ ")
     }
 
     // MARK: - Verify correctness of expression
@@ -74,7 +100,7 @@ class SimpleCalcTests: XCTestCase {
 
         try? calculator.calculate()
 
-        checkTotalEqualsTo(222)
+        checkOperationStringEqualsTo("111 + 111 = 222")
     }
 
     func testGivenTextToComputeHasCompleteExpressionOfSubstraction_WhenCalculate_ThenResultIs0() {
@@ -82,7 +108,7 @@ class SimpleCalcTests: XCTestCase {
 
         try? calculator.calculate()
 
-        checkTotalEqualsTo(0)
+        checkOperationStringEqualsTo("111 - 111 = 0")
     }
 
     func testGivenTextToComputeHasCompleteExpressionOfMultiplication_WhenCalculate_ThenResultIs12321() {
@@ -90,7 +116,7 @@ class SimpleCalcTests: XCTestCase {
 
         try? calculator.calculate()
 
-        checkTotalEqualsTo(12321)
+        checkOperationStringEqualsTo("111 × 111 = 12,321")
     }
 
     func testGivenTextToComputeHasCompleteExpressionOfDivision_WhenCalculate_ThenResultIs1() {
@@ -98,10 +124,10 @@ class SimpleCalcTests: XCTestCase {
 
         try? calculator.calculate()
 
-        checkTotalEqualsTo(1)
+        checkOperationStringEqualsTo("111 ÷ 111 = 1")
     }
 
-    // MARK: - Verify calculation priority rules and division by 0
+    // MARK: - Verify calculation priority rules
 
     func testGivenTextToComputeHasCompleteExpressionOfAddidtionAndMultiplication_WhenCalculate_ThenResultIs277Point5() {
         addExpression(with: .plus)
@@ -111,17 +137,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(number: 2)
         try? calculator.calculate()
 
-        checkTotalEqualsTo(277.5)
-    }
-
-    func testGivenTextToComputeHasCompleteExpressionOfDisionBy0_WhenCalculate_ThenResultIsNil() {
-        calculator.add(number: 12)
-        calculator.add(mathOperator: .divide)
-        calculator.add(number: 2)
-        calculator.add(mathOperator: .divide)
-        calculator.add(number: 0)
-
-        try? checkCalculatorError(.cannotDivideByZero)
+        checkOperationStringEqualsTo("111 + 111 × 3 ÷ 2 = 277.5")
     }
 
     // MARK: - Verify clearing
@@ -129,7 +145,7 @@ class SimpleCalcTests: XCTestCase {
     func testGivenTextToComputeHasCompleteExpression_WhenClear_ThenTextToComputeHas1CharacterLess() {
         addExpression(with: .plus)
 
-        cleaner.delegate?.clearString()
+        calculator.deleteLastElement()
 
         checkOperationStringEqualsTo("111 + 11")
     }
@@ -138,7 +154,7 @@ class SimpleCalcTests: XCTestCase {
         calculator.add(number: 1)
         calculator.add(mathOperator: .plus)
 
-        cleaner.delegate?.clearString()
+        calculator.deleteLastElement()
 
         checkOperationStringEqualsTo("1")
     }
@@ -147,7 +163,7 @@ class SimpleCalcTests: XCTestCase {
         addExpression(with: .plus)
         try? calculator.calculate()
 
-        cleaner.delegate?.clearString()
+        calculator.deleteLastElement()
 
         checkOperationStringEqualsTo("")
     }
@@ -155,7 +171,7 @@ class SimpleCalcTests: XCTestCase {
     func testGivenTextToComputeHasCompleteExpression_WhenClearAll_ThenTextToComputeIsEmpty() {
         addExpression(with: .plus)
 
-        cleaner.delegate?.clearAllString()
+        calculator.deleteAllElements()
 
         checkOperationStringEqualsTo("")
     }
@@ -198,15 +214,11 @@ class SimpleCalcTests: XCTestCase {
     }
 
     private func checkOperationStringEqualsTo(_ string: String) {
-        XCTAssertEqual(calculator.calculatorDelegateMock?.operationString, string)
-    }
-
-    private func checkTotalEqualsTo(_ number: Float) {
-        XCTAssertEqual(calculator.calculatorDelegateMock?.total, number)
+        XCTAssertEqual(calculatorDelegateMock.operationString, string)
     }
 
     private func checkCalculatorError(_ err: CalculatorError) throws {
-        XCTAssertThrowsError(try calculator.calculate(), "explaination") { (error) in
+        XCTAssertThrowsError(try calculator.calculate(), "cannot calculate") { (error) in
             let calculatorError = error as? CalculatorError
             XCTAssertEqual(calculatorError, err)
         }
