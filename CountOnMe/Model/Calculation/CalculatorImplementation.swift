@@ -51,7 +51,6 @@ class CalculatorImplementation: Calculator {
 
         //Create local copy of operations
         var operationsToReduce = elements
-        elementsToReduce = elements
         var priorityOperatorIndex: Int?
         var left: Float = 0
         var mathOperator = ""
@@ -72,7 +71,7 @@ class CalculatorImplementation: Calculator {
 
             replaceOperationByResult(in: &operationsToReduce, priorityOperatorIndex)
         }
-        textToCompute.append(" = \(formatResult())")
+        textToCompute.append(" = \(formattedResult)")
         shouldResetTextToCompute = true
     }
 
@@ -80,8 +79,9 @@ class CalculatorImplementation: Calculator {
     func deleteLastElement() {
         if shouldResetTextToCompute {
             deleteAllElements()
+        } else {
+            textToCompute = cleaner.clearLastElement(of: textToCompute)
         }
-        textToCompute = cleaner.clearLastElement(of: textToCompute)
     }
 
     ///Clears totally textToCompute
@@ -111,8 +111,10 @@ class CalculatorImplementation: Calculator {
     ///Contains the result of the expression
     private var result: Float = 0
 
-    ///It is equal to operationToReduce in order to verify if isDividingByZero
-    private var elementsToReduce: [String] = []
+    ///Returns result without .0 if it is a natural number
+    private var formattedResult: String {
+        NumberFormatter.localizedString(from: NSNumber(value: result), number: .decimal)
+    }
 
     ///This array contains each element of the expression
     private var elements: [String] {
@@ -242,7 +244,6 @@ class CalculatorImplementation: Calculator {
             }
 
             array.insert("\(result)", at: index)
-            elementsToReduce = array
         } else {
             putResultAtFirst(of: &array)
         }
@@ -252,11 +253,5 @@ class CalculatorImplementation: Calculator {
     private func putResultAtFirst(of array: inout [String]) {
         array = Array(array.dropFirst(3))
         array.insert("\(result)", at: 0)
-        elementsToReduce = array
-    }
-
-    ///Returns result without .0 if it is a natural number
-    private func formatResult() -> String {
-        return  NumberFormatter.localizedString(from: NSNumber(value: result), number: .decimal)
     }
 }

@@ -60,7 +60,7 @@ class CalculatorViewController: UIViewController {
     ///Returns true if the text of textView is empty or contains a relative sign
     /// in order to prevent starting with a wrong operator
     private var haveToDisablePriorityOperatorButtons: Bool {
-        return textView.text == ""
+        textView.text == ""
             || textView.text == MathOperator.plus.symbol
             || textView.text == " \(MathOperator.plus.symbol) "
             || textView.text == MathOperator.minus.symbol
@@ -97,10 +97,6 @@ class CalculatorViewController: UIViewController {
 }
 
 extension CalculatorViewController: CalculatorDelegate {
-
-    // MARK: - INTERNAL
-
-    // MARK: Methods
 
     ///Assigns the value of the given String to textView.text and controls the enable state of priorityOperatorButtons
     func didUpdateTextToCompute(text: String) {
