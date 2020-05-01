@@ -50,26 +50,13 @@ class CalculatorImplementation: Calculator {
         try verifyExpression()
 
         //Create local copy of operations
-        var operationsToReduce = elements
-        var priorityOperatorIndex: Int?
-        var left: Float = 0
-        var mathOperator = ""
-        var right: Float = 0
+        operationsToReduce = elements
 
         // Iterate over operations while an mathOperator still here
         while operationsToReduce.count > 1 {
-            priorityOperatorIndex = getPriorityOperatorIndex(in: operationsToReduce)
-
-            try assignValueForEachPartOfExpression(
-                from: operationsToReduce,
-                priorityOperatorIndex,
-                &left,
-                &mathOperator,
-                &right)
-
-            try performCalculation(left, mathOperator, right)
-
-            replaceOperationByResult(in: &operationsToReduce, priorityOperatorIndex)
+            try assignValueForEachPartOfExpression(with: operatorIndex)
+            try performCalculation()
+            replaceOperationByResult(at: operatorIndex)
         }
         textToCompute.append(" = \(formattedResult)")
         shouldResetTextToCompute = true
@@ -108,18 +95,13 @@ class CalculatorImplementation: Calculator {
         }
     }
 
-    ///Contains the result of the expression
-    private var result: Float = 0
-
-    ///Returns result without .0 if it is a natural number
-    private var formattedResult: String {
-        NumberFormatter.localizedString(from: NSNumber(value: result), number: .decimal)
-    }
-
     ///This array contains each element of the expression
     private var elements: [String] {
         textToCompute.split(separator: " ").map { "\($0)" }
     }
+
+    ///Equals to elements
+    var operationsToReduce = [String]()
 
     ///Checks if the last element of the expression is a math operator
     private var expressionIsCorrect: Bool {
@@ -143,6 +125,29 @@ class CalculatorImplementation: Calculator {
         textToCompute == MathOperator.plus.symbol || textToCompute == MathOperator.minus.symbol
     }
 
+    ///Returns either the index of a priority operator or 1
+    private var operatorIndex: Int {
+        guard let priorityOperatorIndex = getPriorityOperatorIndex() else { return 1 }
+        return priorityOperatorIndex
+    }
+
+    ///If the expression is 1 + 2, left = 1
+    private var left: Float = 0
+
+    ///If the expression is 1 + 2, mathOperator = "+"
+    private var mathOperator = ""
+
+    ///If the expression is 1 + 2, right = 2
+    private var right: Float = 0
+
+    ///Contains the result of the expression
+    private var result: Float = 0
+
+    ///Returns result without .0 if it is a natural number
+    private var formattedResult: String {
+        NumberFormatter.localizedString(from: NSNumber(value: result), number: .decimal)
+    }
+
 
 
     // MARK: Methods
@@ -161,69 +166,34 @@ class CalculatorImplementation: Calculator {
 
     ///Throws an error if the expression is invalid
     private func verifyExpression() throws {
-        guard expressionIsCorrect else {
-            throw CalculatorError.expressionIsIncorrect
-        }
-
-        guard expressionHasEnoughElement else {
-            throw CalculatorError.expressionIsIncomplete
-        }
+        guard expressionIsCorrect else { throw CalculatorError.expressionIsIncorrect }
+        guard expressionHasEnoughElement else { throw CalculatorError.expressionIsIncomplete }
     }
 
     ///Returns the index of the first division or multiply sign if possible
-    private func getPriorityOperatorIndex(in array: [String]) -> Int? {
-        if let divideIndex = array.firstIndex(of: MathOperator.divide.symbol) {
+    private func getPriorityOperatorIndex() -> Int? {
+        if let divideIndex = operationsToReduce.firstIndex(of: MathOperator.divide.symbol) {
             return divideIndex
-        } else if let multiplyIndex = array.firstIndex(of: MathOperator.multiply.symbol) {
+        } else if let multiplyIndex = operationsToReduce.firstIndex(of: MathOperator.multiply.symbol) {
             return multiplyIndex
         }
         return nil
     }
 
-    ///Tries to assign to left, mathOperator and right an element of the expression
-    ///according to priorityOperatorIndex if there is one otherwise it throws an error
-    private func assignValueForEachPartOfExpression(
-        from array: [String],
-        _ priorityOperatorIndex: Int?,
-        _ left: inout Float,
-        _ mathOperator:  inout String,
-        _ right: inout Float
-    ) throws {
+    ///Tries to assigns to left, mathOperator and right an element of the expression otherwise it throws an error
+    private func assignValueForEachPartOfExpression(with index: Int) throws {
+        guard
+            let lhs = Float(operationsToReduce[index - 1]),
+            let rhs = Float(operationsToReduce[index + 1])
+            else { throw CalculatorError.cannotAssignValue }
 
-        if let index = priorityOperatorIndex {
-
-            guard let lhs = Float(array[index - 1]) else {
-                assertionFailure("cannotAssignValue")
-                throw CalculatorError.cannotAssignValue
-            }
-            guard let rhs = Float(array[index + 1]) else {
-                assertionFailure("cannotAssignValue")
-                throw CalculatorError.cannotAssignValue
-            }
-
-            left = lhs
-            mathOperator = array[index]
-            right = rhs
-
-        } else {
-
-            guard let lhs = Float(array[0]) else {
-                assertionFailure("cannotAssignValue")
-                throw CalculatorError.cannotAssignValue
-            }
-            guard let rhs = Float(array[2]) else {
-                assertionFailure("cannotAssignValue")
-                throw CalculatorError.cannotAssignValue
-            }
-
-            left = lhs
-            mathOperator = array[1]
-            right = rhs
-        }
+        left = lhs
+        mathOperator = operationsToReduce[index]
+        right = rhs
     }
 
     ///Tries to calculate result with right and left according to mathOperator otherwise it throws an error
-    private func performCalculation(_ left: Float, _ mathOperator: String, _ right: Float) throws {
+    private func performCalculation() throws {
         switch mathOperator {
         case MathOperator.plus.symbol: result = left + right
         case MathOperator.minus.symbol: result = left - right
@@ -235,23 +205,8 @@ class CalculatorImplementation: Calculator {
     }
 
     ///Replace the operation which has just been carried out by its result in the given array
-    private func replaceOperationByResult(in array: inout [String], _ priorityOperatorIndex: Int? ) {
-        if var index = priorityOperatorIndex {
-            index -= 1
-
-            for _ in 1...3 {
-                array.remove(at: index)
-            }
-
-            array.insert("\(result)", at: index)
-        } else {
-            putResultAtFirst(of: &array)
-        }
-    }
-
-    ///Removes the 3 first elements of the given array and insert the result at the first index
-    private func putResultAtFirst(of array: inout [String]) {
-        array = Array(array.dropFirst(3))
-        array.insert("\(result)", at: 0)
+    private func replaceOperationByResult(at index: Int) {
+        for _ in 1...3 { operationsToReduce.remove(at: index - 1) }
+        operationsToReduce.insert("\(result)", at: index - 1)
     }
 }
