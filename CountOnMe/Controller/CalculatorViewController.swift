@@ -51,6 +51,8 @@ class CalculatorViewController: UIViewController {
         calculator.deleteAllElements()
     }
 
+
+
     // MARK: - PRIVATE
 
     // MARK: Properties
@@ -58,13 +60,11 @@ class CalculatorViewController: UIViewController {
     private var calculator = CalculatorImplementation()
 
     ///Returns true if the text of textView is empty or contains a relative sign
-    /// in order to prevent starting with a wrong operator
+    ///in order to prevent starting with a wrong operator
     private var haveToDisablePriorityOperatorButtons: Bool {
         textView.text == ""
             || textView.text == MathOperator.plus.symbol
-            || textView.text == " \(MathOperator.plus.symbol) "
             || textView.text == MathOperator.minus.symbol
-            || textView.text == " \(MathOperator.minus.symbol) "
     }
 
 

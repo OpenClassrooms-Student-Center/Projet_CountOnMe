@@ -54,9 +54,10 @@ class CalculatorImplementation: Calculator {
 
         // Iterate over operations while an mathOperator still here
         while operationsToReduce.count > 1 {
-            try assignValueForEachPartOfExpression(with: operatorIndex)
+            let index = getOperatorIndex()
+            try assignValueForEachPartOfExpression(with: index)
             try performCalculation()
-            replaceOperationByResult(at: operatorIndex)
+            replaceOperationByResult(at: index)
         }
         textToCompute.append(" = \(formattedResult)")
         shouldResetTextToCompute = true
@@ -125,12 +126,6 @@ class CalculatorImplementation: Calculator {
         textToCompute == MathOperator.plus.symbol || textToCompute == MathOperator.minus.symbol
     }
 
-    ///Returns either the index of a priority operator or 1
-    private var operatorIndex: Int {
-        guard let priorityOperatorIndex = getPriorityOperatorIndex() else { return 1 }
-        return priorityOperatorIndex
-    }
-
     ///If the expression is 1 + 2, left = 1
     private var left: Float = 0
 
@@ -170,14 +165,17 @@ class CalculatorImplementation: Calculator {
         guard expressionHasEnoughElement else { throw CalculatorError.expressionIsIncomplete }
     }
 
-    ///Returns the index of the first division or multiply sign if possible
-    private func getPriorityOperatorIndex() -> Int? {
+    ///Returns the index of the first division or multiply sign if possible otherwise it returns 1
+    private func getOperatorIndex() -> Int {
+        var index = 1
         if let divideIndex = operationsToReduce.firstIndex(of: MathOperator.divide.symbol) {
-            return divideIndex
+            index = divideIndex
+            return index
         } else if let multiplyIndex = operationsToReduce.firstIndex(of: MathOperator.multiply.symbol) {
-            return multiplyIndex
+            index = multiplyIndex
+            return index
         }
-        return nil
+        return index
     }
 
     ///Tries to assigns to left, mathOperator and right an element of the expression otherwise it throws an error

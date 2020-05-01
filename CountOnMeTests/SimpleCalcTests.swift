@@ -73,20 +73,20 @@ class SimpleCalcTests: XCTestCase {
         checkOperationStringEqualsTo("1 ÷ ")
     }
 
-    // MARK: - Verify correctness of expression
+    // MARK: - Verify validity of expression
 
-    func testGivenTextToComputeIsEmpty_WhenCalculate_ThenResultIsNilThrowsErrorIncomplete() {
+    func testGivenTextToComputeIsEmpty_WhenCalculate_ThenThrowsErrorIncomplete() {
         try? checkCalculatorError(.expressionIsIncomplete)
     }
 
-    func testGivenTextToComputeExpressionIsNotCorrect_WhenCalculate_ThenResultIsNilAndThrowsErrorIncorrect() {
+    func testGivenTextToComputeExpressionIsNotCorrect_WhenCalculate_ThenThrowsErrorIncorrect() {
         calculator.add(number: -111)
         calculator.add(mathOperator: .plus)
 
         try? checkCalculatorError(.expressionIsIncorrect)
     }
 
-    func testGivenTextToComputeHasResult_WhenCalculateAgain_ThenResultIsNilAndThrowsErrorEqualSignFound() {
+    func testGivenTextToComputeHasResult_WhenCalculateAgain_ThenAndThrowsErrorEqualSignFound() {
         addExpression(with: .plus)
         try? calculator.calculate()
 
