@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         setupButtons()
 
         textView.layer.cornerRadius = 6.0
+        textView.text = calculator.operationStr
     }
 
     // MARK: - When a button is tapped
@@ -36,24 +37,33 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedCommaButton(_ sender: UIButton) {
-        calculator.addDecimal()
+        do {
+            try calculator.addDecimal()
+        } catch {
+            handleCalculatorError(error: error)
+        }
     }
 
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        calculator.addOperator("+")
+    private func handleCalculatorError(error: Error) {
+        guard let calculatorError = error as? CalculatorError else {
+            return
+        }
+
+       let alert = UIAlertController(title: calculatorError.title, message: calculatorError.message,
+                                     preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in self.calculator.reset()}))
+        present(alert, animated: true)
     }
 
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        calculator.addOperator("-")
-    }
-
-    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        calculator.addOperator("x")
-    }
-
-    @IBAction func tappedDivisionButton(_ sender: UIButton) {
-        calculator.addOperator("/")
-    }
+    @IBAction func tappedOperationButton(_ sender: UIButton) {
+        do {
+            guard let symbol = sender.title(for: .normal)
+               else { return }
+           try calculator.addOperator(symbol)
+        } catch {
+            handleCalculatorError(error: error)
+        }
+       }
 
     @IBAction func tappedClearButton(_ sender: UIButton) {
         calculator.reset()
@@ -61,7 +71,11 @@ class ViewController: UIViewController {
 
     // When Button "=" is tapped -> Display operation's result
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        calculator.tappedEqual()
+        do {
+            try calculator.tappedEqual()
+        } catch {
+            handleCalculatorError(error: error)
+        }
     }
 
     private let calculator = Calculator()
@@ -78,13 +92,7 @@ class ViewController: UIViewController {
 
 extension ViewController: CalculatorDelegate {
 
-    func updateText(_ operation: String) {
+    func operationStringDidUpdate(_ operation: String) {
         textView.text = operation
-    }
-
-    func presentAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { _ in self.calculator.reset()}))
-        present(alert, animated: true)
     }
 }

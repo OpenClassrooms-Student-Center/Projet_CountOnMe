@@ -9,8 +9,7 @@
 import Foundation
 
 protocol CalculatorDelegate: class {
-    func updateText(_ operation: String)
-    func presentAlert(title: String, message: String)
+    func operationStringDidUpdate(_ operation: String)
 }
 
 class Calculator {
@@ -18,56 +17,13 @@ class Calculator {
     weak var delegate: CalculatorDelegate?
 
     func displayText(operationStr: String) {
-        delegate?.updateText(operationStr)
+        delegate?.operationStringDidUpdate(operationStr)
     }
 
-    var operationStr: String = ""{
+    var operationStr: String = "" {
         didSet {
             displayText(operationStr: operationStr)
         }
-    }
-
-    private var elements: [String] {
-        return operationStr.split(separator: " ").map { "\($0)" }
-    }
-
-    private var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
-    }
-
-    private var expressionAlreadySolved: Bool {
-        return operationStr.contains("=")
-    }
-
-    // Check if we have: Operand - Operator - Operand
-    private var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-
-    private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
-    }
-
-    private var expressionHaveResult: Bool {
-        return operationStr.firstIndex(of: "=") != nil
-    }
-
-    private var atLeastOneNumber: Bool {
-        if operationStr >= "0" {
-            return elements.count >= 1
-        } else {
-            delegate?.presentAlert(title: "Erreur",
-                                   message: "Vous ne pouvez pas mettre un opérateur sans un nombre avant !")
-        }
-        return false
-    }
-
-    private var divideByZero: Bool {
-        return operationStr.contains("/ 0")
-    }
-
-    private var isDecimal: Bool {
-        return elements.last?.firstIndex(of: ".") != nil
     }
 
     func addNumber(_ number: String) {
@@ -77,12 +33,12 @@ class Calculator {
         operationStr.append(number)
     }
 
-    func addDecimal() {
+    func addDecimal() throws {
         if atLeastOneNumber {
             if !isDecimal {
                 operationStr.append(".")
             } else {
-                delegate?.presentAlert(title: "Erreur", message: "Il s'agit déjà d'un décimal !")
+                CalculatorErrors.decimalIsAlreadyPresent
             }
         } else {
             operationStr.append("0.")
@@ -97,9 +53,9 @@ class Calculator {
         return value
     }
 
- // MARK: - Operation
+    // MARK: Operation
 
-    func addOperator(_ element: String) {
+    func addOperator(_ element: String) throws {
         result()
         if atLeastOneNumber {
             if canAddOperator {
@@ -113,24 +69,16 @@ class Calculator {
                 case "/":
                     operationStr.append(" / ")
                 default:
-                    delegate?.presentAlert(title: "Erreur", message: "Ceci n'est pas un opérateur !")
+                    CalculatorErrors.numberIsMissing
                 }
             } else {
-                delegate?.presentAlert(title: "Erreur", message: "Un operateur est déja mis !")
+                CalculatorErrors.anOperatorIsAlreadyPresent
             }
         }
     }
 
     func reset() {
         operationStr = ""
-    }
-
-    private func result() {
-        if expressionHaveResult {
-            if let resultat = elements.last {
-                operationStr = resultat
-            }
-        }
     }
 
     func operationPriority(operation: [String]) -> Int? {
@@ -150,35 +98,86 @@ class Calculator {
         return operatorIndex
     }
 
-    func tappedEqual() {
+    func tappedEqual() throws {
         var operations = elements
         var result = ""
         if expressionIsCorrect && expressionHaveEnoughElement && !divideByZero && !expressionAlreadySolved {
-        while operations.count > 1 {
-                    if let index = operationPriority(operation: operations) {
-                        let calculOperator = operations[index]
+            while operations.count > 1 {
+                if let index = operationPriority(operation: operations) {
+                    let calculOperator = operations[index]
                     guard let left = Double(operations[index - 1]) else {
-                        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
+                        CalculatorErrors.expressionIsNotCorrect
                         return }
                     guard let right = Double(operations[index + 1]) else {
-                        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
+                        CalculatorErrors.expressionIsNotCorrect
                         return }
-                        result = format(number: processCalcul(left: left, right: right, operand: calculOperator))
-                        operations[index] = result
-                        operations.remove(at: index + 1)
-                        operations.remove(at: index - 1)
-                    }
+                    result = format(number: processCalcul(left: left, right: right, operand: calculOperator))
+                    operations[index] = result
+                    operations.remove(at: index + 1)
+                    operations.remove(at: index - 1)
+                }
             }
-                operationStr += " = \(operations[0])"
-                delegate?.updateText(result)
+            operationStr += " = \(operations[0])"
+            delegate?.operationStringDidUpdate(result)
         } else {
-        delegate?.presentAlert(title: "Erreur", message: "Entrez une expression correcte !")
-        return
+            CalculatorErrors.expressionIsNotCorrect
+            return
         }
     }
 
-private func processCalcul(left: Double, right: Double, operand: String) -> Double {
-    var result: Double = 0
+    // MARK: - Private
+
+    private var elements: [String] {
+        return operationStr.split(separator: " ").map { "\($0)" }
+    }
+
+    private var expressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    }
+
+    private var expressionAlreadySolved: Bool {
+        return operationStr.contains("=")
+    }
+
+    private var expressionHaveEnoughElement: Bool {
+        return elements.count >= 3
+    }
+
+    private var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    }
+
+    private var expressionHaveResult: Bool {
+        return operationStr.firstIndex(of: "=") != nil
+    }
+
+    private var atLeastOneNumber: Bool {
+        if operationStr >= "0" {
+            return elements.count >= 1
+        } else {
+            CalculatorErrors.numberIsMissing
+        }
+        return false
+    }
+
+    private var divideByZero: Bool {
+        return operationStr.contains("/ 0")
+    }
+
+    private var isDecimal: Bool {
+        return elements.last?.firstIndex(of: ".") != nil
+    }
+
+    private func result() {
+        if expressionHaveResult {
+            if let resultat = elements.last {
+                operationStr = resultat
+            }
+        }
+    }
+
+    private func processCalcul(left: Double, right: Double, operand: String) -> Double {
+        var result: Double = 0
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
