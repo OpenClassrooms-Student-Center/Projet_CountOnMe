@@ -6,8 +6,12 @@
 //  Copyright © 2020 Vincent Saluzzo. All rights reserved.
 //
 
-import Foundation
-
 class SimpleCalc {
-
+    
+    weak var delegate: SimpleCalcDelegate?
+    
+    func somme() -> Void{
+        
+        delegate?.didDataProcessing(elements: [])
+    }
 }

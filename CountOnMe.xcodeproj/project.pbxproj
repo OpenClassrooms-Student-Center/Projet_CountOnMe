@@ -17,6 +17,7 @@
 		1FA43BF3224E569A00F565CB /* SimpleCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */; };
 		3A81056629B24C268D92676B /* Pods_CountOnMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B939E0F3FD78417C8472D8 /* Pods_CountOnMe.framework */; };
 		6FDA673DDDFD099416B6215C /* Pods_CountOnMe_CountOnMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFFBF2590837FC49598F763 /* Pods_CountOnMe_CountOnMeUITests.framework */; };
+		D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */; };
 		D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		C6D498D8F0B03B2E0BC1CF29 /* Pods-CountOnMe-CountOnMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe-CountOnMeUITests/Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D33D9128E6080E30904B4F41 /* Pods-CountOnMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe/Pods-CountOnMe.debug.xcconfig"; sourceTree = "<group>"; };
 		D7EA38E5D6A367AE840EF4A3 /* Pods_CountOnMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountOnMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcDelegate.swift; sourceTree = "<group>"; };
 		D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalc.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */,
+				D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
+				D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,7 +641,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = SimpleCalcTests/Info.plist;
+				INFOPLIST_FILE = CountOnMeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -658,7 +662,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = SimpleCalcTests/Info.plist;
+				INFOPLIST_FILE = CountOnMeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -678,7 +682,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = SimpleCalcUITests/Info.plist;
+				INFOPLIST_FILE = CountOnMeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -698,7 +702,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = SimpleCalcUITests/Info.plist;
+				INFOPLIST_FILE = CountOnMeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
