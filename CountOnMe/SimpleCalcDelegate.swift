@@ -8,5 +8,5 @@
 
 import Foundation
 protocol SimpleCalcDelegate: AnyObject {
-    func didDataProcessing(elements: [String]) -> [String]
+    func didRefreshScreenResult()
 }

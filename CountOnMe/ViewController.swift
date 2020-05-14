@@ -15,169 +15,83 @@ class ViewController: UIViewController, SimpleCalcDelegate {
     
     /// View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
+        guard let digitTxt = sender.title(for: .normal) else {
             return
         }
-        
-        if expressionHaveResult {
-            textView.text = ""
-        }
-        textView.text.append(numberText)
+
+        processCalc.addDigit(digitTxt: digitTxt)
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" + ")
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        guard let operatorChar = sender.title(for: .normal) else { return }
+        processCalc.addOperator(operatorChar: operatorChar)
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" - ")
+        guard let operatorChar = sender.title(for: .normal) else { return }
+        processCalc.addOperator(operatorChar: operatorChar)
+   /*     if canAddOperator {
+             processCalc.addOperator(operatorChar: sender)
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        }*/
     }
     
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" / ")
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        guard let operatorChar = sender.title(for: .normal) else { return }
+        processCalc.addOperator(operatorChar: operatorChar)
     }
     
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        if canAddOperator {
+        guard let operatorChar = sender.title(for: .normal) else { return }
+        processCalc.addOperator(operatorChar: operatorChar)
+      /*  if canAddOperator {
             textView.text.append(" * ")
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        }*/
     }
     
     @IBAction func tappedPercentageButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" % ")
+        guard let operatorChar = sender.title(for: .normal) else { return }
+        processCalc.addOperator(operatorChar: operatorChar)
+        
+        /*if canAddOperator {
+            processCalc.addOperator(operatorChar: sender)
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+        }*/
     }
     
     @IBAction func tappedCommaButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(",")
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }
+         processCalc.addComma()
     }
     
     @IBAction func tappedReverseButton(_ sender: UIButton) {
-        let nbCharToDelete: Int
-        let lastFigure = textView.text.split(separator: " ").last
-        guard var figure = lastFigure else { return }
-        if textView.text.count > figure.count {
-            nbCharToDelete = figure.count + 1
-        } else {
-            nbCharToDelete = figure.count
-        }
-        textView.text.removeLast(nbCharToDelete)
-        if figure.first == "-" {
-            figure.removeFirst()
-        } else {
-            figure.insert("-", at: figure.startIndex)
-        }
-        textView.text.append(contentsOf: " " + figure + " ")
+        processCalc.reverseFigure()
     }
     
     @IBAction func tappedCEButton(_ sender: UIButton) {
-        textView.text.removeAll()
+         processCalc.deleteElement(all: true)
     }
     
     @IBAction func tappedCButton(_ sender: UIButton) {
-        if textView.text.count >= 1 {
-            textView.text.removeLast(1)
-        }
+        processCalc.deleteElement(all: false)
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
-            alertMessage(title: "Zéro!", message: "Entrez une expression correcte !")
-            return
-        }
-        
-        guard expressionHaveEnoughElement else {
-            alertMessage(title: "Zéro!", message: "Démarrez un nouveau calcul !")
-            return
-        }
-        
-        // Create local copy of operations
-        var operationsToReduce = elements
-        let processCalc = SimpleCalc()
-        processCalc.delegate = self
-        //processCalc.viewController = self
-    
-        let result = simpleCalcDelegate!.didDataProcessing(elements: elements)
-        print("\(result)")
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-            
-            let result: Int
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "*": result = left * right
-            case "/": result = left / right
-            case "%": result = left % right
-            default: fatalError("Unknown operator !")
-            }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
-        }
-        textView.text.append(" = \(operationsToReduce.first!)")
-    }
-    
-    var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
-    }
-    // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" &&
-            elements.last != "-" &&
-            elements.last != "*" &&
-            elements.last != "/" &&
-            elements.last != "%"
-    }
-    
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
-    
-    var canAddOperator: Bool {
-        return elements.last != "+" &&
-            elements.last != "-" &&
-            elements.last != "*" &&
-            elements.last != "/" &&
-            elements.last != "%"
-    }
-    var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
-    }
-    
+         processCalc.getResult()
+     }
+
     weak var simpleCalcDelegate: SimpleCalcDelegate?
- 
+    var processCalc: SimpleCalc
+    
     required init?(coder: NSCoder) {
         self.processCalc = SimpleCalc()
         super.init(coder: coder)
-        
+        processCalc.delegate = self
     }
-    var processCalc: SimpleCalc
-
+    
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,8 +107,7 @@ class ViewController: UIViewController, SimpleCalcDelegate {
     }
     
     // MARK: SimpleCalcDelegate
-    func didDataProcessing(elements: [String]) -> [String] {
-        print(elements)
-        return elements
+    func didRefreshScreenResult() {
+        textView.text = processCalc.screenResult
     }
 }
