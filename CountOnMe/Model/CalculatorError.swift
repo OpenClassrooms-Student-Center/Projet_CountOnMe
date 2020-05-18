@@ -8,38 +8,40 @@
 
 import Foundation
 
-enum CalculatorErrors: Error {
+enum CalculatorError: Error {
     case decimalIsAlreadyPresent
     case notAnOperator
     case anOperatorIsAlreadyPresent
     case expressionIsNotCorrect
     case numberIsMissing
-}
 
-class CalculatorError {
-    let calculatorErrors: CalculatorErrors
-    var title: String = ""
-    var message: String = ""
-
-    init(calculatorErrors: CalculatorErrors) {
-        self.calculatorErrors = calculatorErrors
-
-            switch self.calculatorErrors {
-            case .decimalIsAlreadyPresent:
-                title = "Already a decimal"
-                message = "You are trying to add a decimal to a decimal..."
-            case .notAnOperator:
-                title = "Not an operator"
-                message = "You are trying to add... What are you trying to add?"
-            case .anOperatorIsAlreadyPresent:
-                title = "Already an operator"
-                message = "You have to add an operand before trying to add another operator"
-            case .expressionIsNotCorrect:
-                title = "Uncorrect Expression"
-                message = "This expression is not correct..."
-            case .numberIsMissing:
-                title = " Number is missing"
-                message = "Add an operand at first"
-            }
+    var title: String {
+        switch self {
+        case .decimalIsAlreadyPresent:
+            return "Already a decimal"
+        case .notAnOperator:
+            return "Not an operator"
+        case .anOperatorIsAlreadyPresent:
+            return "Already an operator"
+        case .expressionIsNotCorrect:
+            return "Uncorrect Expression"
+        case .numberIsMissing:
+            return " Number is missing"
         }
+    }
+
+    var message: String {
+        switch self {
+        case .decimalIsAlreadyPresent:
+            return "You are trying to add a decimal to a decimal..."
+        case .notAnOperator:
+            return "You are trying to add... What are you trying to add?"
+        case .anOperatorIsAlreadyPresent:
+           return"You have to add a number before trying to add another operator"
+        case .expressionIsNotCorrect:
+            return "This expression is not correct..."
+        case .numberIsMissing:
+            return "Add an number at first"
+        }
+    }
 }

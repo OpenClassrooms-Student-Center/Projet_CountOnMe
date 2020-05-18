@@ -16,13 +16,13 @@ class Calculator {
 
     weak var delegate: CalculatorDelegate?
 
-    func displayText(operationStr: String) {
+    func updateText(operationStr: String) {
         delegate?.operationStringDidUpdate(operationStr)
     }
 
     var operationStr: String = "" {
         didSet {
-            displayText(operationStr: operationStr)
+            updateText(operationStr: operationStr)
         }
     }
 
@@ -34,14 +34,15 @@ class Calculator {
     }
 
     func addDecimal() throws {
-        if atLeastOneNumber {
-            if !isDecimal {
-                operationStr.append(".")
-            } else {
-                CalculatorErrors.decimalIsAlreadyPresent
-            }
-        } else {
+
+        guard !isDecimal else {
+            throw CalculatorError.expressionIsNotCorrect
+        }
+
+        if isLastElementOperator || !hasAtLeastOneNumber {
             operationStr.append("0.")
+        } else {
+            operationStr.append(".")
         }
     }
 
@@ -55,33 +56,25 @@ class Calculator {
 
     // MARK: Operation
 
-    func addOperator(_ element: String) throws {
-        result()
-        if atLeastOneNumber {
-            if canAddOperator {
-                switch element {
-                case "+":
-                    operationStr.append(" + ")
-                case "-":
-                    operationStr.append(" - ")
-                case "x":
-                    operationStr.append(" x ")
-                case "/":
-                    operationStr.append(" / ")
-                default:
-                    CalculatorErrors.numberIsMissing
-                }
-            } else {
-                CalculatorErrors.anOperatorIsAlreadyPresent
-            }
+    func addOperator(_ mathOperator: MathOperator) throws {
+        updateOperationStrWithResult()
+
+        guard hasAtLeastOneNumber else {
+            throw CalculatorError.numberIsMissing
         }
+
+        guard !isLastElementOperator else {
+             throw CalculatorError.anOperatorIsAlreadyPresent
+        }
+
+        operationStr.append(" \(mathOperator.stringRepresentation) ")
     }
 
     func reset() {
         operationStr = ""
     }
 
-    func operationPriority(operation: [String]) -> Int? {
+    func checkOperationPriority(operation: [String]) -> Int? {
         let prioritaryOperator = ["x", "/"]
         let regularOperator = ["+", "-"]
         var operatorIndex: Int?
@@ -98,20 +91,20 @@ class Calculator {
         return operatorIndex
     }
 
-    func tappedEqual() throws {
+    func resolveOperation() throws {
         var operations = elements
         var result = ""
-        if expressionIsCorrect && expressionHaveEnoughElement && !divideByZero && !expressionAlreadySolved {
+        if expressionIsCorrect && expressionHaveEnoughElement && !isDivideByZero && !expressionAlreadySolved {
             while operations.count > 1 {
-                if let index = operationPriority(operation: operations) {
+                if let index = checkOperationPriority(operation: operations) {
                     let calculOperator = operations[index]
                     guard let left = Double(operations[index - 1]) else {
-                        CalculatorErrors.expressionIsNotCorrect
-                        return }
+                        throw CalculatorError.expressionIsNotCorrect
+                         }
                     guard let right = Double(operations[index + 1]) else {
-                        CalculatorErrors.expressionIsNotCorrect
-                        return }
-                    result = format(number: processCalcul(left: left, right: right, operand: calculOperator))
+                        throw CalculatorError.expressionIsNotCorrect
+                         }
+                    result = format(number: processCalcul(left: left, right: right, mathOperator: calculOperator))
                     operations[index] = result
                     operations.remove(at: index + 1)
                     operations.remove(at: index - 1)
@@ -120,8 +113,7 @@ class Calculator {
             operationStr += " = \(operations[0])"
             delegate?.operationStringDidUpdate(result)
         } else {
-            CalculatorErrors.expressionIsNotCorrect
-            return
+            throw CalculatorError.expressionIsNotCorrect
         }
     }
 
@@ -143,24 +135,19 @@ class Calculator {
         return elements.count >= 3
     }
 
-    private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    private var isLastElementOperator: Bool {
+        return elements.last == "+" || elements.last == "-" || elements.last == "x" || elements.last == "/"
     }
 
     private var expressionHaveResult: Bool {
         return operationStr.firstIndex(of: "=") != nil
     }
 
-    private var atLeastOneNumber: Bool {
-        if operationStr >= "0" {
-            return elements.count >= 1
-        } else {
-            CalculatorErrors.numberIsMissing
-        }
-        return false
+    private var hasAtLeastOneNumber: Bool {
+        return elements.count > 0
     }
 
-    private var divideByZero: Bool {
+    private var isDivideByZero: Bool {
         return operationStr.contains("/ 0")
     }
 
@@ -168,7 +155,7 @@ class Calculator {
         return elements.last?.firstIndex(of: ".") != nil
     }
 
-    private func result() {
+    private func updateOperationStrWithResult() {
         if expressionHaveResult {
             if let resultat = elements.last {
                 operationStr = resultat
@@ -176,9 +163,9 @@ class Calculator {
         }
     }
 
-    private func processCalcul(left: Double, right: Double, operand: String) -> Double {
+    private func processCalcul(left: Double, right: Double, mathOperator: String) -> Double {
         var result: Double = 0
-        switch operand {
+        switch mathOperator {
         case "+": result = left + right
         case "-": result = left - right
         case "x": result = left * right
