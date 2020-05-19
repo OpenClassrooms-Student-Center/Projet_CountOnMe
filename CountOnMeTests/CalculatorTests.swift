@@ -13,12 +13,13 @@ import XCTest
 class CalculatorTests: XCTestCase {
 
     var calculator: Calculator!
-    let calculatoreDelegateMockImplementation = CalculatoreDelegateMockImplementation()
+    var calculatorDelegateMockImplementation: CalculatorDelegateMockImplementation!
 
     override func setUp() {
         super.setUp()
         calculator = Calculator()
-        calculator.delegate = calculatoreDelegateMockImplementation
+        calculatorDelegateMockImplementation = CalculatorDelegateMockImplementation()
+        calculator.delegate = calculatorDelegateMockImplementation
     }
 
     // Check if clear
@@ -27,7 +28,7 @@ class CalculatorTests: XCTestCase {
 
         calculator.addNumber("7")
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "7")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "7")
     }
 
     func testGivenCalculSolved_WhenClearTapped_ThenDisplayEmpty() {
@@ -35,7 +36,7 @@ class CalculatorTests: XCTestCase {
 
         calculator.reset()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "")
     }
 
     func testGivenCalculUnsolved_WhenClearTapped_ThenDisplayEmpty() {
@@ -43,7 +44,7 @@ class CalculatorTests: XCTestCase {
 
         calculator.reset()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "")
     }
 
     // MARK: - Operation
@@ -57,7 +58,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "6")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "6")
     }
 
     func testGivenAlreadyAdditionUnsolved_WhenMultiplication_ThenMultiplicationIsPrioritary() {
@@ -69,7 +70,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "16")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "16")
     }
 
     func testGivenAlreadyAdditionUnsolved_WhenDivision_ThenDivisionIsPrioritary() {
@@ -80,7 +81,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "7")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "7")
     }
 
     func testGivenNumberAndDivisionOperator_WhenDivisorNumberIs0_ThenDisplayErrorMessage() {
@@ -102,7 +103,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "-2")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "-2")
     }
 
     func testGivenDecimalNumber_WhenCommaButtonTappedAgain_ThenDisplayErrorMessage() {
@@ -112,7 +113,7 @@ class CalculatorTests: XCTestCase {
             XCTAssertEqual(error as? CalculatorError, CalculatorError.expressionIsNotCorrect)
         }
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "1.3")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "1.3")
     }
 
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
@@ -120,7 +121,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "3.51")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "3.51")
     }
 
     // MARK: - Syntax
@@ -138,7 +139,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.addOperator(.minus)
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "7 - ")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "7 - ")
     }
 
     func testGivenEmptyDisplay_WhenCommaButton_ThenDisplayErrorMessageAndAddZeroBeforeComma() {
@@ -146,7 +147,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.addDecimal()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "0.")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "0.")
     }
 
     func testGivenNumberTapped_WhenCommaButton_ThenAddComma() {
@@ -154,7 +155,7 @@ class CalculatorTests: XCTestCase {
 
         try! calculator.addDecimal()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "5.")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "5.")
     }
 
     func testGivenUnexactDivision_WhenEqualButtonTapped_ThenFormatResult() {
@@ -162,24 +163,9 @@ class CalculatorTests: XCTestCase {
 
             try! calculator.resolveOperation()
 
-        XCTAssert(calculatoreDelegateMockImplementation.operationStr == "2.33")
+        XCTAssert(calculatorDelegateMockImplementation.operationStr == "2.33")
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
 
-    func testExample() {
-
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
 
 }
