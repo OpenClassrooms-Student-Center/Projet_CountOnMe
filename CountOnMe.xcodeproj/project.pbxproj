@@ -19,6 +19,8 @@
 		6FDA673DDDFD099416B6215C /* Pods_CountOnMe_CountOnMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFFBF2590837FC49598F763 /* Pods_CountOnMe_CountOnMeUITests.framework */; };
 		D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */; };
 		D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */; };
+		D9D03198247284DD00E973DA /* Figures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D03197247284DD00E973DA /* Figures.swift */; };
+		D9D0319A24755F2E00E973DA /* FiguresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D0319924755F2E00E973DA /* FiguresTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,8 @@
 		D7EA38E5D6A367AE840EF4A3 /* Pods_CountOnMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountOnMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcDelegate.swift; sourceTree = "<group>"; };
 		D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalc.swift; sourceTree = "<group>"; };
+		D9D03197247284DD00E973DA /* Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figures.swift; sourceTree = "<group>"; };
+		D9D0319924755F2E00E973DA /* FiguresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiguresTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +145,7 @@
 			children = (
 				1FA43BE7224E569A00F565CB /* SimpleCalcTests.swift */,
 				1FA43BE9224E569A00F565CB /* Info.plist */,
+				D9D0319924755F2E00E973DA /* FiguresTests.swift */,
 			);
 			path = CountOnMeTests;
 			sourceTree = "<group>";
@@ -199,6 +204,7 @@
 			children = (
 				D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */,
 				D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */,
+				D9D03197247284DD00E973DA /* Figures.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -428,6 +434,7 @@
 				D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */,
+				D9D03198247284DD00E973DA /* Figures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +443,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BE8224E569A00F565CB /* SimpleCalcTests.swift in Sources */,
+				D9D0319A24755F2E00E973DA /* FiguresTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

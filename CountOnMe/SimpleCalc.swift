@@ -10,47 +10,64 @@ import Foundation
 class SimpleCalc {
     
     weak var delegate: SimpleCalcDelegate?
-    var elements: [String] = []
-    var result: Double = 0.0
-
-    var getCurrentSeparator: String {
-        let numberFormatter = NumberFormatter()
-        return numberFormatter.decimalSeparator
+   
+    let figure = Figures()
+    
+    var formulaString: [String] = []
+    var screenResult: String {
+           return formulaString.joined(separator: " ")
+       }
+    init() {
+      
     }
     
-    var screenResult: String {
-        return elements.joined(separator: " ")
+    func isOperator(_ value: String) -> Bool {
+        if value == "+" || value == "-" || value == "/" || value == "*" || value == "%" {
+            return true
+        }
+        return false
     }
     
     func addOperator(operatorChar: String) {
-        elements.append(operatorChar)
+        if !getFormulaConsistency(value: operatorChar) {
+            return
+        }
+        formulaString.append(operatorChar)
         delegate?.didRefreshScreenResult()
+        
     }
     
     func addDigit(digitTxt: String) {
-        if let figure = elements.last,
-            Double(figure) != nil {
-            elements.removeLast()
-            elements.append(figure+digitTxt)
-        } else {
-            elements.append(digitTxt)
+        if !getFormulaConsistency(value: digitTxt) {
+            return
         }
-        
+        var figure = digitTxt
+        if let lastElement = formulaString.last, Int(lastElement) != nil {
+              formulaString.removeLast()
+            if lastElement != "0" {
+                figure = lastElement + figure
+            }
+        }
+        formulaString.append(figure)
         delegate?.didRefreshScreenResult()
     }
     
     func deleteElement(all: Bool) {
         if all == true {
-            elements.removeAll()
+            formulaString.removeAll()
+            formulaString.append("0")
         } else {
-            elements.removeLast()
+            formulaString.removeLast()
         }
         delegate?.didRefreshScreenResult()
     }
     
     func reverseFigure() {
-        guard var figure = elements.last else { return }
-        elements.removeLast()
+        guard var figure = formulaString.last else { return }
+        if !getFormulaConsistency(value: figure) {
+            return
+        }
+        formulaString.removeLast()
         
         if figure.first == "-" {
             figure.removeFirst()
@@ -58,21 +75,23 @@ class SimpleCalc {
             figure.insert("-", at: figure.startIndex)
         }
         
-        elements.append(figure)
+        formulaString.append(figure)
         
         delegate?.didRefreshScreenResult()
     }
     
     func addComma() {
-        guard let figure = elements.last else { return }
-        elements.removeLast()
-        elements.append(figure + getCurrentSeparator)
+        guard let lastFigure = formulaString.last else { return }
+        if !getFormulaConsistency(value: lastFigure) {
+            return
+        }
+        formulaString.removeLast()
+        formulaString.append(lastFigure + figure.getCurrentSeparator)
         delegate?.didRefreshScreenResult()
     }
         
     func getResult() {
-        
-        var operationsToReduce = elements
+        var operationsToReduce = formulaString.filter { !$0.contains("\n") }
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
@@ -81,32 +100,50 @@ class SimpleCalc {
             let right = Double(operationsToReduce[2])!
         
             switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "*": result = left * right
-            case "/": result = left / right
-            case "%": result = left / 100 * right
+            case "+": figure.result = left + right
+            case "-": figure.result = left - right
+            case "*": figure.result = left * right
+            case "/": figure.result = left / right
+            case "%": figure.result = left / 100 * right
             default: fatalError("Unknown operator !")
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            operationsToReduce.insert("\(figure.result)", at: 0)
         }
-        if result.truncatingRemainder(dividingBy: 1) != 0 {
-            elements.append(" = " + String(format: "%.2f", result))
+        formulaString.append("=")
+        
+        if figure.hasIntegerResult {
+            formatResultInInteger(result: figure.result)
+            
         } else {
-            elements.append(" = \(Int(result))")
+            formatResultInDouble(result: figure.result)
         }
-    
+        
         delegate?.didRefreshScreenResult()
     }
-   
-}
-
-extension Double {
-    static let withSeparator: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
+    func formatResultInDouble(result: Double) {
+        let stringResult = figure.convertToString(figure: result, accuracy: 3)
+        formulaString.append(stringResult)
+        //formulaString.append("\n")
+    }
+    
+    func formatResultInInteger(result: Double) {
+        let stringResult = figure.convertToString(figure: result, accuracy: 0)
+        formulaString.append(stringResult)
+        //formulaString.append("\n")
+    }
+    
+    ///check the consistency of the current formula
+    func getFormulaConsistency(value: String) -> Bool {
+        if formulaString.count > 0 {
+            if let lastValue = formulaString.last {
+                // check if 2 consecutive character have been tapped
+                if isOperator(value) && isOperator(lastValue) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
 }

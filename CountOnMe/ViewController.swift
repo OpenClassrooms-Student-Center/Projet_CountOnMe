@@ -84,7 +84,7 @@ class ViewController: UIViewController, SimpleCalcDelegate {
      }
 
     weak var simpleCalcDelegate: SimpleCalcDelegate?
-    var processCalc: SimpleCalc
+   private var processCalc: SimpleCalc
     
     required init?(coder: NSCoder) {
         self.processCalc = SimpleCalc()
@@ -100,14 +100,15 @@ class ViewController: UIViewController, SimpleCalcDelegate {
         //self.processCalc.viewController = self
     }
     
-    func alertMessage(title: String, message: String) {
+    private func alertMessage(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
     
-    // MARK: SimpleCalcDelegate
-    func didRefreshScreenResult() {
+    /// MARK: SimpleCalcDelegate
+   func didRefreshScreenResult() {
         textView.text = processCalc.screenResult
+        print("****\(processCalc.screenResult)****")
     }
 }
