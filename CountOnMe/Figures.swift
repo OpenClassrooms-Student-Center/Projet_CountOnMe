@@ -12,11 +12,11 @@ class Figures {
     
     var result: Double = 0.0
     private var calculationNumber: Int
-
+    
     var getCurrentSeparator: String {
-           let numberFormatter = NumberFormatter()
-           return numberFormatter.decimalSeparator
-       }
+        let numberFormatter = NumberFormatter()
+        return numberFormatter.decimalSeparator
+    }
     var hasIntegerResult: Bool {
         print("test remainder :\(result.truncatingRemainder(dividingBy: 1))")
         return result.truncatingRemainder(dividingBy: 1) == 0

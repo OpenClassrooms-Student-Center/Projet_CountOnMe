@@ -13,14 +13,15 @@
 		1FA43BD8224E569900F565CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD6224E569900F565CB /* Main.storyboard */; };
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
-		1FA43BE8224E569A00F565CB /* SimpleCalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BE7224E569A00F565CB /* SimpleCalcTests.swift */; };
-		1FA43BF3224E569A00F565CB /* SimpleCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */; };
+		1FA43BE8224E569A00F565CB /* CalcFormaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BE7224E569A00F565CB /* CalcFormaterTests.swift */; };
 		3A81056629B24C268D92676B /* Pods_CountOnMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B939E0F3FD78417C8472D8 /* Pods_CountOnMe.framework */; };
-		6FDA673DDDFD099416B6215C /* Pods_CountOnMe_CountOnMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFFBF2590837FC49598F763 /* Pods_CountOnMe_CountOnMeUITests.framework */; };
-		D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */; };
-		D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */; };
+		D9639BE6246B152200F9CE1E /* CalcFormaterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */; };
+		D979E8EB2462BFBB00FD8212 /* CalcFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = D979E8EA2462BFBB00FD8212 /* CalcFormater.swift */; };
 		D9D03198247284DD00E973DA /* Figures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D03197247284DD00E973DA /* Figures.swift */; };
 		D9D0319A24755F2E00E973DA /* FiguresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D0319924755F2E00E973DA /* FiguresTests.swift */; };
+		D9D031B02476727A00E973DA /* CountOnMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D031AF2476727A00E973DA /* CountOnMeUITests.swift */; };
+		D9D031BC2476CB7400E973DA /* CalcFormaterDelegateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D031BB2476CB7400E973DA /* CalcFormaterDelegateTest.swift */; };
+		D9D031BD2476CCF400E973DA /* CalcFormaterDelegateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D031BB2476CB7400E973DA /* CalcFormaterDelegateTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,12 +32,12 @@
 			remoteGlobalIDString = 1FA43BCE224E569900F565CB;
 			remoteInfo = SimpleCalc;
 		};
-		1FA43BEF224E569A00F565CB /* PBXContainerItemProxy */ = {
+		D9D031B22476727A00E973DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1FA43BC7224E569900F565CB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1FA43BCE224E569900F565CB;
-			remoteInfo = SimpleCalc;
+			remoteInfo = CountOnMe;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,11 +50,8 @@
 		1FA43BDC224E569A00F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FA43BDE224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1FA43BE3224E569A00F565CB /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1FA43BE7224E569A00F565CB /* SimpleCalcTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcTests.swift; sourceTree = "<group>"; };
+		1FA43BE7224E569A00F565CB /* CalcFormaterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormaterTests.swift; sourceTree = "<group>"; };
 		1FA43BE9224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1FA43BEE224E569A00F565CB /* CountOnMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcUITests.swift; sourceTree = "<group>"; };
-		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BFFBF2590837FC49598F763 /* Pods_CountOnMe_CountOnMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountOnMe_CountOnMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		581A141A67F2A32E1E033095 /* Pods-CountOnMe-CountOnMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe-CountOnMeUITests.release.xcconfig"; path = "Target Support Files/Pods-CountOnMe-CountOnMeUITests/Pods-CountOnMe-CountOnMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		63CC50427BA5A832A97E6B67 /* Pods-CountOnMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMeTests.release.xcconfig"; path = "Target Support Files/Pods-CountOnMeTests/Pods-CountOnMeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -63,10 +61,14 @@
 		C6D498D8F0B03B2E0BC1CF29 /* Pods-CountOnMe-CountOnMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe-CountOnMeUITests/Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D33D9128E6080E30904B4F41 /* Pods-CountOnMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe/Pods-CountOnMe.debug.xcconfig"; sourceTree = "<group>"; };
 		D7EA38E5D6A367AE840EF4A3 /* Pods_CountOnMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountOnMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalcDelegate.swift; sourceTree = "<group>"; };
-		D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCalc.swift; sourceTree = "<group>"; };
+		D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormaterDelegate.swift; sourceTree = "<group>"; };
+		D979E8EA2462BFBB00FD8212 /* CalcFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormater.swift; sourceTree = "<group>"; };
 		D9D03197247284DD00E973DA /* Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figures.swift; sourceTree = "<group>"; };
 		D9D0319924755F2E00E973DA /* FiguresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiguresTests.swift; sourceTree = "<group>"; };
+		D9D031AD2476727A00E973DA /* CountOnMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9D031AF2476727A00E973DA /* CountOnMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeUITests.swift; sourceTree = "<group>"; };
+		D9D031B12476727A00E973DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9D031BB2476CB7400E973DA /* CalcFormaterDelegateTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormaterDelegateTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,11 +88,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1FA43BEB224E569A00F565CB /* Frameworks */ = {
+		D9D031AA2476727A00E973DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FDA673DDDFD099416B6215C /* Pods_CountOnMe_CountOnMeUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +113,7 @@
 			children = (
 				1FA43BD1224E569900F565CB /* CountOnMe */,
 				1FA43BE6224E569A00F565CB /* CountOnMeTests */,
-				1FA43BF1224E569A00F565CB /* CountOnMeUITests */,
+				D9D031AE2476727A00E973DA /* CountOnMeUITests */,
 				1FA43BD0224E569900F565CB /* Products */,
 				C3876E81F0C409A8F09DDFA7 /* Pods */,
 				02F98764A9EA085EFDBE2F22 /* Frameworks */,
@@ -124,7 +125,7 @@
 			children = (
 				1FA43BCF224E569900F565CB /* CountOnMe.app */,
 				1FA43BE3224E569A00F565CB /* CountOnMeTests.xctest */,
-				1FA43BEE224E569A00F565CB /* CountOnMeUITests.xctest */,
+				D9D031AD2476727A00E973DA /* CountOnMeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,20 +144,12 @@
 		1FA43BE6224E569A00F565CB /* CountOnMeTests */ = {
 			isa = PBXGroup;
 			children = (
-				1FA43BE7224E569A00F565CB /* SimpleCalcTests.swift */,
+				1FA43BE7224E569A00F565CB /* CalcFormaterTests.swift */,
 				1FA43BE9224E569A00F565CB /* Info.plist */,
 				D9D0319924755F2E00E973DA /* FiguresTests.swift */,
+				D9D031BB2476CB7400E973DA /* CalcFormaterDelegateTest.swift */,
 			);
 			path = CountOnMeTests;
-			sourceTree = "<group>";
-		};
-		1FA43BF1224E569A00F565CB /* CountOnMeUITests */ = {
-			isa = PBXGroup;
-			children = (
-				1FA43BF2224E569A00F565CB /* SimpleCalcUITests.swift */,
-				1FA43BF4224E569A00F565CB /* Info.plist */,
-			);
-			path = CountOnMeUITests;
 			sourceTree = "<group>";
 		};
 		C3876E81F0C409A8F09DDFA7 /* Pods */ = {
@@ -170,6 +163,15 @@
 				63CC50427BA5A832A97E6B67 /* Pods-CountOnMeTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D9D031AE2476727A00E973DA /* CountOnMeUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D9D031AF2476727A00E973DA /* CountOnMeUITests.swift */,
+				D9D031B12476727A00E973DA /* Info.plist */,
+			);
+			path = CountOnMeUITests;
 			sourceTree = "<group>";
 		};
 		D9ED96E424618E47006FC88F /* Views */ = {
@@ -202,8 +204,8 @@
 		D9ED96EA2461BF55006FC88F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D979E8EA2462BFBB00FD8212 /* SimpleCalc.swift */,
-				D9639BE5246B152200F9CE1E /* SimpleCalcDelegate.swift */,
+				D979E8EA2462BFBB00FD8212 /* CalcFormater.swift */,
+				D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */,
 				D9D03197247284DD00E973DA /* Figures.swift */,
 			);
 			name = Model;
@@ -250,23 +252,22 @@
 			productReference = 1FA43BE3224E569A00F565CB /* CountOnMeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		1FA43BED224E569A00F565CB /* CountOnMeUITests */ = {
+		D9D031AC2476727A00E973DA /* CountOnMeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1FA43BFD224E569A00F565CB /* Build configuration list for PBXNativeTarget "CountOnMeUITests" */;
+			buildConfigurationList = D9D031B42476727A00E973DA /* Build configuration list for PBXNativeTarget "CountOnMeUITests" */;
 			buildPhases = (
-				6C2B86D36AD7F5FD0676BB77 /* [CP] Check Pods Manifest.lock */,
-				1FA43BEA224E569A00F565CB /* Sources */,
-				1FA43BEB224E569A00F565CB /* Frameworks */,
-				1FA43BEC224E569A00F565CB /* Resources */,
+				D9D031A92476727A00E973DA /* Sources */,
+				D9D031AA2476727A00E973DA /* Frameworks */,
+				D9D031AB2476727A00E973DA /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1FA43BF0224E569A00F565CB /* PBXTargetDependency */,
+				D9D031B32476727A00E973DA /* PBXTargetDependency */,
 			);
 			name = CountOnMeUITests;
-			productName = SimpleCalcUITests;
-			productReference = 1FA43BEE224E569A00F565CB /* CountOnMeUITests.xctest */;
+			productName = CountOnMeUITests;
+			productReference = D9D031AD2476727A00E973DA /* CountOnMeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -275,7 +276,7 @@
 		1FA43BC7224E569900F565CB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Vincent Saluzzo";
 				TargetAttributes = {
@@ -286,8 +287,8 @@
 						CreatedOnToolsVersion = 10.2;
 						TestTargetID = 1FA43BCE224E569900F565CB;
 					};
-					1FA43BED224E569A00F565CB = {
-						CreatedOnToolsVersion = 10.2;
+					D9D031AC2476727A00E973DA = {
+						CreatedOnToolsVersion = 11.4;
 						TestTargetID = 1FA43BCE224E569900F565CB;
 					};
 				};
@@ -307,7 +308,7 @@
 			targets = (
 				1FA43BCE224E569900F565CB /* CountOnMe */,
 				1FA43BE2224E569A00F565CB /* CountOnMeTests */,
-				1FA43BED224E569A00F565CB /* CountOnMeUITests */,
+				D9D031AC2476727A00E973DA /* CountOnMeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -330,7 +331,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1FA43BEC224E569A00F565CB /* Resources */ = {
+		D9D031AB2476727A00E973DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -340,28 +341,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6C2B86D36AD7F5FD0676BB77 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CountOnMe-CountOnMeUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		850BF5E647E844BBD12FB52F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -431,9 +410,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
-				D979E8EB2462BFBB00FD8212 /* SimpleCalc.swift in Sources */,
+				D979E8EB2462BFBB00FD8212 /* CalcFormater.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
-				D9639BE6246B152200F9CE1E /* SimpleCalcDelegate.swift in Sources */,
+				D9D031BD2476CCF400E973DA /* CalcFormaterDelegateTest.swift in Sources */,
+				D9639BE6246B152200F9CE1E /* CalcFormaterDelegate.swift in Sources */,
 				D9D03198247284DD00E973DA /* Figures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,16 +422,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FA43BE8224E569A00F565CB /* SimpleCalcTests.swift in Sources */,
+				D9D031BC2476CB7400E973DA /* CalcFormaterDelegateTest.swift in Sources */,
+				1FA43BE8224E569A00F565CB /* CalcFormaterTests.swift in Sources */,
 				D9D0319A24755F2E00E973DA /* FiguresTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1FA43BEA224E569A00F565CB /* Sources */ = {
+		D9D031A92476727A00E973DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FA43BF3224E569A00F565CB /* SimpleCalcUITests.swift in Sources */,
+				D9D031B02476727A00E973DA /* CountOnMeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,10 +444,10 @@
 			target = 1FA43BCE224E569900F565CB /* CountOnMe */;
 			targetProxy = 1FA43BE4224E569A00F565CB /* PBXContainerItemProxy */;
 		};
-		1FA43BF0224E569A00F565CB /* PBXTargetDependency */ = {
+		D9D031B32476727A00E973DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1FA43BCE224E569900F565CB /* CountOnMe */;
-			targetProxy = 1FA43BEF224E569A00F565CB /* PBXContainerItemProxy */;
+			targetProxy = D9D031B22476727A00E973DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -684,43 +665,41 @@
 			};
 			name = Release;
 		};
-		1FA43BFE224E569A00F565CB /* Debug */ = {
+		D9D031B52476727A00E973DA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6D498D8F0B03B2E0BC1CF29 /* Pods-CountOnMe-CountOnMeUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CountOnMeUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vincentsaluzzo.SimpleCalcUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = FR.DIGIT74.CountOnMeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SimpleCalc;
+				TEST_TARGET_NAME = CountOnMe;
 			};
 			name = Debug;
 		};
-		1FA43BFF224E569A00F565CB /* Release */ = {
+		D9D031B62476727A00E973DA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 581A141A67F2A32E1E033095 /* Pods-CountOnMe-CountOnMeUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CountOnMeUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.vincentsaluzzo.SimpleCalcUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = FR.DIGIT74.CountOnMeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SimpleCalc;
+				TEST_TARGET_NAME = CountOnMe;
 			};
 			name = Release;
 		};
@@ -754,11 +733,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1FA43BFD224E569A00F565CB /* Build configuration list for PBXNativeTarget "CountOnMeUITests" */ = {
+		D9D031B42476727A00E973DA /* Build configuration list for PBXNativeTarget "CountOnMeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1FA43BFE224E569A00F565CB /* Debug */,
-				1FA43BFF224E569A00F565CB /* Release */,
+				D9D031B52476727A00E973DA /* Debug */,
+				D9D031B62476727A00E973DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

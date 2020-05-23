@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  SimpleCalc
+//  calcFormater
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, SimpleCalcDelegate {
+class ViewController: UIViewController, CalcFormaterDelegate {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
@@ -82,12 +82,13 @@ class ViewController: UIViewController, SimpleCalcDelegate {
     @IBAction func tappedEqualButton(_ sender: UIButton) {
          processCalc.getResult()
      }
-
-    weak var simpleCalcDelegate: SimpleCalcDelegate?
-   private var processCalc: SimpleCalc
+    
+    weak var calcFormaterDelegate: CalcFormaterDelegate?
+    
+    private var processCalc: CalcFormater
     
     required init?(coder: NSCoder) {
-        self.processCalc = SimpleCalc()
+        self.processCalc = CalcFormater()
         super.init(coder: coder)
         processCalc.delegate = self
     }
@@ -106,8 +107,8 @@ class ViewController: UIViewController, SimpleCalcDelegate {
         return self.present(alertVC, animated: true, completion: nil)
     }
     
-    /// MARK: SimpleCalcDelegate
-   func didRefreshScreenResult() {
+    // MARK: calcFormaterDelegate
+    func didRefreshScreenResult() {
         textView.text = processCalc.screenResult
         print("****\(processCalc.screenResult)****")
     }

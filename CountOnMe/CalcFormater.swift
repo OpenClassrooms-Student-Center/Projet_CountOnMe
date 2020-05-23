@@ -7,18 +7,23 @@
 //
 import Foundation
 
-class SimpleCalc {
+class CalcFormater: CalcFormaterDelegateTest {
     
-    weak var delegate: SimpleCalcDelegate?
-   
+    weak var delegate: CalcFormaterDelegate?
+    
     let figure = Figures()
+    var formula: [String]
     
-    var formulaString: [String] = []
+    private var formulaString: String {
+        return formula.joined(separator: " ")
+    }
+    
     var screenResult: String {
-           return formulaString.joined(separator: " ")
-       }
+        return formula.joined(separator: "\n")
+    }
+    
     init() {
-      
+        self.formula = ["0"]
     }
     
     func isOperator(_ value: String) -> Bool {
@@ -32,7 +37,7 @@ class SimpleCalc {
         if !getFormulaConsistency(value: operatorChar) {
             return
         }
-        formulaString.append(operatorChar)
+        formula.append(operatorChar)
         delegate?.didRefreshScreenResult()
         
     }
@@ -42,32 +47,32 @@ class SimpleCalc {
             return
         }
         var figure = digitTxt
-        if let lastElement = formulaString.last, Int(lastElement) != nil {
-              formulaString.removeLast()
+        if let lastElement = formula.last, Int(lastElement) != nil {
+            formula.removeLast()
             if lastElement != "0" {
                 figure = lastElement + figure
             }
         }
-        formulaString.append(figure)
+        formula.append(figure)
         delegate?.didRefreshScreenResult()
     }
     
     func deleteElement(all: Bool) {
         if all == true {
-            formulaString.removeAll()
-            formulaString.append("0")
+            formula.removeAll()
+            formula.append("0")
         } else {
-            formulaString.removeLast()
+            formula.removeLast()
         }
         delegate?.didRefreshScreenResult()
     }
     
     func reverseFigure() {
-        guard var figure = formulaString.last else { return }
+        guard var figure = formula.last else { return }
         if !getFormulaConsistency(value: figure) {
             return
         }
-        formulaString.removeLast()
+        formula.removeLast()
         
         if figure.first == "-" {
             figure.removeFirst()
@@ -75,30 +80,30 @@ class SimpleCalc {
             figure.insert("-", at: figure.startIndex)
         }
         
-        formulaString.append(figure)
+        formula.append(figure)
         
         delegate?.didRefreshScreenResult()
     }
     
     func addComma() {
-        guard let lastFigure = formulaString.last else { return }
+        guard let lastFigure = formula.last else { return }
         if !getFormulaConsistency(value: lastFigure) {
             return
         }
-        formulaString.removeLast()
-        formulaString.append(lastFigure + figure.getCurrentSeparator)
+        formula.removeLast()
+        formula.append(lastFigure + figure.getCurrentSeparator)
         delegate?.didRefreshScreenResult()
     }
-        
+    
     func getResult() {
-        var operationsToReduce = formulaString.filter { !$0.contains("\n") }
+        var operationsToReduce = formula
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Double(operationsToReduce[2])!
-        
+            
             switch operand {
             case "+": figure.result = left + right
             case "-": figure.result = left - right
@@ -110,7 +115,7 @@ class SimpleCalc {
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(figure.result)", at: 0)
         }
-        formulaString.append("=")
+        formula.append("=")
         
         if figure.hasIntegerResult {
             formatResultInInteger(result: figure.result)
@@ -123,20 +128,20 @@ class SimpleCalc {
     }
     func formatResultInDouble(result: Double) {
         let stringResult = figure.convertToString(figure: result, accuracy: 3)
-        formulaString.append(stringResult)
+        formula.append(stringResult)
         //formulaString.append("\n")
     }
     
     func formatResultInInteger(result: Double) {
         let stringResult = figure.convertToString(figure: result, accuracy: 0)
-        formulaString.append(stringResult)
+        formula.append(stringResult)
         //formulaString.append("\n")
     }
     
     ///check the consistency of the current formula
     func getFormulaConsistency(value: String) -> Bool {
-        if formulaString.count > 0 {
-            if let lastValue = formulaString.last {
+        if formula.count > 0 {
+            if let lastValue = formula.last {
                 // check if 2 consecutive character have been tapped
                 if isOperator(value) && isOperator(lastValue) {
                     return false
@@ -146,4 +151,17 @@ class SimpleCalc {
         return true
     }
     
+    func getCalcFormaterDisplay() -> String {
+         
+         if formulaString.count > 0 {
+            var formulaResult = formula.filter { !$0.contains("\n") }
+            guard let lastResultIndex = formulaResult.lastIndex(of: "=") else { return "" }
+            let formulaIndexStart = formulaResult.index(lastResultIndex, offsetBy: -3)
+            
+            formulaResult = formulaResult.suffix(formulaIndexStart)
+            
+            return formulaResult.joined(separator: " ")
+         }
+         return ""
+     }
 }
