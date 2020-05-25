@@ -6,6 +6,7 @@
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
 //
 // swiftlint:disable force_try
+// swiftlint:disable force_cast
 
 import XCTest
 @testable import CountOnMe
@@ -89,11 +90,9 @@ class CalculatorTests: XCTestCase {
 
         calculator.addNumber("0")
         XCTAssertThrowsError(try calculator.resolveOperation()) { error in
-            XCTAssertEqual(error as? CalculatorError, CalculatorError.expressionIsNotCorrect)
-
+            XCTAssertEqual(error as! CalculatorError, CalculatorError.expressionIsNotCorrect)
+            
         }
-
-        XCTAssertEqual(calculator.operationStr, "4 / 0")
     }
 
     func testGivenNumberAndSubstractionOperator_WhenSubstractedNumberGreater_ThenNegativeResult() {
@@ -110,11 +109,12 @@ class CalculatorTests: XCTestCase {
         calculator.operationStr = "1.3"
 
         XCTAssertThrowsError(try calculator.addDecimal()) { error in
-            XCTAssertEqual(error as? CalculatorError, CalculatorError.expressionIsNotCorrect)
+            XCTAssertEqual(error as! CalculatorError, CalculatorError.expressionIsNotCorrect)
         }
 
         XCTAssert(calculatorDelegateMockImplementation.operationStr == "1.3")
     }
+    
 
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
         calculator.operationStr = "1.3 x 2.7"
@@ -165,7 +165,5 @@ class CalculatorTests: XCTestCase {
 
         XCTAssert(calculatorDelegateMockImplementation.operationStr == "2.33")
     }
-
-
 
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo_countonme-40" translatesAutoresizingMaskIntoConstraints="NO" id="WhW-5F-QAx">
-                                <rect key="frame" x="0.0" y="310" width="414" height="276"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo_countonme" translatesAutoresizingMaskIntoConstraints="NO" id="WhW-5F-QAx">
+                                <rect key="frame" x="50" y="343.5" width="314" height="209"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WhW-5F-QAx" secondAttribute="height" multiplier="15:10" id="a7b-mB-yP8"/>
                                 </constraints>
@@ -26,7 +26,7 @@
                         <color key="backgroundColor" red="0.051265358919999997" green="0.3721273839" blue="0.41569358109999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="WhW-5F-QAx" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="18h-46-PZ2"/>
-                            <constraint firstItem="WhW-5F-QAx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vkA-VD-DOU"/>
+                            <constraint firstItem="WhW-5F-QAx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="gnx-Ca-3lq"/>
                             <constraint firstItem="WhW-5F-QAx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wMc-df-BOW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo_countonme-40" width="60" height="60"/>
+        <image name="logo_countonme" width="1024" height="1024"/>
     </resources>
 </document>

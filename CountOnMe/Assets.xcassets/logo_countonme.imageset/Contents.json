@@ -1,23 +1,23 @@
 {
   "images" : [
     {
+      "filename" : "logo_countonme-1024.png",
       "idiom" : "universal",
-      "filename" : "logo_countonme-76.png",
       "scale" : "1x"
     },
     {
+      "filename" : "logo_countonme-1025.png",
       "idiom" : "universal",
-      "filename" : "logo_countonme-60@2x.png",
       "scale" : "2x"
     },
     {
+      "filename" : "logo_countonme-1026.png",
       "idiom" : "universal",
-      "filename" : "logo_countonme-60@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
