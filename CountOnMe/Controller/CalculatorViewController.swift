@@ -9,11 +9,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
-    @IBOutlet var allButtons: [UIButton]!
+class CalculatorViewController: UIViewController {
     
     // MARK: App Life Running
     
@@ -70,6 +66,10 @@ class ViewController: UIViewController {
     // MARK: - Private
 
     private let calculator = Calculator()
+
+    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet private var numberButtons: [UIButton]!
+    @IBOutlet private var allButtons: [UIButton]!
     
     private func setupButtons() {
         for button in allButtons {
@@ -100,12 +100,9 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: CalculatorDelegate {
+extension CalculatorViewController: CalculatorDelegate {
     
     func operationStringDidUpdate(_ operation: String) {
         textView.text = operation
     }
 }
-
-// Quelle entité ? => le nom des classes
-// Que peut faire mon entité (ma classes) ? => les méthodes

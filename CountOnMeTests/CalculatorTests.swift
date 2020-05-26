@@ -91,7 +91,7 @@ class CalculatorTests: XCTestCase {
         calculator.addNumber("0")
         XCTAssertThrowsError(try calculator.resolveOperation()) { error in
             XCTAssertEqual(error as! CalculatorError, CalculatorError.expressionIsNotCorrect)
-            
+
         }
     }
 
@@ -114,7 +114,6 @@ class CalculatorTests: XCTestCase {
 
         XCTAssert(calculatorDelegateMockImplementation.operationStr == "1.3")
     }
-    
 
     func testGivenMultiplicationWithTwoDecimalNumber_WhenEqualTapped_ThenResultIsCorrect() {
         calculator.operationStr = "1.3 x 2.7"
