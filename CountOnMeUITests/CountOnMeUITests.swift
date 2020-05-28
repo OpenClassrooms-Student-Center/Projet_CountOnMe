@@ -35,7 +35,8 @@ class CountOnMeUITests: XCTestCase {
         staticText.tap()
         app.buttons["2"].tap()
         app/*@START_MENU_TOKEN@*/.staticTexts["="]/*[[".buttons[\"=\"].staticTexts[\"=\"]",".staticTexts[\"=\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-
+        
+        XCTAssertEqual(formulaTxt, "12 + 12 = 24")
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }

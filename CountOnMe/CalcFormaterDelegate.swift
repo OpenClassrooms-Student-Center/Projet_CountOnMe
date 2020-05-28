@@ -1,5 +1,5 @@
 //
-//  CalcFormaterDelegate.swift
+//  CalcFormatterDelegate.swift
 //  CountOnMe
 //
 //  Created by Laurent Debeaujon on 12/05/2020.
@@ -7,6 +7,6 @@
 //
 
 import Foundation
-protocol CalcFormaterDelegate: AnyObject {
-    func didRefreshScreenResult()
+protocol CalcFormatterDelegate: AnyObject {
+    func didRefreshScreenResult(screen: String)
 }

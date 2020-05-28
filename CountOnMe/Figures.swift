@@ -18,7 +18,6 @@ class Figures {
         return numberFormatter.decimalSeparator
     }
     var hasIntegerResult: Bool {
-        print("test remainder :\(result.truncatingRemainder(dividingBy: 1))")
         return result.truncatingRemainder(dividingBy: 1) == 0
     }
     init() {
@@ -26,22 +25,32 @@ class Figures {
         self.calculationNumber = 0
     }
     ///return a Double type
-    func convertToDouble(stringFigure: String) -> Double {
-        let figure = Double(stringFigure)
-        return figure ?? 0.0
-    }
     
-    ///format a figure with an accuracy of x digit after the comma.
-    ///and return a String
-    func convertToString(figure: Double, accuracy: Int) -> String {
-        String(format: "%."+String(accuracy)+"f", figure)
+    func carryOutFormula(formula: [String]) -> String {
+        var operationsToReduce = formula
+        var roundedResult: String = ""
+        // Iterate over operations while an operand still here
+        while operationsToReduce.count > 1 {
+            let left = Double(operationsToReduce[0])!
+            let operand = operationsToReduce[1]
+            let right = Double(operationsToReduce[2])!
+            
+            switch operand {
+            case "+": result = left + right
+            case "-": result = left - right
+            case "*": result = left * right
+            case "/": result = left / right
+            default: fatalError("Unknown operator !")
+            }
+            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.insert("\(result)", at: 0)
+        }
+        if hasIntegerResult {
+            roundedResult += formatResultInInteger(result: result)
+            
+        } else {
+            roundedResult += formatResultInDouble(result: result)
+        }
+        return roundedResult
     }
-}
-extension Double {
-    static let withSeparator: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
 }

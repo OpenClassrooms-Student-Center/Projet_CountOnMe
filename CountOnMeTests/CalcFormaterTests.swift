@@ -1,6 +1,6 @@
 //
-//  CalcFormaterTests.swift
-//  CalcFormaterTests
+//  CalcFormatterTests.swift
+//  CalcFormatterTests
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
@@ -9,29 +9,35 @@
 import XCTest
 @testable import CountOnMe
 
-class CalcFormaterTests: XCTestCase {
+class CalcFormatterTests: XCTestCase {
+   
+    var formulaTxt: String = ""
+    var screenResult: String = ""
     
-    var calcFormater: CalcFormater!
-    weak var calcFormaterDelegateTest: CalcFormaterDelegateTest?
+    var calcFormatter: CalcFormatter!
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         super.setUp()
-        calcFormater = CalcFormater()
-        self.calcFormaterDelegateTest = self
+        calcFormatter = CalcFormatter()
+        calcFormatter.delegate = self
+        
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    
     func getTappedDigit(digit: String) {
-        calcFormater.addDigit(digitTxt: digit)
+        calcFormatter.addDigit(digitTxt: digit)
     }
     
     func getTappedOperator(calcOperator: String) {
-        calcFormater.addOperator(operatorChar: calcOperator)
+        calcFormatter.addOperator(operatorChar: calcOperator)
+    }
+    
+    func getTappedEqual() {
+        calcFormatter.getResult()
     }
     
     func testPerformanceExample() {
@@ -41,31 +47,24 @@ class CalcFormaterTests: XCTestCase {
         }
     }
     
-    func testGivenResultZero_WhenGetTappedDigit1_ThenShowOne() {
-        initScreenResult(formula: ["0"])
-        
-        calcFormater.addDigit(digitTxt: "1")
-        print("test!1***\(calcFormater.screenResult)")
-        
-        XCTAssertEqual(calcFormater.screenResult, "1")
+    func testGivenStarted_WhenDidNothing_ThenFormulaGive0() {
+                
+        XCTAssertEqual(formulaTxt, "0")
     }
     
-    func testGiven1_WhenAddDigit1_ThenShow1() {
-        getTappedDigit(digit: "1")
+    func testGivenStarted_WhenAddDigit1_ThenFormulaGive1() {
         
         getTappedDigit(digit: "1")
         
-        print("test!1***\(calcFormater.screenResult)")
-        
-        XCTAssertTrue(calcFormater.screenResult == "11")
+        XCTAssertEqual(formulaTxt, "1")
     }
     func testGivenResult12_WhenAddOperatorPlus_ThenResultDisplay_12Plus() {
-        initScreenResult(formula: ["12"])
+        getTappedDigit(digit: "12")
+        getTappedOperator(calcOperator: "+")
         
-        calcFormater.addOperator(operatorChar: "+")
-        print("test!***\(calcFormater.screenResult)")
+        print("test!***\(formulaTxt)")
         
-        XCTAssertTrue(calcFormater.screenResult == "12 +")
+        XCTAssertEqual(formulaTxt, "12 +")
     }
     
     func testGivenResult12Plus12_WhenAddEqual_ThenResultDisplayEqual24() {
@@ -73,25 +72,14 @@ class CalcFormaterTests: XCTestCase {
         getTappedOperator(calcOperator: "+")
         getTappedDigit(digit: "12")
         
-        calcFormater.getResult()
-        print("test!***\(calcFormater.screenResult)")
+        getTappedEqual()
         
-        XCTAssertEqual(calcFormater.screenResult, "12 + 12 = 24 \n")
+        XCTAssertEqual(formulaTxt, "12 + 12 = 24")
     }
     
-    func testGivenFormula10Percent_WhenEqual_ThenResultDisplay0Comma1() {
-        getTappedDigit(digit: "12")
-        ®getTappedOperator(calcOperator: "%")
-        
-        calcFormater.getResult()
-        
-        XCTAssertEqual(calcFormater.screenResult, "10 % = 0.1")
-    }
     func testGiven0WhenOneTappedThenShouldShowOne() {
-        let calcFormater = CalcFormater()
-        calcFormater.addDigit(digitTxt: "1")
+        calcFormatter.addDigit(digitTxt: "1")
         
-        let result = calcFormaterDelegateTest?.getCalcFormaterDisplay()
-        XCTAssertEqual(result, "1")
+        XCTAssertEqual(formulaTxt, "1")
     }
 }

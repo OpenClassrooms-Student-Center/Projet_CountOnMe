@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  calcFormater
+//  calcFormatter
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, CalcFormaterDelegate {
+class ViewController: UIViewController {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
@@ -18,7 +18,6 @@ class ViewController: UIViewController, CalcFormaterDelegate {
         guard let digitTxt = sender.title(for: .normal) else {
             return
         }
-
         processCalc.addDigit(digitTxt: digitTxt)
     }
     
@@ -52,17 +51,6 @@ class ViewController: UIViewController, CalcFormaterDelegate {
         }*/
     }
     
-    @IBAction func tappedPercentageButton(_ sender: UIButton) {
-        guard let operatorChar = sender.title(for: .normal) else { return }
-        processCalc.addOperator(operatorChar: operatorChar)
-        
-        /*if canAddOperator {
-            processCalc.addOperator(operatorChar: sender)
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }*/
-    }
-    
     @IBAction func tappedCommaButton(_ sender: UIButton) {
          processCalc.addComma()
     }
@@ -83,33 +71,28 @@ class ViewController: UIViewController, CalcFormaterDelegate {
          processCalc.getResult()
      }
     
-    weak var calcFormaterDelegate: CalcFormaterDelegate?
+    //weak var calcFormatterDelegate: CalcFormatterDelegate?
     
-    private var processCalc: CalcFormater
+    private var processCalc: CalcFormatter
     
     required init?(coder: NSCoder) {
-        self.processCalc = CalcFormater()
+        self.processCalc = CalcFormatter()
         super.init(coder: coder)
         processCalc.delegate = self
+        
     }
     
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+        processCalc.addDigit(digitTxt: "0")        // Do any additional setup after loading the view.
         //self.processCalc.viewController = self
     }
-    
+   
     private func alertMessage(title: String, message: String) {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
-    
-    // MARK: calcFormaterDelegate
-    func didRefreshScreenResult() {
-        textView.text = processCalc.screenResult
-        print("****\(processCalc.screenResult)****")
-    }
+
 }

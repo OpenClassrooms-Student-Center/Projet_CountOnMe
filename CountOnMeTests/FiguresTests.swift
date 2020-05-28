@@ -7,16 +7,17 @@
 //
 
 import XCTest
+@testable import CountOnMe
 
 class FiguresTests: XCTestCase {
-    @testable import CountOnMe
+    var figure: Figures!
     
-    var figures: Figures!
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         super.setUp()
         figure = Figures()
     }
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -37,8 +38,6 @@ class FiguresTests: XCTestCase {
         }
     }
     func testGivenResultEqualInterger_whenCheckhasIntegerResultThenReturnTrue() {
-        
-        initScreenResult(formula: ["12"])
         
     }
 }
