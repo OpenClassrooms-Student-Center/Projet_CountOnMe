@@ -29,11 +29,7 @@ class ViewController: UIViewController {
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         guard let operatorChar = sender.title(for: .normal) else { return }
         processCalc.addOperator(operatorChar: operatorChar)
-   /*     if canAddOperator {
-             processCalc.addOperator(operatorChar: sender)
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }*/
+   
     }
     
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
@@ -44,11 +40,7 @@ class ViewController: UIViewController {
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
         guard let operatorChar = sender.title(for: .normal) else { return }
         processCalc.addOperator(operatorChar: operatorChar)
-      /*  if canAddOperator {
-            textView.text.append(" * ")
-        } else {
-            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
-        }*/
+   
     }
     
     @IBAction func tappedCommaButton(_ sender: UIButton) {
@@ -71,25 +63,28 @@ class ViewController: UIViewController {
          processCalc.getResult()
      }
     
-    //weak var calcFormatterDelegate: CalcFormatterDelegate?
-    
     private var processCalc: CalcFormatter
     
     required init?(coder: NSCoder) {
         self.processCalc = CalcFormatter()
         super.init(coder: coder)
         processCalc.delegate = self
-        
     }
     
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        processCalc.addDigit(digitTxt: "0")        // Do any additional setup after loading the view.
-        //self.processCalc.viewController = self
+        textView.textContainer.maximumNumberOfLines = 15
+        processCalc.refreshScreen()
+        let name = Notification.Name(rawValue: "CarryOutError")
+        NotificationCenter.default.addObserver(self, selector: #selector(carryOutError), name: name, object: nil)
+    }
+    
+    @objc func carryOutError() {
+        alertMessage(title: "erreur")
     }
    
-    private func alertMessage(title: String, message: String) {
+    private func alertMessage(title: String, message: String = "") {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)

@@ -12,45 +12,89 @@ class Figures {
     
     var result: Double = 0.0
     private var calculationNumber: Int
+    private var operationsToReduce: [String] = []
     
-    var getCurrentSeparator: String {
-        let numberFormatter = NumberFormatter()
-        return numberFormatter.decimalSeparator
-    }
-    var hasIntegerResult: Bool {
-        return result.truncatingRemainder(dividingBy: 1) == 0
-    }
     init() {
         self.result = 0.0
         self.calculationNumber = 0
+       
     }
-    ///return a Double type
     
-    func carryOutFormula(formula: [String]) -> String {
-        var operationsToReduce = formula
-        var roundedResult: String = ""
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Double(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Double(operationsToReduce[2])!
-            
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "*": result = left * right
-            case "/": result = left / right
-            default: fatalError("Unknown operator !")
-            }
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+    private func lookingForPriorities() -> Int? {
+        if let index = getDivisionIndex() { return index }
+        if let index = getMultiplicationIndex() { return index }
+        
+        return 1
+    }
+    
+    private func getMultiplicationIndex() -> Int? {
+        return operationsToReduce.firstIndex(of: "x")
+    }
+    
+    private func getDivisionIndex() -> Int? {
+        return operationsToReduce.firstIndex(of: "/")
+    }
+    
+    private func isDivisionByZero(rightValue: Double) -> Bool {
+        if rightValue != 0 {
+            return false
         }
-        if hasIntegerResult {
-            roundedResult += formatResultInInteger(result: result)
-            
+        return true
+    }
+    
+    private func carryOutOperation(_ operand: String, _ left: Double, _ right: Double) {
+        switch operand {
+        case "+": result = left + right
+        case "-": result = left - right
+        case "x": result = left * right
+        case "/": if !isDivisionByZero(rightValue: right) {
+            result = left / right
         } else {
-            roundedResult += formatResultInDouble(result: result)
+            errorNotification()
+            return
+            //fatalError("Division par zero impossible")
         }
-        return roundedResult
+        default: errorNotification() //fatalError("Unknown operator !")
+        }
+    }
+    
+    ///carry out the formula calculation in parameter and return the result as double type
+    func carryOutFormula(formula: [String]) -> Double? {
+        if formula.count < 3 { return nil }
+        
+        //fix formula out of the regional settings
+        operationsToReduce = fixFormula(formula: formula)
+        // Iterate over operations while an operand still here
+        while operationsToReduce.count > 1,
+            let calculationIndex = lookingForPriorities() {
+            
+            guard let left = Double(operationsToReduce[calculationIndex-1]) else { return nil }
+            let operand = operationsToReduce[calculationIndex]
+            
+            guard let right = Double(operationsToReduce[calculationIndex+1]) else { return nil }
+            carryOutOperation(operand, left, right)
+            
+            //operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.removeSubrange(calculationIndex-1...calculationIndex+1)
+            operationsToReduce.insert("\(result)", at: calculationIndex-1)
+        }
+        return round(result*100000)/100000
+    }
+    
+    private func fixFormula(formula: [String]) -> [String] {
+        let numberFormatter = NumberFormatter()
+        let decimal = numberFormatter.decimalSeparator!
+        var fixedFormula = [String]()
+        for value in formula {
+            let fixedValue = value.replacingOccurrences(of: decimal, with: ".")
+            fixedFormula.append(fixedValue)
+        }
+        return fixedFormula
+    }
+    
+   func errorNotification() {
+        let name = Notification.Name(rawValue: "CarryOutError")
+        let notification = Notification(name: name)
+        NotificationCenter.default.post(notification)
     }
 }

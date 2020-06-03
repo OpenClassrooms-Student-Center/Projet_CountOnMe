@@ -10,9 +10,9 @@ import XCTest
 @testable import CountOnMe
 
 class CalcFormatterTests: XCTestCase {
-   
+    
     var formulaTxt: String = ""
-    var screenResult: String = ""
+   // var screenResult: String = ""
     
     var calcFormatter: CalcFormatter!
     
@@ -36,8 +36,24 @@ class CalcFormatterTests: XCTestCase {
         calcFormatter.addOperator(operatorChar: calcOperator)
     }
     
+    func getTappedComma() {
+        calcFormatter.addComma()
+    }
+    
+    func getTappedReverse() {
+        calcFormatter.reverseFigure()
+    }
+    
     func getTappedEqual() {
         calcFormatter.getResult()
+    }
+    
+    func getTappedCButton() {
+           calcFormatter.deleteElement(all: false)
+       }
+    
+    func getTappedCEButton() {
+        calcFormatter.deleteElement(all: true)
     }
     
     func testPerformanceExample() {
@@ -47,39 +63,162 @@ class CalcFormatterTests: XCTestCase {
         }
     }
     
-    func testGivenStarted_WhenDidNothing_ThenFormulaGive0() {
-                
-        XCTAssertEqual(formulaTxt, "0")
-    }
+    /// test display of an addition on screen
+      func testGiven12Plus12_WhenAddEqual_ThenResultDisplayEqual24() {
+          getTappedDigit(digit: "1")
+          getTappedDigit(digit: "2")
+          getTappedOperator(calcOperator: "+")
+          getTappedDigit(digit: "1")
+          getTappedDigit(digit: "2")
+          
+          getTappedEqual()
+          
+          XCTAssertEqual(formulaTxt, "12 + 12 = 24")
+      }
     
-    func testGivenStarted_WhenAddDigit1_ThenFormulaGive1() {
-        
+    /// test display of a soustraction on screen
+    func testGiven24Minus12_WhenAddEqual_ThenResultDisplayEqual12() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        getTappedOperator(calcOperator: "-")
         getTappedDigit(digit: "1")
-        
-        XCTAssertEqual(formulaTxt, "1")
-    }
-    func testGivenResult12_WhenAddOperatorPlus_ThenResultDisplay_12Plus() {
-        getTappedDigit(digit: "12")
-        getTappedOperator(calcOperator: "+")
-        
-        print("test!***\(formulaTxt)")
-        
-        XCTAssertEqual(formulaTxt, "12 +")
-    }
-    
-    func testGivenResult12Plus12_WhenAddEqual_ThenResultDisplayEqual24() {
-        getTappedDigit(digit: "12")
-        getTappedOperator(calcOperator: "+")
-        getTappedDigit(digit: "12")
+        getTappedDigit(digit: "2")
         
         getTappedEqual()
         
-        XCTAssertEqual(formulaTxt, "12 + 12 = 24")
+        XCTAssertEqual(formulaTxt, "24 - 12 = 12")
     }
     
-    func testGiven0WhenOneTappedThenShouldShowOne() {
-        calcFormatter.addDigit(digitTxt: "1")
+     /// test display of a multiplication on screen
+    func testGiven24Mult2_WhenAddEqual_ThenResultDisplayEqual48() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        getTappedOperator(calcOperator: "x")
+        getTappedDigit(digit: "2")
         
-        XCTAssertEqual(formulaTxt, "1")
+        getTappedEqual()
+        
+        XCTAssertEqual(formulaTxt, "24 x 2 = 48")
+    }
+    
+    /// test display of a division on screen
+    func testGivenResult24Div2_WhenAddEqual_ThenResultDisplayEqual12() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        getTappedOperator(calcOperator: "/")
+        getTappedDigit(digit: "2")
+        
+        getTappedEqual()
+        
+        XCTAssertEqual(formulaTxt, "24 / 2 = 12")
+    }
+    
+    /// test display a division with a float as result
+    func testGiven24Div5_WhenAddEqual_ThenResultDisplayFloatResult() {
+        getTappedDigit(digit: "24")
+        getTappedOperator(calcOperator: "/")
+        getTappedDigit(digit: "5")
+        
+        getTappedEqual()
+        
+        XCTAssertEqual(formulaTxt, "24 / 5 = 4,8")
+    }
+    
+    ///test display a soustration  with float figure and zero after comma
+    func testGiven24Comma05Minus5_WhenAddEqual_ThenDisplayFormulaWithResult() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        getTappedComma()
+        getTappedDigit(digit: "0")
+        getTappedDigit(digit: "5")
+        
+        getTappedOperator(calcOperator: "-")
+        getTappedDigit(digit: "5")
+        
+        getTappedEqual()
+        
+        XCTAssertEqual(formulaTxt, "24,05 - 5 = 19,05")
+    }
+    
+    //test Multiplication with thousand separator
+    func testGiven2450Mult1234_WhenAddEqual_ThenResultDisplay3023300() {
+           getTappedDigit(digit: "2")
+           getTappedDigit(digit: "4")
+           getTappedDigit(digit: "5")
+           getTappedDigit(digit: "0")
+           getTappedOperator(calcOperator: "x")
+           getTappedDigit(digit: "1")
+           getTappedDigit(digit: "2")
+           getTappedDigit(digit: "3")
+           getTappedDigit(digit: "4")
+           
+           getTappedEqual()
+           print("\(formulaTxt)")
+        
+         XCTAssertEqual(formulaTxt, "2 450 x 1 234 = 3 023 300")
+       }
+    
+    ///test display Multiplication with float Values
+    func testGiven24Comma5Mult5Comma5_WhenAddEqual_ThenResultDisplayResult() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        getTappedComma()
+        getTappedDigit(digit: "5")
+        
+        getTappedOperator(calcOperator: "x")
+        getTappedDigit(digit: "5")
+        getTappedComma()
+        getTappedDigit(digit: "5")
+        
+        getTappedEqual()
+        
+        XCTAssertEqual(formulaTxt, "24,5 x 5,5 = 134,75")
+    }
+    
+    ///test the reverse button +/-
+    func testGiven24_WhenReverseButtonTapped_ThenResultDisplayMinus24() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "4")
+        
+        getTappedReverse()
+        
+        XCTAssertEqual(formulaTxt, "-24")
+    }
+    
+    ///test C button to delete last tapped figure
+    func testGiven24Div10_WhenTappedCButton_ThenResultDisplayEqual24Div() {
+       getTappedDigit(digit: "2")
+       getTappedDigit(digit: "4")
+       getTappedOperator(calcOperator: "/")
+       getTappedDigit(digit: "1")
+       getTappedDigit(digit: "0")
+              
+       getTappedCButton()
+           
+       XCTAssertEqual(formulaTxt, "24 /")
+       }
+    
+    ///test RAZ
+    func testGiven2020_WhenCEButtonTapped_ThenRAZandDisplay0() {
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "0")
+        getTappedDigit(digit: "2")
+        getTappedDigit(digit: "0")
+       
+        getTappedCEButton()
+        
+        XCTAssertEqual(formulaTxt, "0")
+    }
+    
+    ///test multi line screen with old result recovered on the new line after Plus tapped
+    func testGiven2Plus4Egal6_WhenTappedPlus_ThenDisplayOldResultAndPlus () {
+           getTappedDigit(digit: "2")
+           getTappedOperator(calcOperator: "+")
+           getTappedDigit(digit: "4")
+           getTappedEqual()
+        
+           getTappedOperator(calcOperator: "+")
+        
+            XCTAssertEqual(formulaTxt, "2 + 4 = 6\n6 +")
     }
 }

@@ -8,109 +8,149 @@
 import Foundation
 
 class CalcFormatter {
-    
+    ///delegate used to
     weak var delegate: CalcFormatterDelegate?
     
     private let figure = Figures()
     private var formula = [String]()
-    private var rowIndex: Int = 0
-    private var activeOldResult: Bool
-    private var screenRow = [String]()
-    
-    var screenResult: String = ""
+    private var lastRow: Int = 0
+    private var storedResult: Bool
+    private var isFloatValue: Bool
+    private var screenResult = [[String]]()
     
     init() {
-        self.activeOldResult = false
-        self.rowIndex = addScreenRow()
+        self.storedResult = false
+        self.isFloatValue = false
+        resetFormula(defaultValue: "0")
+        resetScreen()
+        
     }
     
-    func isOperator(_ value: String) -> Bool {
-        if value == "+" || value == "-" || value == "/" || value == "*" {
-            return true
+    ///function used when numeric button is tapped
+    func addDigit(digitTxt: String) {
+        storedResult = false
+        
+        var figure = digitTxt
+        if let lastElement = formula.last,
+            !isOperator(lastElement) {
+            formula.removeLast()
+            
+            if lastElement == "0" {
+                figure = digitTxt
+            } else if isFloatValue || (Int(lastElement) != nil) {
+                figure = lastElement + figure
+            }
         }
-        return false
+        formula.append(figure)
+        refreshScreen()
     }
     
+    ///function used when operator button is tapped (+,-,*,/)
     func addOperator(operatorChar: String) {
         if !getFormulaConsistency(value: operatorChar) {
             return
         }
-        if activeOldResult,
-            formula.count == 0 {
-            let oldResult = figure.convertToString(figure: figure.result, accuracy: 5)
-            formula.append(oldResult)
+        //get back the old Result to use it for the next row
+        if storedResult && formula.last == "0" {
+            guard let oldResult = convertToString(figure: figure.result, accuracy: 2) else { return }
+            resetFormula(defaultValue: oldResult)
         }
-        updateOutput(formulaElement: operatorChar)
+        formula.append(operatorChar)
+        isFloatValue = false
+        refreshScreen()
     }
     
-    func addDigit(digitTxt: String) {
-        activeOldResult = false
-        var figure = digitTxt
-        if getFormulaConsistency(value: figure) {
-            if let lastElement = formula.last, Int(lastElement) != nil {
-                formula.removeLast()
-                if lastElement != "0" {
-                    figure = lastElement + figure
-                }
+    func refreshScreen() {
+        let screen = screenResultFormatter()
+        delegate?.didRefreshScreenResult(screen: screen)
+    }
+    
+    private func screenResultFormatter() -> String {
+        var screenTxt: String = ""
+        
+        if lastRow == (screenResult.count - 1) {
+            screenResult.remove(at: lastRow)
+        }
+        let fixedFormula = fixFormula(formula: formula)
+        screenResult.append(fixedFormula)
+        if lastRow > 0 {
+            for indexRow in 0...lastRow-1 {
+                screenTxt += screenResult[indexRow].joined(separator: " ")
+                screenTxt += "\n"
             }
         }
-        updateOutput(formulaElement: figure)
+        screenTxt += screenResult[lastRow].joined(separator: " ")
+        return screenTxt
     }
     
-    func updateOutput(formulaElement: String) {
-        formula.append(formulaElement)
-        screenResult = updateScreenRow()
-        delegate?.didRefreshScreenResult(screen: screenResult)
-    }
-    
-    func updateOutput() {
-        screenResult = updateScreenRow()
-        delegate?.didRefreshScreenResult(screen: screenResult)
-    }
-    
-    func addScreenRow() -> Int {
-        screenRow.append(formulaString())
-        return screenRow.count - 1
-    }
-    
-    func updateScreenRow() -> String {
-        if screenRow.count < rowIndex - 1 {
-            screenRow.append("0")
+    func fixFormula(formula: [String]) -> [String] {
+        var fixedFormula = [String]()
+        let decimalSeparator = getDecimalSeparator()
+        for var value in formula {
+            if let positionSeparator = value.firstIndex(of: decimalSeparator.last!) {
+                value = fixFloatValue(floatTxt: value, decimal: decimalSeparator, indexDecimal: positionSeparator)
+            } else {
+              if let fixedValue = convertToString(figure: value, thousandSeparator: true),
+                !isOperator(value) {
+                value = fixIntegerValue(integerTxt: fixedValue, decimal: decimalSeparator)
+                }
+            }
+           
+            fixedFormula.append(value)
         }
-        screenRow[rowIndex] = formulaString()
-        return screenRow[rowIndex]
+        return fixedFormula
     }
     
-    func screenString() -> String {
-        return screenRow.joined(separator: "\n")
-    }
-    
-    func formulaString() -> String {
-        return formula.joined(separator: " ")
-    }
-    
-    func deleteElement(all: Bool) {
+    func fixFloatValue(floatTxt: String, decimal: String, indexDecimal: String.Index) -> String {
+        var fixedFloatTxt: String
+        let distanceFrom: Int
+        let distanceTo: Int
+        distanceFrom = floatTxt.distance(from: floatTxt.startIndex, to: indexDecimal)
+        distanceTo = floatTxt.distance(from: indexDecimal, to: floatTxt.endIndex)
+        let integerPart = floatTxt.dropLast(distanceTo)
+        let decimalPart = floatTxt.dropFirst(distanceFrom)
         
+        if let fixedIntegerPart = convertToString(figure: String(integerPart), thousandSeparator: true) {
+            fixedFloatTxt = fixedIntegerPart
+            fixedFloatTxt = fixIntegerValue(integerTxt: fixedFloatTxt, decimal: decimal)
+            fixedFloatTxt += decimalPart
+        } else {
+            return ""
+        }
+        
+        if floatTxt.last == decimal.last && !isFloatValue {
+           fixedFloatTxt.removeLast()
+        }
+        return fixedFloatTxt
+    }
+    func fixIntegerValue(integerTxt: String, decimal: String) -> String {
+        var fixedIntegerTxt = integerTxt
+        if integerTxt.last == decimal.last {
+           fixedIntegerTxt.removeLast()
+        }
+        return fixedIntegerTxt
+    }
+    
+    ///used when CE or C button are tapped
+    func deleteElement(all: Bool) {
         if all == true {
-            screenRow.removeAll()
-            initRow()
+            resetFormula(defaultValue: "0")
+            resetScreen()
         } else {
             formula.removeLast()
-            updateOutput()
+            if formula.count == 0 {
+                formula.append("0")
+            }
         }
-        
+        refreshScreen()
     }
     
-    func initRow() {
-        formula.removeAll()
-        updateOutput(formulaElement: "0")
-    }
-    
+    ///function used when +/- button is tapped
     func reverseFigure() {
         guard var figure = formula.last else { return }
-        if !getFormulaConsistency(value: figure) {
-            return
-        }
+        if !getFormulaConsistency(value: figure) { return  }
+        
+        isFloatValue = false
         formula.removeLast()
         
         if figure.first == "-" {
@@ -118,30 +158,65 @@ class CalcFormatter {
         } else {
             figure.insert("-", at: figure.startIndex)
         }
-        print(formulaString())
-        updateOutput(formulaElement: figure)
+        formula.append(figure)
+        
+        refreshScreen()
     }
     
+    ///function used when comma button is tapped
+
     func addComma() {
         guard let lastFigure = formula.last else { return }
         if !getFormulaConsistency(value: lastFigure) { return }
         
         formula.removeLast()
-        
-        updateOutput(formulaElement: lastFigure + figure.getCurrentSeparator)
+        isFloatValue = true
+        if let float = convertToString(figure: lastFigure, accuracy: 1) {
+            formula.append(float)
+            refreshScreen()
+        }
     }
     
+    ///function used when Equal button is tapped
     func getResult() {
-        let result = figure.carryOutFormula(formula: formula)
-        formula.append("=")
-        updateOutput(formulaElement: result)
-        rowIndex += 1
-        activeOldResult = true
-        initRow()
+        guard let result = figure.carryOutFormula(formula: formula) else { return }
+        
+        if let resultTxt = convertToString(figure: result, accuracy: 2) {
+            isFloatValue = false
+            formula.append("=")
+            formula.append(resultTxt)
+            screenResult[lastRow].append(contentsOf: formula)
+            storedResult = true
+            
+            refreshScreen()
+            
+            //init settings for a new row in screen
+            resetFormula(defaultValue: "0")
+            lastRow += 1
+        }
+    }
+    
+    private func resetFormula(defaultValue: String) {
+        isFloatValue = false
+        formula.removeAll()
+        formula.append(defaultValue)
+    }
+    
+    private func resetScreen() {
+        screenResult.removeAll()
+        lastRow = 0
+        screenResult.append(formula)
+    }
+    
+    private func isOperator(_ value: String) -> Bool {
+        if value == "+" || value == "-" || value == "/" || value == "x" || value == "=" {
+            return true
+        }
+        return false
     }
     
     ///check the consistency of the current formula
-    func getFormulaConsistency(value: String) -> Bool {
+    private func getFormulaConsistency(value: String) -> Bool {
         if let lastValue = formula.last {
             // check if 2 consecutive character have been tapped
             if isOperator(value) && isOperator(lastValue) {
@@ -150,41 +225,37 @@ class CalcFormatter {
         }
         return true
     }
-    func formatResultInDouble(result: Double) -> String {
-        let stringResult = convertToString(figure: Double, accuracy: 3)
-        return stringResult
-    }
     
-    func formatResultInInteger(result: Double) -> String {
-        let stringResult = convertToString(figure: result, accuracy: 0)
-        return stringResult ?? ""
-    }
-    
-    func convertToDouble(stringFigure: String) -> Double {
-        let figure = Double(stringFigure)
-        return figure ?? 0.0
-    }
-    
-    ///format a figure with an accuracy of x digit after the comma.
+    ///format a numeric figure with an accuracy of x digit after the comma.
     ///and return a String
-    func convertToString(figure: Double, accuracy: Int) -> String? {
-        //       String(format: "%."+String(accuracy)+"f", figure)
-        NumberFormatter().accuracy = 
-        return NumberFormatter().string(from: NSNumber(value: figure))
+    private func convertToString(figure: Double, accuracy: Int ) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = accuracy
+        numberFormatter.usesGroupingSeparator = false
+        return numberFormatter.string(from: NSNumber(value: figure))
     }
-    /*   // MARK: CalcFormatterDelegateTest
-     func didScreenDisplayChanged() -> String {
-     if formulaString.count > 0 {
-     var formulaResult = formula.filter { !$0.contains("\n") }
-     guard let lastResultIndex = formulaResult.lastIndex(of: "=") else { return "" }
-     let formulaIndexStart = formulaResult.index(lastResultIndex, offsetBy: -3)
-     
-     formulaResult = formulaResult.suffix(formulaIndexStart)
-     
-     return formulaResult.joined(separator: " ")
-     }
-     return ""
-     
-     }*/
     
+    //convert a figure from a string
+    private func convertToString(figure: String, accuracy: Int = 0, thousandSeparator: Bool = false) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.alwaysShowsDecimalSeparator = false
+        if accuracy != 0 || isFloatValue || thousandSeparator {
+            numberFormatter.alwaysShowsDecimalSeparator = true
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.maximumFractionDigits = accuracy
+        } else {
+            numberFormatter.numberStyle = .none
+        }
+        numberFormatter.usesGroupingSeparator = thousandSeparator
+        if let figureNumeric = numberFormatter.number(from: figure) {
+            return numberFormatter.string(from: figureNumeric)
+        }
+        return nil
+    }
+    
+    func getDecimalSeparator() -> String {
+        let numberFormatter = NumberFormatter()
+        return numberFormatter.currencyDecimalSeparator!
+    }
 }
