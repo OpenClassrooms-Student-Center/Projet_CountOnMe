@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.textContainer.maximumNumberOfLines = 15
+        //textView.textContainer.maximumNumberOfLines = 15
         processCalc.refreshScreen()
         let name = Notification.Name(rawValue: "CarryOutError")
         NotificationCenter.default.addObserver(self, selector: #selector(carryOutError), name: name, object: nil)

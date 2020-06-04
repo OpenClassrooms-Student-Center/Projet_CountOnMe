@@ -36,12 +36,11 @@ class Figures {
     }
     
     private func isDivisionByZero(rightValue: Double) -> Bool {
-        if rightValue != 0 {
-            return false
-        }
+        if rightValue != 0 { return false }
         return true
     }
-    
+        
+    //carry out the calculation
     private func carryOutOperation(_ operand: String, _ left: Double, _ right: Double) -> Bool {
         switch operand {
         case "+": result = left + right
@@ -58,7 +57,6 @@ class Figures {
     
     ///carry out the formula calculation in parameter and return the result as double type
     func carryOutFormula(formula: [String]) -> Double? {
-        if formula.count < 3 { return nil }
         
         //fix formula out of the regional settings
         operationsToReduce = fixFormula(formula: formula)
@@ -72,13 +70,15 @@ class Figures {
             
             if !carryOutOperation(operand, left, right) { return nil }
             
-            //operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.removeSubrange(calculationIndex-1...calculationIndex+1)
             operationsToReduce.insert("\(result)", at: calculationIndex-1)
         }
+        
+        //round the result to 5 digits after comma
         return round(result*100000)/100000
     }
     
+    //fix dot as comma  to be compatible to calculation
     private func fixFormula(formula: [String]) -> [String] {
         let numberFormatter = NumberFormatter()
         let decimal = numberFormatter.decimalSeparator!

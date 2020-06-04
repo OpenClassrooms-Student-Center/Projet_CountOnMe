@@ -222,13 +222,13 @@ class CalcFormatterTests: XCTestCase {
             XCTAssertEqual(formulaTxt, "2 + 4 = 6\n6 +")
     }
     
-    func testGiven10Div0_WhenTappedEqual_ThenDisplayError() {
+    func testGiven10Div0_WhenTappedEqual_ThenDisplay10Div0AndPopupError() {
         getTappedDigit(digit: "10")
-        getTappedOperator(calcOperator: "+")
+        getTappedOperator(calcOperator: "/")
         getTappedDigit(digit: "0")
         
         getTappedEqual()
         
-        XCTAssertEqual(formulaTxt, "2 + 4 = 6\n6 +")
+        XCTAssertEqual(formulaTxt, "10 / 0")
     }
 }

@@ -24,7 +24,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="A9x-Qa-5Mo">
                                 <rect key="frame" x="20" y="44" width="374" height="798"/>
                                 <subviews>
-                                    <textView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" bounces="NO" pagingEnabled="YES" maximumZoomScale="0.0" bouncesZoom="NO" editable="NO" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB" userLabel="ScreenResult">
+                                    <textView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" bounces="NO" maximumZoomScale="0.0" bouncesZoom="NO" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB" userLabel="ScreenResult">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="252"/>
                                         <color key="backgroundColor" red="0.24797683949999999" green="0.53468751910000001" blue="0.58752226829999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
