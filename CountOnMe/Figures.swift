@@ -42,20 +42,18 @@ class Figures {
         return true
     }
     
-    private func carryOutOperation(_ operand: String, _ left: Double, _ right: Double) {
+    private func carryOutOperation(_ operand: String, _ left: Double, _ right: Double) -> Bool {
         switch operand {
         case "+": result = left + right
         case "-": result = left - right
         case "x": result = left * right
-        case "/": if !isDivisionByZero(rightValue: right) {
-            result = left / right
-        } else {
-            errorNotification()
-            return
-            //fatalError("Division par zero impossible")
+        case "/":
+            if !isDivisionByZero(rightValue: right) {
+                result = left / right
+            } else { return false }
+        default: return false
         }
-        default: errorNotification() //fatalError("Unknown operator !")
-        }
+        return true
     }
     
     ///carry out the formula calculation in parameter and return the result as double type
@@ -70,9 +68,9 @@ class Figures {
             
             guard let left = Double(operationsToReduce[calculationIndex-1]) else { return nil }
             let operand = operationsToReduce[calculationIndex]
-            
             guard let right = Double(operationsToReduce[calculationIndex+1]) else { return nil }
-            carryOutOperation(operand, left, right)
+            
+            if !carryOutOperation(operand, left, right) { return nil }
             
             //operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.removeSubrange(calculationIndex-1...calculationIndex+1)
@@ -90,11 +88,5 @@ class Figures {
             fixedFormula.append(fixedValue)
         }
         return fixedFormula
-    }
-    
-   func errorNotification() {
-        let name = Notification.Name(rawValue: "CarryOutError")
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
     }
 }

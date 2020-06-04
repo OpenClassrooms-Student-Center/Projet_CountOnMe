@@ -8,36 +8,53 @@
 import Foundation
 
 class CalcFormatter {
-    ///delegate used to
+    //delegate used to refresh screen from ViewController
+    //or getting  result in CalcFormatterTests
     weak var delegate: CalcFormatterDelegate?
     
     private let figure = Figures()
+    
+    //current formula storage without regional settings
     private var formula = [String]()
-    private var lastRow: Int = 0
+    
+    //current row used in screen
+    private var currentRow: Int = 0
+    
+    //old result are available in figure class
     private var storedResult: Bool
-    private var isFloatValue: Bool
+    
+    //activated when a comma have been tapped
+    private var isCreationDecimalValue: Bool
+    
+    //array of all formula tapped and displayed in rows
+    //regional settings applies (comma , thousand separator )
     private var screenResult = [[String]]()
     
     init() {
         self.storedResult = false
-        self.isFloatValue = false
+        self.isCreationDecimalValue = false
         resetFormula(defaultValue: "0")
         resetScreen()
-        
+    }
+    
+    var screenRowQantity: Int {
+        return screenResult.count - 1
     }
     
     ///function used when numeric button is tapped
     func addDigit(digitTxt: String) {
+        //old result is lost when a new digit is tapped
         storedResult = false
         
         var figure = digitTxt
+
         if let lastElement = formula.last,
             !isOperator(lastElement) {
             formula.removeLast()
             
             if lastElement == "0" {
                 figure = digitTxt
-            } else if isFloatValue || (Int(lastElement) != nil) {
+            } else if isCreationDecimalValue || isInteger(valueTxt: lastElement) {
                 figure = lastElement + figure
             }
         }
@@ -47,16 +64,20 @@ class CalcFormatter {
     
     ///function used when operator button is tapped (+,-,*,/)
     func addOperator(operatorChar: String) {
-        if !getFormulaConsistency(value: operatorChar) {
-            return
-        }
-        //get back the old Result to use it for the next row
+        if !getFormulaConsistency(value: operatorChar) { return }
+        
+        //get the old result to use it for the next line
+        //if operator is tapped first
         if storedResult && formula.last == "0" {
-            guard let oldResult = convertToString(figure: figure.result, accuracy: 2) else { return }
+            guard let oldResult = convertToString(figure: figure.result, accuracy: 2)
+                else { return }
             resetFormula(defaultValue: oldResult)
         }
         formula.append(operatorChar)
-        isFloatValue = false
+        
+        //end of decimal value design if necessary
+        isCreationDecimalValue = false
+        
         refreshScreen()
     }
     
@@ -65,21 +86,23 @@ class CalcFormatter {
         delegate?.didRefreshScreenResult(screen: screen)
     }
     
+    //refresh the screen and manage formulas per row
+    //format each formula by using regional settings
     private func screenResultFormatter() -> String {
         var screenTxt: String = ""
         
-        if lastRow == (screenResult.count - 1) {
-            screenResult.remove(at: lastRow)
+        if currentRow == screenRowQantity {
+            screenResult.remove(at: currentRow)
         }
         let fixedFormula = fixFormula(formula: formula)
         screenResult.append(fixedFormula)
-        if lastRow > 0 {
-            for indexRow in 0...lastRow-1 {
+        if currentRow > 0 {
+            for indexRow in 0...currentRow-1 {
                 screenTxt += screenResult[indexRow].joined(separator: " ")
                 screenTxt += "\n"
             }
         }
-        screenTxt += screenResult[lastRow].joined(separator: " ")
+        screenTxt += screenResult[currentRow].joined(separator: " ")
         return screenTxt
     }
     
@@ -118,7 +141,7 @@ class CalcFormatter {
             return ""
         }
         
-        if floatTxt.last == decimal.last && !isFloatValue {
+        if floatTxt.last == decimal.last && !isCreationDecimalValue {
            fixedFloatTxt.removeLast()
         }
         return fixedFloatTxt
@@ -150,7 +173,7 @@ class CalcFormatter {
         guard var figure = formula.last else { return }
         if !getFormulaConsistency(value: figure) { return  }
         
-        isFloatValue = false
+        isCreationDecimalValue = false
         formula.removeLast()
         
         if figure.first == "-" {
@@ -170,7 +193,7 @@ class CalcFormatter {
         if !getFormulaConsistency(value: lastFigure) { return }
         
         formula.removeLast()
-        isFloatValue = true
+        isCreationDecimalValue = true
         if let float = convertToString(figure: lastFigure, accuracy: 1) {
             formula.append(float)
             refreshScreen()
@@ -179,32 +202,34 @@ class CalcFormatter {
     
     ///function used when Equal button is tapped
     func getResult() {
-        guard let result = figure.carryOutFormula(formula: formula) else { return }
+        guard let result = figure.carryOutFormula(formula: formula) else {
+            errorNotification()
+            return
+        }
         
         if let resultTxt = convertToString(figure: result, accuracy: 2) {
-            isFloatValue = false
+            isCreationDecimalValue = false
             formula.append("=")
             formula.append(resultTxt)
-            screenResult[lastRow].append(contentsOf: formula)
+            screenResult[currentRow].append(contentsOf: formula)
             storedResult = true
             
             refreshScreen()
             
             //init settings for a new row in screen
             resetFormula(defaultValue: "0")
-            lastRow += 1
+            currentRow += 1
         }
     }
     
     private func resetFormula(defaultValue: String) {
-        isFloatValue = false
         formula.removeAll()
         formula.append(defaultValue)
     }
     
     private func resetScreen() {
         screenResult.removeAll()
-        lastRow = 0
+        currentRow = 0
         screenResult.append(formula)
     }
     
@@ -213,6 +238,10 @@ class CalcFormatter {
             return true
         }
         return false
+    }
+    
+    private func isInteger(valueTxt: String) -> Bool {
+        return Int(valueTxt) != nil
     }
     
     ///check the consistency of the current formula
@@ -240,7 +269,7 @@ class CalcFormatter {
     private func convertToString(figure: String, accuracy: Int = 0, thousandSeparator: Bool = false) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.alwaysShowsDecimalSeparator = false
-        if accuracy != 0 || isFloatValue || thousandSeparator {
+        if accuracy != 0 || isCreationDecimalValue || thousandSeparator {
             numberFormatter.alwaysShowsDecimalSeparator = true
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumFractionDigits = accuracy
@@ -258,4 +287,10 @@ class CalcFormatter {
         let numberFormatter = NumberFormatter()
         return numberFormatter.currencyDecimalSeparator!
     }
+    
+    func errorNotification() {
+           let name = Notification.Name(rawValue: "CarryOutError")
+           let notification = Notification(name: name)
+           NotificationCenter.default.post(notification)
+       }
 }

@@ -81,7 +81,7 @@ class ViewController: UIViewController {
     }
     
     @objc func carryOutError() {
-        alertMessage(title: "erreur")
+        alertMessage(title: "Erreur ", message: "Division par Zero")
     }
    
     private func alertMessage(title: String, message: String = "") {
