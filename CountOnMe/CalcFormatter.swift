@@ -155,7 +155,7 @@ class CalcFormatter {
         if var fixedValue = convertToString(figure: integerTxt, thousandSeparator: true),
             !isOperator(fixedValue) {
             //if fixedValue.last == decimal.last && !isCreationDecimalValue {
-            if fixedValue.last == decimal.last  {
+            if fixedValue.last == decimal.last {
                 fixedValue.removeLast()
             }
             fixedIntegerTxt = fixedValue
@@ -203,8 +203,8 @@ class CalcFormatter {
         formula.removeLast()
         isCreationDecimalValue = true
         if let float = convertToString(figure: lastFigure, accuracy: 1) {
-              formula.append(float)
-        refreshScreen()
+            formula.append(float)
+            refreshScreen()
         }
     }
     

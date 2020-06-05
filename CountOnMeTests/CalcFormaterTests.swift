@@ -52,7 +52,7 @@ class CalcFormatterTests: XCTestCase {
            calcFormatter.deleteElement(all: false)
        }
     
-    func getTappedCEButton() {
+    func getTappedACButton() {
         calcFormatter.deleteElement(all: true)
     }
     
@@ -199,7 +199,7 @@ class CalcFormatterTests: XCTestCase {
        }
     
     ///test RAZ
-    func testGiven2020_WhenCEButtonTapped_ThenRAZandDisplay0() {
+    func testGiven2020_WhenACButtonTapped_ThenRAZandDisplay0() {
         getTappedDigit(digit: "2")
         getTappedDigit(digit: "0")
         getTappedDigit(digit: "2")
