@@ -11,9 +11,6 @@ import Foundation
 extension ViewController: CalcFormatterDelegate {
    // MARK: calcFormatterDelegate in ViewController
        func didRefreshScreenResult(screen: String) {
-        
-        print("****\(screen)****")
-        textView.text.removeAll()
-        textView.text.append(screen)
+        textView.text = screen
        }
 }

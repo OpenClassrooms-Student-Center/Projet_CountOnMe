@@ -13,6 +13,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     
+    private var processCalc: CalcFormatter
+    
+    required init?(coder: NSCoder) {
+        self.processCalc = CalcFormatter()
+        super.init(coder: coder)
+        processCalc.delegate = self
+    }
+    
+    // View Life cycles
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //processCalc.refreshFormulaHistory()
+        let name = Notification.Name(rawValue: "CarryOutError")
+        NotificationCenter.default.addObserver(self, selector: #selector(carryOutError), name: name, object: nil)
+    }
+    
     /// View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let digitTxt = sender.title(for: .normal) else {
@@ -29,7 +45,7 @@ class ViewController: UIViewController {
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         guard let operatorChar = sender.title(for: .normal) else { return }
         processCalc.addOperator(operatorChar: operatorChar)
-   
+        
     }
     
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
@@ -40,11 +56,11 @@ class ViewController: UIViewController {
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
         guard let operatorChar = sender.title(for: .normal) else { return }
         processCalc.addOperator(operatorChar: operatorChar)
-   
+        
     }
     
     @IBAction func tappedCommaButton(_ sender: UIButton) {
-         processCalc.addComma()
+        processCalc.addComma()
     }
     
     @IBAction func tappedReverseButton(_ sender: UIButton) {
@@ -52,7 +68,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedACButton(_ sender: UIButton) {
-         processCalc.deleteElement(all: true)
+        processCalc.deleteElement(all: true)
     }
     
     @IBAction func tappedCButton(_ sender: UIButton) {
@@ -60,33 +76,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-         processCalc.getResult()
-     }
-    
-    private var processCalc: CalcFormatter
-    
-    required init?(coder: NSCoder) {
-        self.processCalc = CalcFormatter()
-        super.init(coder: coder)
-        processCalc.delegate = self
-    }
-    
-    // View Life cycles
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        processCalc.refreshScreen()
-        let name = Notification.Name(rawValue: "CarryOutError")
-        NotificationCenter.default.addObserver(self, selector: #selector(carryOutError), name: name, object: nil)
+        processCalc.addEqual()
     }
     
     @objc func carryOutError() {
         alertMessage(title: "Erreur ", message: "Division par Zero")
     }
-   
+    
     private func alertMessage(title: String, message: String = "") {
         let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
-
 }

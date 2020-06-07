@@ -1,5 +1,5 @@
 //
-//  ArithmetiqueUnit.swift
+//  CalcFormatter.swift
 //  CountOnMe
 //
 //  Created by Laurent Debeaujon on 06/05/2020.
@@ -8,42 +8,39 @@
 import Foundation
 
 class CalcFormatter {
-    //delegate used to refresh screen from ViewController
-    //or getting  result in CalcFormatterTests
+    
     weak var delegate: CalcFormatterDelegate?
     
     private let figure = Figures()
     
-    //current formula storage without regional settings
     private var formula = [String]()
     
-    //current row used in screen
+    //current row used in history
     private var currentRow: Int = 0
     
-    //old result are available in figure class
     private var storedResult: Bool
     
-    //activated when a comma have been tapped
     private var isCreationDecimalValue: Bool
     
     //array of all formula tapped and displayed in rows
     //regional settings applies (comma , thousand separator )
-    private var screenResult = [[String]]()
+    private var historyOfFormulas = [[String]]()
     
     init() {
         self.storedResult = false
         self.isCreationDecimalValue = false
         resetFormula(defaultValue: "0")
-        resetScreen()
+        resetHistory()
+        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
     
-    var screenRowQantity: Int {
-        return screenResult.count - 1
+    var formulaRowQantity: Int {
+        return historyOfFormulas.count - 1
     }
     
     ///function used when numeric button is tapped
     func addDigit(digitTxt: String) {
-        //old result is lost when a new digit is tapped
+        
         storedResult = false
         
         var figure = digitTxt
@@ -59,12 +56,12 @@ class CalcFormatter {
             }
         }
         formula.append(figure)
-        refreshScreen()
+        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
     
     ///function used when operator button is tapped (+,-,*,/)
     func addOperator(operatorChar: String) {
-        if !getFormulaConsistency(value: operatorChar) { return }
+        if !canAddOperator(value: operatorChar) { return }
         
         //get the old result to use it for the next line
         //if operator is tapped first
@@ -75,48 +72,47 @@ class CalcFormatter {
         }
         formula.append(operatorChar)
         
-        //end of decimal value design if necessary
         isCreationDecimalValue = false
         
-        refreshScreen()
+        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
     
-    func refreshScreen() {
-        let screen = screenResultFormatter()
-        delegate?.didRefreshScreenResult(screen: screen)
+    func refreshFormulaHistory() {
+        let history = historyResultFormatter()
+        delegate?.didRefreshScreenResult(screen: history)
     }
     
-    //manage screen formulas per row
-    //format each formula by using regional settings
-    private func screenResultFormatter() -> String {
-        var screenTxt: String = ""
+    ///manage  formulas per row for history
+    ///format each formula by using regional settings
+    private func historyResultFormatter() -> String {
+        var historyTxt: String = ""
         
-        //delete the last screen row for an update
-        if currentRow == screenRowQantity {
-            screenResult.remove(at: currentRow)
+        //delete the last row of formula for update
+        if currentRow == formulaRowQantity {
+            historyOfFormulas.remove(at: currentRow)
         }
         
         //fix formula to be conform to regional settings
         let fixedFormula = fixFormula(formula: formula)
         
         //encode previous formulas lines with linefeeds
-        screenResult.append(fixedFormula)
+        historyOfFormulas.append(fixedFormula)
         if currentRow > 0 {
             for indexRow in 0...currentRow-1 {
-                screenTxt += screenResult[indexRow].joined(separator: " ")
-                screenTxt += "\n"
+                historyTxt += historyOfFormulas[indexRow].joined(separator: " ")
+                historyTxt += "\n"
             }
         }
         //encode the current formula
-        screenTxt += screenResult[currentRow].joined(separator: " ")
-        return screenTxt
+        historyTxt += historyOfFormulas[currentRow].joined(separator: " ")
+        return historyTxt
     }
     
     ///fix formula to be conform to regional settings
     func fixFormula(formula: [String]) -> [String] {
         var fixedFormula = [String]()
         
-        let decimalSeparator = getDecimalSeparator()
+        let decimalSeparator = NumberFormatter().decimalSeparator!
         
         for var value in formula {
             
@@ -154,7 +150,6 @@ class CalcFormatter {
         var fixedIntegerTxt = integerTxt
         if var fixedValue = convertToString(figure: integerTxt, thousandSeparator: true),
             !isOperator(fixedValue) {
-            //if fixedValue.last == decimal.last && !isCreationDecimalValue {
             if fixedValue.last == decimal.last {
                 fixedValue.removeLast()
             }
@@ -167,20 +162,20 @@ class CalcFormatter {
     func deleteElement(all: Bool) {
         if all == true {
             resetFormula(defaultValue: "0")
-            resetScreen()
+            resetHistory()
         } else {
             formula.removeLast()
             if formula.count == 0 {
                 formula.append("0")
             }
         }
-        refreshScreen()
+        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
     
     ///function used when +/- button is tapped
     func reverseFigure() {
         guard var figure = formula.last else { return }
-        if !getFormulaConsistency(value: figure) { return  }
+        if !canAddOperator(value: figure) { return  }
         
         isCreationDecimalValue = false
         formula.removeLast()
@@ -192,24 +187,23 @@ class CalcFormatter {
         }
         formula.append(figure)
         
-        refreshScreen()
+        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
-    
     ///function used when comma button is tapped
     func addComma() {
         guard let lastFigure = formula.last else { return }
-        if !getFormulaConsistency(value: lastFigure) { return }
+        if !canAddOperator(value: lastFigure) { return }
         
         formula.removeLast()
         isCreationDecimalValue = true
         if let float = convertToString(figure: lastFigure, accuracy: 1) {
             formula.append(float)
-            refreshScreen()
+            delegate?.didRefreshScreenResult(screen: historyResultFormatter())
         }
     }
     
     ///function used when Equal button is tapped
-    func getResult() {
+    func addEqual() {
         
         if formula.count >= 3 {
             guard let result = figure.carryOutFormula(formula: formula) else {
@@ -221,16 +215,15 @@ class CalcFormatter {
                 isCreationDecimalValue = false
                 formula.append("=")
                 formula.append(resultTxt)
-                screenResult[currentRow].append(contentsOf: formula)
+                historyOfFormulas[currentRow].append(contentsOf: formula)
                 storedResult = true
                 
-                refreshScreen()
+                delegate?.didRefreshScreenResult(screen: historyResultFormatter())
                 
-                //init settings for a new row in screen
+                //init settings for a new row in history
                 resetFormula(defaultValue: "0")
                 currentRow += 1
             }
-            
         }
     }
     
@@ -239,10 +232,10 @@ class CalcFormatter {
         formula.append(defaultValue)
     }
     
-    private func resetScreen() {
-        screenResult.removeAll()
+    private func resetHistory() {
+        historyOfFormulas.removeAll()
         currentRow = 0
-        screenResult.append(formula)
+        historyOfFormulas.append(formula)
     }
     
     private func isOperator(_ value: String) -> Bool {
@@ -256,10 +249,10 @@ class CalcFormatter {
         return Int(valueTxt) != nil
     }
     
-    ///check the consistency of the current formula
-    private func getFormulaConsistency(value: String) -> Bool {
+    ///check if 2 consecutive operator have been tapped
+    private func canAddOperator(value: String) -> Bool {
         if let lastValue = formula.last {
-            // check if 2 consecutive character have been tapped
+            
             if isOperator(value) && isOperator(lastValue) {
                 return false
             }
@@ -268,7 +261,6 @@ class CalcFormatter {
     }
     
     ///format a numeric figure with an accuracy of x digit after the comma.
-    ///and return a String
     private func convertToString(figure: Double, accuracy: Int ) -> String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -295,16 +287,5 @@ class CalcFormatter {
             return numberFormatter.string(from: figureNumeric)
         }
         return nil
-    }
-    
-    func getDecimalSeparator() -> String {
-        let numberFormatter = NumberFormatter()
-        return numberFormatter.currencyDecimalSeparator!
-    }
-    
-    func errorNotification() {
-        let name = Notification.Name(rawValue: "CarryOutError")
-        let notification = Notification(name: name)
-        NotificationCenter.default.post(notification)
     }
 }

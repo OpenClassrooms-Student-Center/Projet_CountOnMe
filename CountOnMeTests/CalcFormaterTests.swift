@@ -45,7 +45,7 @@ class CalcFormatterTests: XCTestCase {
     }
     
     func getTappedEqual() {
-        calcFormatter.getResult()
+        calcFormatter.addEqual()
     }
     
     func getTappedCButton() {
@@ -153,7 +153,6 @@ class CalcFormatterTests: XCTestCase {
            getTappedDigit(digit: "4")
            
            getTappedEqual()
-           print("\(formulaTxt)")
         
          XCTAssertEqual(formulaTxt, "2 450 x 1 234 = 3 023 300")
        }
@@ -205,7 +204,7 @@ class CalcFormatterTests: XCTestCase {
         getTappedDigit(digit: "2")
         getTappedDigit(digit: "0")
        
-        getTappedCEButton()
+        getTappedACButton()
         
         XCTAssertEqual(formulaTxt, "0")
     }

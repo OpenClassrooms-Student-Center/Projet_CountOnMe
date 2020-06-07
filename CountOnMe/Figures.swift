@@ -1,5 +1,5 @@
 //
-//  ManageFigure.swift
+//  Figures.swift
 //  CountOnMe
 //
 //  Created by Laurent Debeaujon on 18/05/2020.
@@ -47,7 +47,7 @@ class Figures {
         case "x": result = left * right
         case "/": if !isDivisionByZero(rightValue: right) {
             result = left / right
-            } else { return false }
+        } else { return false }
         default: return false
         }
         return true

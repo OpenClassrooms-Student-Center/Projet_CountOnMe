@@ -1,5 +1,5 @@
 //
-//  NotificationExtension.swift
+//  NotificationAlertExtension.swift
 //  CountOnMe
 //
 //  Created by Laurent Debeaujon on 03/06/2020.
@@ -7,11 +7,9 @@
 //
 
 import Foundation
-protocol ProcessingAlert {
-    func errorNotification()
-}
-extension ProcessingAlert {
-  
+
+extension CalcFormatter {
+    
     func errorNotification() {
         let name = Notification.Name(rawValue: "CarryOutError")
         let notification = Notification(name: name)

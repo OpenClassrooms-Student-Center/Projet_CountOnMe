@@ -12,7 +12,6 @@ import XCTest
 // MARK: calcFormatterDelegate in ClacFormatterTests
 extension CalcFormatterTests: CalcFormatterDelegate {
     func didRefreshScreenResult(screen: String) {
-         print("****\(screen)****")
          formulaTxt = screen
      }
 }
