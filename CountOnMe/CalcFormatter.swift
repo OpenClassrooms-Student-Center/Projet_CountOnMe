@@ -31,7 +31,6 @@ class CalcFormatter {
         self.isCreationDecimalValue = false
         resetFormula(defaultValue: "0")
         resetHistory()
-        delegate?.didRefreshScreenResult(screen: historyResultFormatter())
     }
     
     var formulaRowQantity: Int {
