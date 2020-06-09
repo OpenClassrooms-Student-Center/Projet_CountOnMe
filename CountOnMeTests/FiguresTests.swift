@@ -40,7 +40,7 @@ class FiguresTests: XCTestCase {
         
         let result = figure.carryOutFormula(formula: formula)!
         
-        XCTAssertEqual(result, 4.81)
+        XCTAssertEqual(result, "4,81")
     }
     
     ///test multiplication operation with negative and float figure
@@ -49,7 +49,7 @@ class FiguresTests: XCTestCase {
         
         let result = figure.carryOutFormula(formula: formula)!
        
-        XCTAssertEqual(result, -602.4525)
+        XCTAssertEqual(result, "-602,4525")
     }
     
     ///test soustraction
@@ -58,7 +58,7 @@ class FiguresTests: XCTestCase {
         
         let result = figure.carryOutFormula(formula: formula)
         
-        XCTAssertEqual(result, 14500)
+        XCTAssertEqual(result, "14 500")
     }
     
     ///test associativity in formula
@@ -67,6 +67,6 @@ class FiguresTests: XCTestCase {
         
         let result = figure.carryOutFormula(formula: formula)
         
-        XCTAssertEqual(result, 105)
+        XCTAssertEqual(result, "105")
     }
 }

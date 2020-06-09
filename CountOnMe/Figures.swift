@@ -10,7 +10,10 @@ import Foundation
 
 class Figures {
     
-    var result: Double
+    private var result: Double
+    
+    var resultTxt: String?
+    
     private var operationsToReduce: [String] = []
     
     init() {
@@ -54,37 +57,32 @@ class Figures {
     }
     
     ///carry out the formula calculation in parameter and return the result as double type
-    func carryOutFormula(formula: [String]) -> Double? {
-        
+    func carryOutFormula(formula: [String]) -> String? {
+        if formula.count < 3 { return nil }
         //fix formula out of the regional settings
-        operationsToReduce = fixFormula(formula: formula)
+        operationsToReduce = formula
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 5
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1,
             let calculationIndex = lookingForPriorities() {
                 
-                guard let left = Double(operationsToReduce[calculationIndex-1]) else { return nil }
+                guard let left = numberFormatter.number(from: operationsToReduce[calculationIndex-1]) else { return nil }
                 let operand = operationsToReduce[calculationIndex]
-                guard let right = Double(operationsToReduce[calculationIndex+1]) else { return nil }
+                guard let right = numberFormatter.number(from: operationsToReduce[calculationIndex+1]) else { return nil }
                 
-                if !carryOutOperation(operand, left, right) { return nil }
+                if !carryOutOperation(operand, left.doubleValue, right.doubleValue) { return nil }
                 
                 operationsToReduce.removeSubrange(calculationIndex-1...calculationIndex+1)
-                operationsToReduce.insert("\(result)", at: calculationIndex-1)
+                
+                resultTxt = numberFormatter.string(from: NSNumber(value: result))
+                
+                if let unpackedResult = resultTxt {
+                   operationsToReduce.insert(unpackedResult, at: calculationIndex-1)
+                }
         }
-        
-        //round the result to 5 digits after comma
-        return round(result*100000)/100000
-    }
-    
-    //fix dot as comma  to be compatible to calculation
-    private func fixFormula(formula: [String]) -> [String] {
-        let numberFormatter = NumberFormatter()
-        let decimal = numberFormatter.decimalSeparator!
-        var fixedFormula = [String]()
-        for value in formula {
-            let fixedValue = value.replacingOccurrences(of: decimal, with: ".")
-            fixedFormula.append(fixedValue)
-        }
-        return fixedFormula
+
+        return resultTxt
     }
 }
