@@ -57,13 +57,11 @@ class Figures {
     }
     
     ///carry out the formula calculation in parameter and return the result as double type
-    func carryOutFormula(formula: [String]) -> String? {
+    func carryOutFormula(formula: [String], numberFormatter: NumberFormatter) -> String? {
         if formula.count < 3 { return nil }
         //fix formula out of the regional settings
         operationsToReduce = formula
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 5
+
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1,
             let calculationIndex = lookingForPriorities() {

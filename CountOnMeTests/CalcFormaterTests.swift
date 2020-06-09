@@ -12,16 +12,16 @@ import XCTest
 class CalcFormatterTests: XCTestCase {
     
     var formulaTxt: String = ""
-   // var screenResult: String = ""
-    
     var calcFormatter: CalcFormatter!
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         super.setUp()
+        
         calcFormatter = CalcFormatter()
         calcFormatter.delegate = self
-        
+        calcFormatter.numberFormatter.groupingSeparator = " "
+        calcFormatter.numberFormatter.decimalSeparator = ","
     }
     
     override func tearDown() {
@@ -154,7 +154,7 @@ class CalcFormatterTests: XCTestCase {
            
            getTappedEqual()
         
-         XCTAssertEqual(formulaTxt, "2 450 x 1 234 = 3 023 300")
+         XCTAssertEqual(formulaTxt, "2 450 x 1 234 = 3 023 300")
        }
     
     ///test display Multiplication with float Values

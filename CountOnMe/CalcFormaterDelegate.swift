@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 protocol CalcFormatterDelegate: AnyObject {
-    func didRefreshScreenResult(screen: String)
+    func didRefreshHistoryResult(screen: String)
 }

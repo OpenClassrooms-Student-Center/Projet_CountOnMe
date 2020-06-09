@@ -15,7 +15,7 @@
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		1FA43BE8224E569A00F565CB /* CalcFormaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BE7224E569A00F565CB /* CalcFormaterTests.swift */; };
 		3A81056629B24C268D92676B /* Pods_CountOnMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83B939E0F3FD78417C8472D8 /* Pods_CountOnMe.framework */; };
-		D94A0F44248804F000043094 /* NotificationAlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94A0F43248804F000043094 /* NotificationAlertExtension.swift */; };
+		D94A0F44248804F000043094 /* CalcFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94A0F43248804F000043094 /* CalcFormatter+.swift */; };
 		D9639BE6246B152200F9CE1E /* CalcFormaterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */; };
 		D979E8EB2462BFBB00FD8212 /* CalcFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D979E8EA2462BFBB00FD8212 /* CalcFormatter.swift */; };
 		D9D03198247284DD00E973DA /* Figures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D03197247284DD00E973DA /* Figures.swift */; };
@@ -62,7 +62,7 @@
 		C6D498D8F0B03B2E0BC1CF29 /* Pods-CountOnMe-CountOnMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe-CountOnMeUITests/Pods-CountOnMe-CountOnMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D33D9128E6080E30904B4F41 /* Pods-CountOnMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountOnMe.debug.xcconfig"; path = "Target Support Files/Pods-CountOnMe/Pods-CountOnMe.debug.xcconfig"; sourceTree = "<group>"; };
 		D7EA38E5D6A367AE840EF4A3 /* Pods_CountOnMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountOnMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D94A0F43248804F000043094 /* NotificationAlertExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAlertExtension.swift; sourceTree = "<group>"; };
+		D94A0F43248804F000043094 /* CalcFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CalcFormatter+.swift"; sourceTree = "<group>"; };
 		D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormaterDelegate.swift; sourceTree = "<group>"; };
 		D979E8EA2462BFBB00FD8212 /* CalcFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcFormatter.swift; sourceTree = "<group>"; };
 		D9D03197247284DD00E973DA /* Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figures.swift; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 				D979E8EA2462BFBB00FD8212 /* CalcFormatter.swift */,
 				D9639BE5246B152200F9CE1E /* CalcFormaterDelegate.swift */,
 				D9D03197247284DD00E973DA /* Figures.swift */,
-				D94A0F43248804F000043094 /* NotificationAlertExtension.swift */,
+				D94A0F43248804F000043094 /* CalcFormatter+.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -419,7 +419,7 @@
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				D9D031C5247B02B100E973DA /* ViewController+CalcFormatterDelegate.swift in Sources */,
 				D9639BE6246B152200F9CE1E /* CalcFormaterDelegate.swift in Sources */,
-				D94A0F44248804F000043094 /* NotificationAlertExtension.swift in Sources */,
+				D94A0F44248804F000043094 /* CalcFormatter+.swift in Sources */,
 				D9D03198247284DD00E973DA /* Figures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
