@@ -39,6 +39,7 @@ class CalcFormatter {
     
     init() {
         self.storedResult = false
+        
         formula.append("0")
         historyOfFormulas.append(formula)
         
