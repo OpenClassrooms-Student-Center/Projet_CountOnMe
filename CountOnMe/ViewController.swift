@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
@@ -19,20 +19,29 @@ class ViewController: UIViewController {
         self.processCalc = CalcFormatter()
         super.init(coder: coder)
         processCalc.delegate = self
+        
     }
     
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        let name = Notification.Name(rawValue: "CarryOutError")
+        var name = Notification.Name(rawValue: "CarryOutError")
         NotificationCenter.default.addObserver(self, selector: #selector(carryOutError), name: name, object: nil)
+        
+        name = Notification.Name(rawValue: "DivByZeroError")
+        NotificationCenter.default.addObserver(self, selector: #selector(divByZeroError), name: name, object: nil)
+        
+        textView.delegate = self
+        
+        textView.becomeFirstResponder()
+        textView.isScrollEnabled = true
+        textView.tintColor = .clear
+        
     }
     
     /// View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let digitTxt = sender.title(for: .normal) else {
-            return
-        }
+        guard let digitTxt = sender.title(for: .normal) else { return }
         processCalc.addDigit(digitTxt: digitTxt)
     }
     
@@ -78,8 +87,12 @@ class ViewController: UIViewController {
         processCalc.addEqual()
     }
     
-    @objc func carryOutError() {
+    @objc func divByZeroError() {
         alertMessage(title: "Erreur ", message: "Division par Zero")
+    }
+    
+    @objc func carryOutError() {
+        alertMessage(title: "Erreur ", message: "formule non conforme")
     }
     
     private func alertMessage(title: String, message: String = "") {

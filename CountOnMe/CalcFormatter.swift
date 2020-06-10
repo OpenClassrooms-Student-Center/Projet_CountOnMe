@@ -21,7 +21,7 @@ class CalcFormatter {
     
     private var currentHistoryRow: Int = 0
     
-    var formulaRowQuantity: Int {
+    private var formulaRowQuantity: Int {
         return historyOfFormulas.count - 1
     }
     
@@ -112,7 +112,7 @@ class CalcFormatter {
         return historyTxt
     }
     
-    func fixFormula(formula: [String]) -> [String] {
+    private func fixFormula(formula: [String]) -> [String] {
         var fixedFormula = [String]()
         var formulaElement: String
         for (index, value) in formula.enumerated() {
@@ -182,7 +182,6 @@ class CalcFormatter {
     func addEqual() {
         
         guard let result = figure.carryOutFormula(formula: formula, numberFormatter: numberFormatter) else {
-            errorNotification()
             return
         }
         
@@ -204,21 +203,11 @@ class CalcFormatter {
         formula.append(defaultValue)
     }
     
-    private func resetHistory() {
-        historyOfFormulas.removeAll()
-        currentHistoryRow = 0
-        historyOfFormulas.append(formula)
-    }
-    
     private func isOperator(_ value: String) -> Bool {
         if value == "+" || value == "-" || value == "/" || value == "x" || value == "=" {
             return true
         }
         return false
-    }
-    
-    private func isInteger(valueTxt: String) -> Bool {
-        return Int(valueTxt) != nil
     }
     
     ///check if 2 consecutive operator have been tapped
@@ -231,9 +220,9 @@ class CalcFormatter {
         return true
     }
     
-    //convert a figure from a string
+    //apply regional settings to a figure into String
     private func convertToString(figure: String) -> String? {
-       
+        
         if let figureNumeric = numberFormatter.number(from: figure) {
             let fixedFigureNumeric = numberFormatter.string(from: figureNumeric)
             return fixedFigureNumeric

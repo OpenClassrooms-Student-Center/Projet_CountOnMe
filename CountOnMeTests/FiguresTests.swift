@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import CountOnMe
 
 class FiguresTests: XCTestCase {
@@ -57,7 +58,7 @@ class FiguresTests: XCTestCase {
         formula.append(contentsOf: ["-24,05", "x", "25,05"])
         
         let result = figure.carryOutFormula(formula: formula, numberFormatter: numberFormatter)!
-       
+        
         XCTAssertEqual(result, "-602,4525")
     }
     

@@ -50,7 +50,10 @@ class Figures {
         case "x": result = left * right
         case "/": if !isDivisionByZero(rightValue: right) {
             result = left / right
-        } else { return false }
+        } else {
+            errorDivByZero()
+            return false
+            }
         default: return false
         }
         return true
@@ -58,17 +61,24 @@ class Figures {
     
     ///carry out the formula calculation in parameter and return the result as double type
     func carryOutFormula(formula: [String], numberFormatter: NumberFormatter) -> String? {
-        if formula.count < 3 { return nil }
+        resultTxt = nil
+        
+        if (formula.count).isMultiple(of: 2) {
+            errorFormula()
+            return nil
+        }
         //fix formula out of the regional settings
         operationsToReduce = formula
-
+        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1,
             let calculationIndex = lookingForPriorities() {
                 
-                guard let left = numberFormatter.number(from: operationsToReduce[calculationIndex-1]) else { return nil }
+                guard let left = numberFormatter.number(from: operationsToReduce[calculationIndex-1])
+                    else { return nil }
                 let operand = operationsToReduce[calculationIndex]
-                guard let right = numberFormatter.number(from: operationsToReduce[calculationIndex+1]) else { return nil }
+                guard let right = numberFormatter.number(from: operationsToReduce[calculationIndex+1])
+                    else { return nil }
                 
                 if !carryOutOperation(operand, left.doubleValue, right.doubleValue) { return nil }
                 
@@ -77,10 +87,9 @@ class Figures {
                 resultTxt = numberFormatter.string(from: NSNumber(value: result))
                 
                 if let unpackedResult = resultTxt {
-                   operationsToReduce.insert(unpackedResult, at: calculationIndex-1)
+                    operationsToReduce.insert(unpackedResult, at: calculationIndex-1)
                 }
         }
-
         return resultTxt
     }
 }

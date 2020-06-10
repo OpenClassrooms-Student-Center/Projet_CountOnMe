@@ -1,5 +1,5 @@
 //
-//  CalcFormatterTestsExtensionDelegate.swift
+//  CalcFormatterTests+CalcFormatterDelegate.swift
 //  CountOnMeTests
 //
 //  Created by Laurent Debeaujon on 24/05/2020.
