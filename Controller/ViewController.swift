@@ -25,6 +25,12 @@ final class ViewController: UIViewController {
         textView.layer.cornerRadius = 20
         
         calculator.delegate = self
+        numberButtons.forEach {
+            $0.layer.borderWidth = 1
+            $0.layer.cornerRadius = $0.frame.size.height/2
+            $0.clipsToBounds = true
+
+        }
     }
     
     // View actions
