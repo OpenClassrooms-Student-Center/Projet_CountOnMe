@@ -31,6 +31,11 @@ final class ViewController: UIViewController {
             $0.clipsToBounds = true
 
         }
+        
+        settingButtons.forEach {
+            $0.layer.borderWidth = 1
+            $0.layer.cornerRadius = $0.frame.size.width/2
+        }
     }
     
     // View actions
