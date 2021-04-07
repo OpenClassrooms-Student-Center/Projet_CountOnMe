@@ -38,6 +38,8 @@ final class ViewController: UIViewController {
         }
     }
     
+    @IBAction func nightButton(_ sender: UIButton) {
+    }
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
