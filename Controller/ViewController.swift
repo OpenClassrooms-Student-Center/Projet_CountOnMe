@@ -12,6 +12,7 @@ final class ViewController: UIViewController {
     
     @IBOutlet weak private var textView: UITextView!
     @IBOutlet private var numberButtons: [UIButton]!
+    @IBOutlet var settingButtons: [UIButton]!
     let calculator = Calculator()
     
     // View Life cycles
