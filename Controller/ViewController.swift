@@ -14,7 +14,7 @@ final class ViewController: UIViewController {
     @IBOutlet private var numberButtons: [UIButton]!
     @IBOutlet var settingButtons: [UIButton]!
     let calculator = Calculator()
-    var toogle = false
+    var isNightModeActivated = false
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +39,22 @@ final class ViewController: UIViewController {
     }
     
     @IBAction func nightButton(_ sender: UIButton) {
-        view.backgroundColor = UIColor.black
-        numberButtons.forEach {
-            $0.tintColor = UIColor.white }
-        settingButtons.forEach { $0.titleLabel?.textColor = UIColor.white
-             }
+        isNightModeActivated.toggle()
+        switch isNightModeActivated {
+        case false:
+            view.backgroundColor = UIColor.white
+            numberButtons.forEach {
+                $0.tintColor = UIColor.black }
+            settingButtons.forEach { $0.titleLabel?.textColor = UIColor.black
+                
+            }
+        case true:
+            view.backgroundColor = UIColor.darkGray
+            textView.layer.borderColor = UIColor.gray.cgColor
+            numberButtons.forEach { $0.tintColor = UIColor.white }
+        }
     }
+    
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
