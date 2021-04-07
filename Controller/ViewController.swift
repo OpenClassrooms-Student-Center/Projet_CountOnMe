@@ -18,6 +18,12 @@ final class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        textView.layer.borderWidth = 1
+        
+        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.cornerRadius = 20
+        
         calculator.delegate = self
     }
     
