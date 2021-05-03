@@ -7,3 +7,38 @@
 //
 
 import Foundation
+import UIKit
+
+struct AlerteManager{
+    
+    enum AlerteType{
+        case operatorsAlreadyPresent
+        case calculateIncomplete
+        case divisionZero
+        case missingNumber
+        
+        var description : String{
+            switch self{
+            case .operatorsAlreadyPresent:
+                return "Un operateur est déja mis !"
+            case .divisionZero:
+                return "Division par 0"
+            case .calculateIncomplete:
+                return "Le calcule est incomplet!"
+            case .missingNumber:
+                return "Commencez le calcul par un chiffre"
+            }
+        }
+    }
+    
+
+    
+    func alerteVc(_ message: AlerteType, _ controller : UIViewController){
+        let alertVC = UIAlertController(title: "Zéro!", message: "\(message.description)", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        controller.present(alertVC, animated: true, completion: nil)
+    }
+    
+    
+    
+}

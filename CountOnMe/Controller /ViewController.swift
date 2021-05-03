@@ -13,95 +13,134 @@ class ViewController: UIViewController {
     //controleur
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
-    
-    var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
+    var alerteManager = AlerteManager()
+    var model = Logic(){
+        didSet{
+            self.textView.text = model.currentValue
+        }
     }
     
-    var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
-    }
     
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
-    }
+    func continueCalcul(){
+        let rest = self.textView.text.split(separator: "=").last
+        model.takeTheRest("\(rest!)")
+     }
     
-    var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
-    }
-
-    
+  
     
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-        if expressionHaveResult {
-            textView.text = ""
+        //we check if we have a "=" in the calculates
+        if model.expressionHaveResult {
+            //if yes, we reset the controller value;
+            model.resetInfo()
         }
-        textView.text.append(numberText)
+        //we call the function model.updateInfo when we tape a number button
+        model.updateInfo(numberText)
+        if model.divideByZero() == true{
+            alerteManager.alerteVc(.divisionZero, self)
+        }
     }
     
-    func alerteVc(_ message: String){
-        let alertVC = UIAlertController(title: "Zéro!", message: "\(message)", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
-    }
+
     
-    
+    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "+"
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" + ")
-        } else {
-            alerteVc("Un operateur est déja mis !")
-        }
-    }
-    
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
-            textView.text.append(" - ")
-        } else {
-            alerteVc("Un operateur est déja mis !")
-        }
-    }
-    
-    //guard ???
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard canAddOperator else {
-            return alerteVc("Entrez une expression correcte !")
-        }
-        
-        guard expressionHaveEnoughElement else {
-            return alerteVc("Démarrez un nouveau calcul !")
-        }
-        
-        
-        
-        //maybe in the model
-        
-        // Create local copy of operations
-        var operationsToReduce = elements
-        
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-            
-            let result: Int
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            default: fatalError("Unknown operator !")
+        //if no, we add "+"
+        if model.canAddOperator{
+            if model.alreadyANumber{
+                continueCalcul()
+                model.updateInfo(" + ")
+                model.updateHaveAPoint()
+            } else {
+                alerteManager.alerteVc(.missingNumber, self)
             }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+        } else {
+            //if yes, we call an alertVc
+            alerteManager.alerteVc(.operatorsAlreadyPresent, self)
+        }
+    }
+    
+    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "+"
+    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
+        if model.canAddOperator{
+            if model.alreadyANumber{
+                continueCalcul()
+                model.updateInfo(" - ")
+                model.updateHaveAPoint()
+            }else{
+                alerteManager.alerteVc(.missingNumber, self)
+            }
+        } else {
+            //if yes, we call an alertVc
+            alerteManager.alerteVc(.operatorsAlreadyPresent, self)
+        }
+    }
+    
+    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "x"
+    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+        if model.canAddOperator{
+            if model.alreadyANumber{
+                continueCalcul()
+                model.updateInfo(" x ")
+                model.updateHaveAPoint()
+            }else{
+                alerteManager.alerteVc(.missingNumber, self)
+            }
+        } else {
+            //if yes, we call an alertVc
+            alerteManager.alerteVc(.operatorsAlreadyPresent, self)
+        }
+    }
+    
+    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "/"
+    @IBAction func tappedDivisionButton(_ sender: UIButton) {
+        if model.canAddOperator{
+            if model.alreadyANumber{
+                continueCalcul()
+                model.updateInfo(" / ")
+                model.updateHaveAPoint()
+                model.updateHaveADivision()
+            }else{
+                alerteManager.alerteVc(.missingNumber, self)
+            }
+        } else {
+            //if yes, we call an alertVc
+            alerteManager.alerteVc(.operatorsAlreadyPresent, self)
+        }
+    }
+    
+    
+    @IBAction func tappedAcButton(_ sender: UIButton) {
+        model.resetInfo()
+    }
+    
+    
+    @IBAction func tappedPointButton(_ sender: UIButton) {
+        if model.canAddOperator {
+            if model.currentStatePoint == false{
+                model.updateInfo(".")
+                model.updateHaveAPoint()
+            }
+        } else {
+            //if yes, we call an alertVc
+            alerteManager.alerteVc(.operatorsAlreadyPresent, self)
+        }
+    }
+    
+    
+    @IBAction func tappedEqualButton(_ sender: UIButton) {
+        guard model.canAddOperator else {
+           return alerteManager.alerteVc(.calculateIncomplete, self)
         }
         
-        textView.text.append(" = \(operationsToReduce.first!)")
+        guard model.expressionHaveEnoughElement else {
+           return  alerteManager.alerteVc(.calculateIncomplete, self)
+        }
+        model.updateInfo(" = \(model.operationsToReduce.first!)")
     }
 
 }
-
