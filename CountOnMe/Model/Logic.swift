@@ -12,14 +12,18 @@ struct Logic{
     
     private var text = ""
         
+
     
-    
-    
-    
-    mutating func takeTheRest(_ rest : String){
+    mutating func continueCalcul(){
+        //we check if we have an value in element.last
+        guard let first = elements.last else {
+            return
+        }
+        //if yes, we check if the calcul have a result
         if expressionHaveResult{
+            //if yes, we reset the calcul and we give first at updateInfo
             resetInfo()
-            updateInfo(rest)
+            updateInfo(first)
         }
     }
     
@@ -46,6 +50,7 @@ struct Logic{
         return elements.count >= 3
     }
     
+    //we check if we already have an operator
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
     }
@@ -55,29 +60,16 @@ struct Logic{
        return currentValue != ""
     }
 
-    
+    //we check if we have an equal
     var expressionHaveResult: Bool {
         return text.firstIndex(of: "=") != nil
     }
     
-    //if we add a point, haveAPoint = true
-    private var haveAPoint = false
-    
-    //we return the value of haveAPoint
-    var currentStatePoint : Bool{
-        return haveAPoint
-    }
-    
-    //this function is used to change the state of haveAPoint
-    mutating func updateHaveAPoint() {
-        //if we have a point, we pass haveAPoint to true
-        if text.last == "."{
-            self.haveAPoint = true
-        }
-        //if we have " " it's because we have an operator, so we can pass haveAPoint to true
-        if text.last == " "{
-            self.haveAPoint = false
-        }
+
+    //we check if we have a point
+    func haveAPoint() -> Bool {
+        //return true if we already have a point else return false
+        return elements.last?.contains(where: {$0 == "."}) ?? false
     }
     
     
@@ -89,22 +81,18 @@ struct Logic{
         if haveADivision == true && text.last == "0"{
             //if yes, we remove the 0 and we return true
             text.removeLast()
-            return true
+            return haveADivision
         }
         //else we pass the value of haveAdivision to false and we return false
         haveADivision = false
-        return false
+        return haveADivision
     }
-    
-    
     //we change the value of haveADivison to true
     mutating func updateHaveADivision(){
         haveADivision = true
     }
     
-    
-    
-    
+    //this function return a float number after an addition or a substraction
     private func additionAndSubstraction(_ calcul : [String]) -> Float{
         let result: Float
         let left = Float(calcul[0])!
@@ -119,7 +107,7 @@ struct Logic{
         return result
     }
     
-    
+    //this function return a float number after a multiplication or a division
     private func multiplicationAndDivision(_ calcul : [String], _ range : Int) -> Float{
         let result : Float
         switch calcul[range]{
@@ -135,10 +123,12 @@ struct Logic{
         // Create local copy of operations
         var operationsToReduce = elements
         var i = 0
+        //we check all array boxes for check if it's a multiplication or a divison before doing additions and substractions
         while i < operationsToReduce.count {
             if operationsToReduce[i] == "x" || operationsToReduce[i] == "/"{
                 let result : Float
                 result = multiplicationAndDivision(operationsToReduce, i)
+                //when the multiplication or the divison is done, we remove the boxe after and before the operator and the result takes the boxe of the operator
                 operationsToReduce[i] = String(result)
                 operationsToReduce.remove(at: i+1)
                 operationsToReduce.remove(at: i-1)
@@ -154,6 +144,7 @@ struct Logic{
              operationsToReduce.insert("\(result)", at: 0)
             }
         
+        //we check if the float ends with ".0" if yes, we remove this 
         if operationsToReduce[0].last == "0"{
             operationsToReduce[0].removeLast()
             if operationsToReduce[0].last == "."{
@@ -164,5 +155,4 @@ struct Logic{
     }
 }
 
-//enlever les fatal error
-//class custom pour arrondir les boutons
+

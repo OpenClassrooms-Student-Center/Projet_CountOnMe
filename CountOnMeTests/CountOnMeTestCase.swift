@@ -69,6 +69,7 @@ class CountOnMeTestCase: XCTestCase {
     
         addNumbersFive()
         addOperator(.plus)
+        
         addOperator(.plus)
         
         XCTAssertFalse(logic.canAddOperator)
@@ -78,6 +79,7 @@ class CountOnMeTestCase: XCTestCase {
     
         addNumbersFive()
         addOperator(.plus)
+        
         addOperator(.less)
         
         XCTAssertFalse(logic.canAddOperator)
@@ -87,15 +89,16 @@ class CountOnMeTestCase: XCTestCase {
     
         addNumbersFive()
         addOperator(.plus)
+        
         addOperator(.multiplication)
         
         XCTAssertFalse(logic.canAddOperator)
     }
     
     func testTheCalculationHaveAnOperator_AddDivision_cantAddANewOperator(){
-    
         addNumbersFive()
         addOperator(.plus)
+        
         addOperator(.division)
         
         XCTAssertFalse(logic.canAddOperator)
@@ -122,6 +125,7 @@ class CountOnMeTestCase: XCTestCase {
         addNumbersFive()
         
         XCTAssert(logic.expressionHaveEnoughElement)
+        
         XCTAssert(logic.elements == ["5","x","5"])
         XCTAssert(logic.operationsToReduce == ["25"])
     }
@@ -134,6 +138,7 @@ class CountOnMeTestCase: XCTestCase {
         
         XCTAssertFalse(logic.divideByZero())
         XCTAssert(logic.expressionHaveEnoughElement)
+        
         XCTAssert(logic.elements == ["5","/","5"])
         XCTAssert(logic.operationsToReduce == ["1"])
     }
@@ -146,6 +151,7 @@ class CountOnMeTestCase: XCTestCase {
         addNumbersFive()
         
         XCTAssert(logic.expressionHaveEnoughElement)
+        
         XCTAssert(logic.elements == ["5","+","5","x","5"])
         XCTAssert(logic.operationsToReduce == ["30"])
     }
@@ -184,34 +190,35 @@ class CountOnMeTestCase: XCTestCase {
         XCTAssert(logic.elements ==  ["5","/"])
     }
     
-    func testStarteNewCalcul_AddAPoint_CantAddAnotherPointAfterAnOperator(){
+    func testStarteNewCalcul_AddAPoint_CantAddAnotherPointBeforeAnOperator(){
         addNumbersFive()
-        XCTAssertFalse(logic.currentStatePoint)
+        XCTAssertFalse(logic.haveAPoint())
+        
+        
         logic.updateInfo(".")
-        logic.updateHaveAPoint()
         addNumbersFive()
-
+        XCTAssert(logic.haveAPoint())
         
-        XCTAssert(logic.currentStatePoint)
         addOperator(.division)
-        logic.updateHaveAPoint()
-        
-        
-        XCTAssertFalse(logic.currentStatePoint)
+        XCTAssertFalse(logic.haveAPoint())
     }
     
-    func testStartNewCalculWithRest_AddAnOperatorAndNumber_HaveAResult(){
+    func testCalculHaveAResult_AddAnOperatorAndNumber_HaveAResult(){
+        
+        logic.continueCalcul()
         addNumbersFive()
         addOperator(.plus)
         addNumbersFive()
-        XCTAssert(logic.operationsToReduce == ["10"])
+        logic.updateInfo(" = \(logic.operationsToReduce.first!)")
+        XCTAssert(logic.elements == ["5","+","5","=","10"])
         
-        logic.updateInfo(" = ")
         
-        logic.takeTheRest("10")
+        logic.continueCalcul()
         addOperator(.multiplication)
-        addNumbersFive()
         
-        XCTAssert(logic.operationsToReduce == ["50"])
+        addNumbersFive()
+        XCTAssert(logic.elements == ["10","x","5"])
     }
+    
+    
 }

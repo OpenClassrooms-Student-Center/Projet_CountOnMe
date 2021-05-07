@@ -12,7 +12,6 @@ class RoundCornerNumber: UIStackView {
 
     @IBOutlet private var roundButton : [UIButton]!
     
-
     func setUpRoundButton(){
         for i in 0...roundButton.count-1{
             roundButton[i].layer.cornerRadius = 10

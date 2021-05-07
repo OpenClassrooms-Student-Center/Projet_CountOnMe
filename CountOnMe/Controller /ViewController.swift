@@ -10,25 +10,17 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    //controleur
+
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
     var alerteManager = AlerteManager()
     var model = Logic(){
         didSet{
             self.textView.text = model.currentValue
         }
     }
-    
-    
-    func continueCalcul(){
-        let rest = self.textView.text.split(separator: "=").last
-        model.takeTheRest("\(rest!)")
-     }
-    
   
     
-    // View actions
+    
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else {
             return
@@ -52,9 +44,8 @@ class ViewController: UIViewController {
         //if no, we add "+"
         if model.canAddOperator{
             if model.alreadyANumber{
-                continueCalcul()
+                model.continueCalcul()
                 model.updateInfo(" + ")
-                model.updateHaveAPoint()
             } else {
                 alerteManager.alerteVc(.missingNumber, self)
             }
@@ -64,13 +55,12 @@ class ViewController: UIViewController {
         }
     }
     
-    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "+"
+    //we check if the last caracter is "+", "-", "x" or "/" when we push the button "-"
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
         if model.canAddOperator{
             if model.alreadyANumber{
-                continueCalcul()
+                model.continueCalcul()
                 model.updateInfo(" - ")
-                model.updateHaveAPoint()
             }else{
                 alerteManager.alerteVc(.missingNumber, self)
             }
@@ -84,9 +74,8 @@ class ViewController: UIViewController {
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
         if model.canAddOperator{
             if model.alreadyANumber{
-                continueCalcul()
+                model.continueCalcul()
                 model.updateInfo(" x ")
-                model.updateHaveAPoint()
             }else{
                 alerteManager.alerteVc(.missingNumber, self)
             }
@@ -100,9 +89,8 @@ class ViewController: UIViewController {
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
         if model.canAddOperator{
             if model.alreadyANumber{
-                continueCalcul()
+                model.continueCalcul()
                 model.updateInfo(" / ")
-                model.updateHaveAPoint()
                 model.updateHaveADivision()
             }else{
                 alerteManager.alerteVc(.missingNumber, self)
@@ -121,9 +109,8 @@ class ViewController: UIViewController {
     
     @IBAction func tappedPointButton(_ sender: UIButton) {
         if model.canAddOperator {
-            if model.currentStatePoint == false{
+            if model.haveAPoint() == false{
                 model.updateInfo(".")
-                model.updateHaveAPoint()
             }
         } else {
             //if yes, we call an alertVc
@@ -140,7 +127,10 @@ class ViewController: UIViewController {
         guard model.expressionHaveEnoughElement else {
            return  alerteManager.alerteVc(.calculateIncomplete, self)
         }
-        model.updateInfo(" = \(model.operationsToReduce.first!)")
+        if !model.expressionHaveResult{
+            model.updateInfo(" = \(model.operationsToReduce.first!)")
+        }else{
+            alerteManager.alerteVc(.alreadyAnEqual, self)
+        }
     }
-
 }

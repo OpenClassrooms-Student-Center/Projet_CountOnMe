@@ -10,12 +10,15 @@ import UIKit
 
 class RoundCornerTextView: UITextView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
+    
+    func setUpRoundButton(){
+            layer.cornerRadius = 8
+        }
+    
+    
     override func draw(_ rect: CGRect) {
-        // Drawing code
+        setUpRoundButton()
     }
-    */
-
 }
+
+

@@ -10,12 +10,20 @@ import UIKit
 
 class RoundCornerOperator: UIStackView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    @IBOutlet private var RoundButtonOperator : [UIButton]!
+    
+    func setUpRoundButton(){
+        for i in 0...RoundButtonOperator.count-1{
+            RoundButtonOperator[i].layer.cornerRadius = 20
+            RoundButtonOperator[i].layer.shadowOffset = .init(width: 4, height: 4)
+            RoundButtonOperator[i].layer.shadowOpacity = 0.8
+        }
     }
-    */
+    
+    override func draw(_ rect: CGRect) {
+        setUpRoundButton()
+    }
+    
 
+    
 }

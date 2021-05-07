@@ -11,11 +11,13 @@ import UIKit
 
 struct AlerteManager{
     
+    //we create an enumeration for our message alerteVC
     enum AlerteType{
         case operatorsAlreadyPresent
         case calculateIncomplete
         case divisionZero
         case missingNumber
+        case alreadyAnEqual
         
         var description : String{
             switch self{
@@ -27,6 +29,8 @@ struct AlerteManager{
                 return "Le calcule est incomplet!"
             case .missingNumber:
                 return "Commencez le calcul par un chiffre"
+            case .alreadyAnEqual:
+                return "Resultat déjà présent"
             }
         }
     }
@@ -38,7 +42,4 @@ struct AlerteManager{
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         controller.present(alertVC, animated: true, completion: nil)
     }
-    
-    
-    
 }
