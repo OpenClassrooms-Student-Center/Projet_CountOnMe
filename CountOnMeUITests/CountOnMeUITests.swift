@@ -1,6 +1,6 @@
 //
-//  SimpleCalcUITests.swift
-//  SimpleCalcUITests
+//  CountOnMeUITests.swift
+//  CountOnMeUITests
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class SimpleCalcUITests: XCTestCase {
+class CountOnMeUITests: XCTestCase {
   override func setUp() {
     super.setUp()
     continueAfterFailure = false
