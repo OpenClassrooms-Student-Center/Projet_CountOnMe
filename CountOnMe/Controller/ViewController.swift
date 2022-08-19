@@ -37,9 +37,7 @@ class ViewController: UIViewController {
       expression.entered.append(" + ")
       display(expression.entered)
     } else {
-      let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-      alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-      self.present(alertVC, animated: true, completion: nil)
+      displayError()
     }
   }
 
@@ -48,26 +46,19 @@ class ViewController: UIViewController {
       expression.entered.append(" - ")
       display(expression.entered)
     } else {
-      let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-      alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-      self.present(alertVC, animated: true, completion: nil)
+      displayError()
     }
   }
 
   @IBAction func tappedEqualButton(_ sender: UIButton) {
     guard expression.isCorrect else {
-      let alertVC = UIAlertController(
-        title: "Zéro!",
-        message: "Entrez une expression correcte !",
-        preferredStyle: .alert)
-      alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-      return self.present(alertVC, animated: true, completion: nil)
+      displayError()
+      return
     }
 
     guard expression.haveEnoughElement else {
-      let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-      alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-      return self.present(alertVC, animated: true, completion: nil)
+      displayError()
+      return
     }
 
     // Create local copy of operations
@@ -94,7 +85,47 @@ class ViewController: UIViewController {
     display(expression.entered)
   }
 
-  func display(_ string: String) {
-    textView.text = string
+  private func display(_ stringToDisplay: String) {
+    textView.text = stringToDisplay
+  }
+
+  private func displayError() {
+    let alertVC = UIAlertController(title: "Zéro!", message: "message", preferredStyle: .alert)
+    alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+    return present(alertVC, animated: true, completion: nil)
   }
 }
+
+/*
+
+ tappedAdditionButton
+
+ let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+ alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+ self.present(alertVC, animated: true, completion: nil)
+
+
+tappedSubstractionButton
+
+let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+self.present(alertVC, animated: true, completion: nil)
+
+ tappedEqualButton > expression.isCorrect
+
+ let alertVC = UIAlertController(
+   title: "Zéro!",
+   message: "Entrez une expression correcte !",
+   preferredStyle: .alert)
+ alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+ return self.present(alertVC, animated: true, completion: nil)
+
+ tappedEqualButton > expression.haveEnoughElement
+
+
+ let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
+ alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+ return self.present(alertVC, animated: true, completion: nil)
+
+
+ */

@@ -7,10 +7,10 @@
 //
 
 struct Expression {
-  var entered = ""
   var elements: [String] {
     return entered.split(separator: " ").map { "\($0)" }
   }
+  var entered = ""
 
   // Error check computed variables
   var isCorrect: Bool {
