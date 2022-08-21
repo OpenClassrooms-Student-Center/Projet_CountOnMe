@@ -9,6 +9,6 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
+final class AppDelegate: UIResponder, UIApplicationDelegate {
+  var window: UIWindow? // required when Info.plist file contains the UIMainStoryboardFile key
 }
