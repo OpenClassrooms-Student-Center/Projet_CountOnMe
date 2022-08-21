@@ -61,10 +61,7 @@ class ViewController: UIViewController {
       return
     }
 
-    var calculation = Calculation(expression.elements)
-    let result = calculation.operate()
-
-    expression.entered.append(" = \(result.first!)")
+    expression.entered.append(" = \(expression.operationsToReduce.first!)")
     display(expression.entered)
   }
 

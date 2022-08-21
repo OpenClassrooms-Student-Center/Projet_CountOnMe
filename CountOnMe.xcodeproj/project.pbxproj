@@ -15,8 +15,6 @@
 		1FA43BE8224E569A00F565CB /* CountOnMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BE7224E569A00F565CB /* CountOnMeTests.swift */; };
 		1FA43BF3224E569A00F565CB /* CountOnMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA43BF2224E569A00F565CB /* CountOnMeUITests.swift */; };
 		E944C26028AED49A00052AFA /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E944C25F28AED49A00052AFA /* Expression.swift */; };
-		E978132528AFCBE000921886 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E978132428AFCBDF00921886 /* Calculation.swift */; };
-		E9B72C0C28AFF21500522EF3 /* Operator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B72C0B28AFF21500522EF3 /* Operator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +49,6 @@
 		1FA43BF2224E569A00F565CB /* CountOnMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeUITests.swift; sourceTree = "<group>"; };
 		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E944C25F28AED49A00052AFA /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		E978132428AFCBDF00921886 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
-		E9B72C0B28AFF21500522EF3 /* Operator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				E944C25F28AED49A00052AFA /* Expression.swift */,
-				E978132428AFCBDF00921886 /* Calculation.swift */,
-				E9B72C0B28AFF21500522EF3 /* Operator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -328,9 +322,7 @@
 			files = (
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
-				E9B72C0C28AFF21500522EF3 /* Operator.swift in Sources */,
 				E944C26028AED49A00052AFA /* Expression.swift in Sources */,
-				E978132528AFCBE000921886 /* Calculation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
