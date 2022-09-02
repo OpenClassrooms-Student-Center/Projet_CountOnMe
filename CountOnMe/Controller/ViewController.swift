@@ -9,103 +9,98 @@
 import UIKit
 
 final class ViewController: UIViewController {
+  // MARK: IBOutlets
+
   @IBOutlet var numberButtons: [UIButton]!
+  @IBOutlet var operatorButtons: [UIButton]!
   @IBOutlet weak var textView: UITextView!
 
-  private var expression = Expression()
+  // MARK: IBActions
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  @IBAction func tappedAllClearButton(_ sender: UIButton) {
+    expression.allClear()
+    display(expression.entered)
   }
 
-  // View actions
+  @IBAction func tappedClearButton(_ sender: UIButton) {
+    if !expression.hasResult {
+      expression.clear()
+    }
+    display(expression.entered)
+  }
+
+  @IBAction func tappedEqualButton(_ sender: UIButton) {
+    expression.calculate()
+    display(expression.entered)
+  }
+
   @IBAction func tappedNumberButton(_ sender: UIButton) {
     guard let numberText = sender.title(for: .normal) else {
       return
     }
-
-    if expression.haveResult {
-      expression.clear()
-    }
-
-    expression.entered.append(numberText)
+    expression.addNumber(numberText)
     display(expression.entered)
   }
 
-  @IBAction func tappedAdditionButton(_ sender: UIButton) {
-    if expression.canAddOperator {
-      expression.entered.append(" + ")
-      display(expression.entered)
-    } else {
-      displayError()
-    }
-  }
-
-  @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-    if expression.canAddOperator {
-      expression.entered.append(" - ")
-      display(expression.entered)
-    } else {
-      displayError()
-    }
-  }
-
-  @IBAction func tappedEqualButton(_ sender: UIButton) {
-    guard expression.isCorrect else {
-      displayError()
+  @IBAction func tappedOperatorButton(_ sender: UIButton) {
+    switch sender.tag {
+    case 0:
+      expression.addOperator(.addition)
+    case 1:
+      expression.addOperator(.substraction)
+    case 2:
+      expression.addOperator(.multiplication)
+    case 3:
+      expression.addOperator(.division)
+    default:
       return
     }
-
-    guard expression.haveEnoughElement else {
-      displayError()
-      return
-    }
-
-    expression.entered.append(" = \(expression.operationsToReduce.first!)")
     display(expression.entered)
+  }
+
+  // MARK: Private Variables
+
+  private var expression = Expression()
+
+  // MARK: Internal Methods
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(gettingErrorNotification),
+      name: Notification.ExpressionError.expressionMissOperand.notificationName,
+      object: nil)
+
+    display(expression.entered)
+  }
+
+  // MARK: Private Methods
+
+  private func displayAlert(_ error: Notification.ExpressionError) {
+    let alertController = UIAlertController(
+      title: error.notificationName.rawValue,
+      message: error.notificationMessage,
+      preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: Lexical.ok, style: .cancel, handler: nil))
+    return present(alertController, animated: true, completion: nil)
   }
 
   private func display(_ stringToDisplay: String) {
     textView.text = stringToDisplay
   }
 
-  private func displayError() {
-    let alertVC = UIAlertController(title: "Zéro!", message: "message", preferredStyle: .alert)
-    alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-    return present(alertVC, animated: true, completion: nil)
+  // MARK: @objc Methods
+
+  @objc func gettingErrorNotification(_ notification: Notification) {
+    if let notificationName = notification.userInfo?["name"] as? Notification.Name {
+      switch notificationName {
+      case Notification.ExpressionError.expressionMissOperand.notificationName:
+        self.displayAlert(.expressionMissOperand)
+      default:
+        return
+      }
+    }
   }
 }
-
-/*
-
- tappedAdditionButton
-
- let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
- alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
- self.present(alertVC, animated: true, completion: nil)
-
-
-tappedSubstractionButton
-
-let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-self.present(alertVC, animated: true, completion: nil)
-
- tappedEqualButton > expression.isCorrect
-
- let alertVC = UIAlertController(
-   title: "Zéro!",
-   message: "Entrez une expression correcte !",
-   preferredStyle: .alert)
- alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
- return self.present(alertVC, animated: true, completion: nil)
-
- tappedEqualButton > expression.haveEnoughElement
-
-
- let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
- alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
- return self.present(alertVC, animated: true, completion: nil)
-
-
- */
