@@ -12,7 +12,7 @@ import XCTest
 class CountOnMeTests: XCTestCase {
   let expression = Expression()
   let defaultExpression = "0"
-  let expectedResultOf9Elements = "0.6"
+  let expectedResultOf9Elements = "0.6000000000000001"
   let expectedResultOfDivisionBy0 = Lexical.undefined
   let expressionOf7ElementsEndedByANumber = "1 + 2 - 3 × 4"
   let expressionOf8ElementsEndedByAnOperator = "1 + 2 - 3 × 4 / "
@@ -30,6 +30,8 @@ class CountOnMeTests: XCTestCase {
     super.setUp()
   }
 
+  // MARK: canAddOperator
+
   func testGivenExpression_WhenTryingToAddAnOperator_ThenCheckIfPossibleOrNot() {
     expression.entered = expressionOf9ElementsEndedByANumber
     XCTAssertTrue(expression.canAddOperator)
@@ -38,12 +40,16 @@ class CountOnMeTests: XCTestCase {
     XCTAssertFalse(expression.canAddOperator)
   }
 
+  // MARK: firstElementIsDefault
+
   func testGivenExpression_WhenReadingFirstElement_ThenCheckingIfItIs0() {
     expression.entered = defaultExpression
-    XCTAssertTrue(expression.firstNumberIs0)
+    XCTAssertTrue(expression.firstElementIsDefault)
     expression.entered = expressionOf9ElementsEndedByANumber
-    XCTAssertFalse(expression.firstNumberIs0)
+    XCTAssertFalse(expression.firstElementIsDefault)
   }
+
+  // MARK: hasResult
 
   func testGivenExpression_WhenReadingIt_ThenCheckingIfItHasResult() {
     expression.entered = defaultExpression
@@ -52,12 +58,16 @@ class CountOnMeTests: XCTestCase {
     XCTAssertTrue(expression.hasResult)
   }
 
+  // MARK: hasEnoughElement
+
   func testGivenElements_WhenCountingTheNumber_ThenReturnsIfHasEnoughElementsOrNot() {
     expression.entered = expressionOf9ElementsEndedByANumber
     XCTAssertTrue(expression.hasEnoughElement)
     expression.entered = defaultExpression
     XCTAssertFalse(expression.hasEnoughElement)
   }
+
+  // MARK: operationsToReduce
 
   func testGivenExpression_WhenReducingOperations_ThenGetExpectedResult() {
     expression.entered = expressionOf9ElementsEndedByANumber
@@ -77,11 +87,15 @@ class CountOnMeTests: XCTestCase {
     XCTAssertEqual(calculatedResult, expectedResultOfDivisionBy0)
   }
 
+  // MARK: convenience init()
+
   func testGivenDefaultExpression_WhenDeclaringObject_ThenInstantiateWithNewDefaultValue() {
     let expression1 = expression
     let expression2 = Expression(otherDefaultExpression)
     XCTAssertNotEqual(expression1.entered, expression2.entered)
   }
+
+  // MARK: addNumber()
 
   func testGivenExpression_WhenAddingANumber_ThenHaving1MoreElement() {
     expression.entered = expressionOf8ElementsEndedByAnOperator
@@ -100,6 +114,8 @@ class CountOnMeTests: XCTestCase {
     expression.addNumber(numberToAdd)
     XCTAssertEqual(expression.entered, numberToAdd)
   }
+
+  // MARK: addOperator()
 
   func testGivenExpression_WhenAddingAnOperatorAndAlreadyHaveAResult_ThenAllClear() {
     expression.entered = expressionWithResult
@@ -120,11 +136,15 @@ class CountOnMeTests: XCTestCase {
     XCTAssertEqual(expression.entered, expressionOf8ElementsEndedByAnOperator)
   }
 
+  // MARK: allClear()
+
   func testGivenExpression_WhenAllClear_ThenExpressionIsReinitialized() {
     expression.entered = expressionOf9ElementsEndedByANumber
     expression.allClear()
     XCTAssertEqual(expression.entered, defaultExpression)
   }
+
+  // MARK: calculate()
 
   func testGivenExpression_WhenCalculating_ThenCheckIfExpressionIsCorrect() {
     expression.entered = expressionOf9ElementsEndedByANumber
@@ -135,11 +155,20 @@ class CountOnMeTests: XCTestCase {
     XCTAssertEqual(expression.result, expectedResultOf9Elements)
   }
 
+  // MARK: clear()
+
   func testGivenExpression_WhenClear_ThenLastElementIsDropped() {
     expression.entered = expressionOf9ElementsEndedByANumber
     expression.clear()
     XCTAssertEqual(expression.entered, expressionOf8ElementsEndedByAnOperator)
     expression.clear(forced: true)
     XCTAssertEqual(expression.entered, expressionOf7ElementsEndedByANumber)
+  }
+
+  // MARK: String.cleanedString()
+
+  func testGivenUndefinedString_WhenCleaningIt_ThenReturnUndefined() {
+    let voidString = voidExpression.cleanedString()
+    XCTAssertEqual(voidString, expectedResultOfDivisionBy0)
   }
 }

@@ -7,6 +7,6 @@
 //
 
 enum Lexical {
-  static let ok = "OK"
+  static let okay = "OK"
   static let undefined = "undefined"
 }

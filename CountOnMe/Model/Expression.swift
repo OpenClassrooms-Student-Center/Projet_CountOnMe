@@ -27,8 +27,8 @@ final class Expression {
 
   lazy var entered = defaultExpression
 
-  var firstNumberIs0: Bool {
-    if entered.first == defaultExpression.first {
+  var firstElementIsDefault: Bool {
+    if let element = elements.first, element == defaultExpression, elements.count == 1 {
       return true
     }
     return false
@@ -51,12 +51,10 @@ final class Expression {
       let index = returnNextOperatorIndex(in: operationsToReduce)
       if let theOperator = Operator(rawValue: operationsToReduce[index]) {
         if let subresult = operate(with: theOperator, in: operationsToReduce, at: index) {
-          if let cleanedSubresultString = subresult.cleanedString() {
-            operationsToReduce.removeSubrange(index - 1...index + 1)
-            operationsToReduce.insert(cleanedSubresultString, at: index - 1)
-          }
+          operationsToReduce.removeSubrange(index - 1...index + 1)
+          operationsToReduce.insert(String(subresult), at: index - 1)
         } else {
-          return [String(Lexical.undefined)]
+          return [Lexical.undefined]
         }
       }
     }
@@ -84,11 +82,11 @@ final class Expression {
 
   func addNumber(_ numberString: String) {
     if hasResult {
-      allClear()
+      allClear() // to replace previous expression by entered number
     }
 
-    if firstNumberIs0 && canAddOperator {
-      clear(forced: true)
+    if firstElementIsDefault {
+      clear(forced: true) // to replace default expression by entered number
     }
 
     entered.append(numberString)
@@ -96,7 +94,9 @@ final class Expression {
 
   func addOperator(_ theOperator: Operator) {
     if hasResult { // previous result becomes new expression
-      entered = result
+      if let result = result.cleanedString() {
+        entered = result
+      }
     }
 
     if !canAddOperator { // remove previous operator
@@ -112,20 +112,22 @@ final class Expression {
     entered = defaultExpression
   }
 
-  func calculate() {
+  func calculate() { // checks the expression then reduces operations
     guard checkErrors() else {
       return
     }
 
     if !hasResult {
       if let result = operationsToReduce.first {
-        entered.append(" = \(result)")
+        if let cleanedResultString = result.cleanedString() {
+          entered.append(" = " + cleanedResultString)
+        }
       }
     }
   }
 
   func clear(forced: Bool = false) { // to clear only last element in expression
-    if elements.count > 1 && canAddOperator || forced {
+    if (elements.count > 1 && canAddOperator) || forced {
       let clearedElements = elements.dropLast(1)
       entered = clearedElements.joined(separator: " ")
 
@@ -139,7 +141,7 @@ final class Expression {
 
   private func checkErrors() -> Bool {
     guard canAddOperator, hasEnoughElement else {
-      sendNotification(for: .expressionMissOperand)
+      sendNotification(for: .operandMissing)
       return false
     }
     return true

@@ -16,7 +16,6 @@
 		E944C26028AED49A00052AFA /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = E944C25F28AED49A00052AFA /* Expression.swift */; };
 		E970FDF828C251790091F204 /* Notification + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E970FDF728C251790091F204 /* Notification + extensions.swift */; };
 		E97E9B8428B941D30009DBF1 /* String + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97E9B8328B941D30009DBF1 /* String + extensions.swift */; };
-		E98D80AB28BBC44C003A79DB /* Double + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98D80AA28BBC44C003A79DB /* Double + extensions.swift */; };
 		E9A0428928C2613B00E00DE1 /* en-EN.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A0428828C2613B00E00DE1 /* en-EN.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +43,6 @@
 		E944C25F28AED49A00052AFA /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		E970FDF728C251790091F204 /* Notification + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification + extensions.swift"; sourceTree = "<group>"; };
 		E97E9B8328B941D30009DBF1 /* String + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + extensions.swift"; sourceTree = "<group>"; };
-		E98D80AA28BBC44C003A79DB /* Double + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + extensions.swift"; sourceTree = "<group>"; };
 		E9A0428828C2613B00E00DE1 /* en-EN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "en-EN.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				E97E9B8328B941D30009DBF1 /* String + extensions.swift */,
-				E98D80AA28BBC44C003A79DB /* Double + extensions.swift */,
 				E970FDF728C251790091F204 /* Notification + extensions.swift */,
 			);
 			path = Extensions;
@@ -274,7 +271,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E97E9B8428B941D30009DBF1 /* String + extensions.swift in Sources */,
-				E98D80AB28BBC44C003A79DB /* Double + extensions.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,
 				1FA43BD3224E569900F565CB /* AppDelegate.swift in Sources */,
 				E970FDF828C251790091F204 /* Notification + extensions.swift in Sources */,

@@ -11,7 +11,7 @@ import Foundation
 extension Notification {
 
   enum ExpressionError: String {
-    case expressionMissOperand = "There is no operand to finish the expression."
+    case operandMissing = "There is no operand to finish the expression."
 
     var notificationName: Notification.Name {
       return Notification.Name(rawValue: "\(self)")

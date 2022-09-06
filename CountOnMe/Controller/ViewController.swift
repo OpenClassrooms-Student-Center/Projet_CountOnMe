@@ -70,7 +70,7 @@ final class ViewController: UIViewController {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(gettingErrorNotification),
-      name: Notification.ExpressionError.expressionMissOperand.notificationName,
+      name: Notification.ExpressionError.operandMissing.notificationName,
       object: nil)
 
     display(expression.entered)
@@ -78,17 +78,17 @@ final class ViewController: UIViewController {
 
   // MARK: Private Methods
 
+  private func display(_ stringToDisplay: String) {
+    textView.text = stringToDisplay
+  }
+
   private func displayAlert(_ error: Notification.ExpressionError) {
     let alertController = UIAlertController(
       title: error.notificationName.rawValue,
       message: error.notificationMessage,
       preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: Lexical.ok, style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: Lexical.okay, style: .cancel, handler: nil))
     return present(alertController, animated: true, completion: nil)
-  }
-
-  private func display(_ stringToDisplay: String) {
-    textView.text = stringToDisplay
   }
 
   // MARK: @objc Methods
@@ -96,8 +96,8 @@ final class ViewController: UIViewController {
   @objc func gettingErrorNotification(_ notification: Notification) {
     if let notificationName = notification.userInfo?["name"] as? Notification.Name {
       switch notificationName {
-      case Notification.ExpressionError.expressionMissOperand.notificationName:
-        self.displayAlert(.expressionMissOperand)
+      case Notification.ExpressionError.operandMissing.notificationName:
+        self.displayAlert(.operandMissing)
       default:
         return
       }
