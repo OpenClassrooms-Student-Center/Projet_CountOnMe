@@ -22,6 +22,7 @@ The application must respect the following constraints:
 - Fix bugs in an existing application
 - Perform a suite of unit and integration tests
 
-
+<p align="center">
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)]
 [![uses-swift](https://user-images.githubusercontent.com/99673568/188826287-ac9b2aa2-b303-414f-9f6e-db1467c5da01.svg)]
+</p>
