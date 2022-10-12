@@ -7,14 +7,17 @@
 //
 
 import XCTest
-@testable import SimpleCalc
+@testable import CountOnMe
 
 class SimpleCalcTests: XCTestCase {
-
+    var calc: Calculator!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
+        calc = Calculator()
     }
 
+    /*
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
@@ -30,5 +33,12 @@ class SimpleCalcTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
+    */
+    
+    func testInstanceOfCalculator_WhenAccessing_Exists() {
+       
+        XCTAssertNotNil(calc)
+    }
+    
+    
 }
