@@ -24,13 +24,8 @@ class ViewController: UIViewController {
     // View Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-    private func alert(_ message: String) {
-        let alertVC = UIAlertController(title: "Zéro!", message: message, preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
+        // Init textView
+        textView.text = calculator.allClear()
     }
 
     // MARK: - Actions
@@ -44,29 +39,27 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if calculator.canAddOperator {
-            textView.text = calculator.add()
-        } else {
-            alert("Un operateur est déja mis !")
-        }
+        textView.text = calculator.add()
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if calculator.canAddOperator {
-            textView.text = calculator.substract()
-        } else {
-            alert("Un operateur est déja mis !")
-        }
+        textView.text = calculator.substract()
+
     }
-
+    
+    @IBAction func tappedMultiplyButton(_ sender: UIButton) {
+        textView.text = calculator.multiply()
+    }
+    
+    @IBAction func tappedDivideButton(_ sender: UIButton) {
+        textView.text = calculator.divide()
+    }
+    
+    @IBAction func tappedAllClearButton(_ sender: UIButton) {
+        textView.text = calculator.allClear()
+    }
+    
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard calculator.expressionIsCorrect else {
-            return alert("Entrez une expression correcte !")
-        }
-
-        guard calculator.expressionHaveEnoughElement else {
-            return alert("Démarrez un nouveau calcul !")
-        }
         textView.text = calculator.equal()
     }
 }

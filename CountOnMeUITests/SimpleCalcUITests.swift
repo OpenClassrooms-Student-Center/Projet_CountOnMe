@@ -9,27 +9,91 @@
 import XCTest
 
 class SimpleCalcUITests: XCTestCase {
-
+    var app: XCUIApplication!
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
+        app.launch()
     }
-
-    /*
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testButtons() {
+        // Given
+        let textView = app.textViews.element(boundBy: 0)
+        
+        // -------------------- Test 1 -------------------
+        // When
+        app.buttons["0"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "0")
+        }
+        
+        // -------------------- Test 2 -------------------
+        // When
+        app.buttons["1"].tap()
+        app.buttons["2"].tap()
+        app.buttons["3"].tap()
+        app.buttons["4"].tap()
+        app.buttons["5"].tap()
+        app.buttons["6"].tap()
+        app.buttons["7"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "1234567")
+        }
+        
+        // -------------------- Test 3 -------------------
+        // When
+        app.buttons["+"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "1234567 + ")
+        }
+        
+        // -------------------- Test 4 -------------------
+        // When
+        app.buttons["-"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "1234567 - ")
+        }
+        
+        // -------------------- Test 5 -------------------
+        // When
+        app.buttons["8"].tap()
+        app.buttons["9"].tap()
+        app.buttons["x"].tap()
+        app.buttons["2"].tap()
+        app.buttons["÷"].tap()
+        app.buttons["2"].tap()
+        app.buttons["0"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "1234567 - 89 x 2 ÷ 20")
+        }
+        
+        // -------------------- Test 6 -------------------
+        app.buttons["="].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "1234567 - 89 x 2 ÷ 20 = 123447.8")
+        }
+        
+        // -------------------- Test 7 -------------------
+        app.buttons["AC"].tap()
+        
+        // Then
+        if let textViewValue = textView.value as? String {
+            XCTAssertEqual(textViewValue, "0")
+        }
     }
-
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    */
 }
