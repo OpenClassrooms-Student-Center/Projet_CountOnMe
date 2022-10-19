@@ -29,6 +29,16 @@ class SimpleCalcTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+        
+    // Je peux faire une addition
+    // Je peux faire une soustraction
+    // Je Peux faire une multiplication
+    // Je peux faire une division
+    // Je ne peux pas avoir trop de chiffres
+        
+        
+        
+        
     }
 
 }
