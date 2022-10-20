@@ -7,8 +7,47 @@
 //
 
 import Foundation
+import CoreImage
 
 class Calculator {
+    
+    //var elements: [String] = []
+//    var expressionIsCorrect: Bool = false
+//    var expressionHaveEnoughElement: Bool = false
+//    var canAddOperator: Bool = false
+    
+    // Error check computed variables
+    func theExpressionIsCorrect(elements:[String]) -> Bool {
+        if elements.last != "+" && elements.last != "-" {
+            return true
+        }
+        return false
+    }
+    
+    func theExpressionHaveEnoughElement(elements:[String]) -> Bool {
+        if elements.count >= 3 {
+            return true
+        }else {
+            return false
+        }
+    }
+
+    func theExpressionCanAddOperator(elements:[String]) -> Bool {
+        if elements.last != "+" && elements.last != "-" {
+            return true
+        } else {
+            return false
+        }
+    }
+
+//    func theExpressionHaveResult(elements:[String]) -> Bool {
+//        if textView.text.firstIndex(of: "=") != nil {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//
     
     func calculate(operation:[String]) -> Double {
                 // Create local copy of operations

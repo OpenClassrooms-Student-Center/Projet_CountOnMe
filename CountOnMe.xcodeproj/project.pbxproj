@@ -99,11 +99,11 @@
 		1FA43BD1224E569900F565CB /* CountOnMe */ = {
 			isa = PBXGroup;
 			children = (
-				1FA43BD4224E569900F565CB /* ViewController.swift */,
-				1FA43BD6224E569900F565CB /* Main.storyboard */,
+				79ECFA0E29019F2E00B69B23 /* Model */,
+				79ECFA1029019F5500B69B23 /* Controller */,
+				79ECFA0F29019F4A00B69B23 /* View */,
 				79ECFA0B28F9A01000B69B23 /* Supporting Files */,
 				1FA43BDE224E569A00F565CB /* Info.plist */,
-				79ECFA0C28F9A04F00B69B23 /* Calculator.swift */,
 			);
 			path = CountOnMe;
 			sourceTree = "<group>";
@@ -134,6 +134,30 @@
 				1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		79ECFA0E29019F2E00B69B23 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				79ECFA0C28F9A04F00B69B23 /* Calculator.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		79ECFA0F29019F4A00B69B23 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD6224E569900F565CB /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		79ECFA1029019F5500B69B23 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1FA43BD4224E569900F565CB /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
