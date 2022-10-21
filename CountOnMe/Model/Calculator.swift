@@ -11,11 +11,7 @@ import CoreImage
 
 class Calculator {
     
-    //var elements: [String] = []
-//    var expressionIsCorrect: Bool = false
-//    var expressionHaveEnoughElement: Bool = false
-//    var canAddOperator: Bool = false
-    
+
     // Error check computed variables
     func theExpressionIsCorrect(elements:[String]) -> Bool {
         if elements.last != "+" && elements.last != "-" {

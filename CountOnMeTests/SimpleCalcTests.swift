@@ -7,38 +7,33 @@
 //
 
 import XCTest
-@testable import SimpleCalc
+@testable import CountOnMe
 
 class SimpleCalcTests: XCTestCase {
+    
+    var calculator = Calculator()
 
     override func setUp() {
+        super.setUp()
+        calculator = Calculator()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    // test expression correct
+    func testGivenANumberAnOperationAndAnNumber_WhenGettingExpressionIsCorrect_ThenResultShouldBeTrue() {
+        let elements = ["1", "+", "2"]
+        let resultat = calculator.theExpressionIsCorrect(elements: elements)
+        XCTAssertEqual(resultat, true)
     }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-        
+    
+    // test expression a assez d'élement
+    // test expression peut ajouter un élément
     // Je peux faire une addition
     // Je peux faire une soustraction
-    // Je Peux faire une multiplication
+    // Je peux faire une multiplication
     // Je peux faire une division
     // Je ne peux pas avoir trop de chiffres
         
-        
-        
-        
-    }
-
+    
 }
