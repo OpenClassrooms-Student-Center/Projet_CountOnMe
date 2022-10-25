@@ -4,13 +4,13 @@
 //
 //  Created by Vincent Saluzzo on 29/03/2019.
 //  Copyright © 2019 Vincent Saluzzo. All rights reserved.
-//  swiftlint:disable line_length
 
 import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    @IBOutlet weak var equalButton: UIButton!
 
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
@@ -33,6 +33,9 @@ class ViewController: UIViewController {
 
         if expressionHaveResult {
             textView.text = ""
+
+            equalButton.isEnabled = true
+            equalButton.layer.opacity = 1
         }
 
         textView.text.append(numberText)
@@ -42,9 +45,7 @@ class ViewController: UIViewController {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" + ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
@@ -52,9 +53,7 @@ class ViewController: UIViewController {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" - ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
@@ -62,9 +61,7 @@ class ViewController: UIViewController {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" × ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
@@ -72,26 +69,29 @@ class ViewController: UIViewController {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" ÷ ")
         } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
         }
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         if !calculator.theExpressionIsCorrect(elements: elements) {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Entrez une expression correcte !")
         }
 
         if !calculator.theExpressionHaveEnoughElement(elements: elements) {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            return self.present(alertVC, animated: true, completion: nil)
+            alertMessage(title: "Zéro!", message: "Démarrez un nouveau calcul OK !")
         }
 
         let result = calculator.calculate(operation: elements)
         textView.text.append(" = \(result)")
+
+        equalButton.isEnabled = false
+        equalButton.layer.opacity = 0.3
+    }
+
+    private func alertMessage(title: String, message: String) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return self.present(alertVC, animated: true, completion: nil)
     }
 }
