@@ -32,7 +32,7 @@ class Calculator {
         return false
     }
 
-    func calculate(operation: [String]) -> Double {
+    func calculate(operation: [String]) -> String {
         // Create local copy of operations
         var operationsToReduce = operation
         // Iterate over operations while an operand still here
@@ -40,24 +40,29 @@ class Calculator {
             let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Double(operationsToReduce[2])!
-            let result: Double
+            var result: Double
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
             case "×": result = left * right
-            case "÷": result = left / right
+            case "÷":
+                if right == 0 {
+                    return String("Erreur")
+                } else {
+                    result = left / right
+                }
             default: fatalError("Unknown operator !")
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            if result.rounded(.up) == result.rounded(.down) {
+                // number is integer
+                let resultInt = Int(result)
+                operationsToReduce.insert("\(resultInt)", at: 0)
+            } else {
+                // number is not integer
+                operationsToReduce.insert("\(result)", at: 0)
+            }
         }
-        
-//        if number.rounded(.up) == number.rounded(.down){
-//            //number is integer
-//        }else{
-//            //number is not integer
-//        }
-
-        return Double(operationsToReduce[0])!
+        return String(operationsToReduce[0])
     }
 }

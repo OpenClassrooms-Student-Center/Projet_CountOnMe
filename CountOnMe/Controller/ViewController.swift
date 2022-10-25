@@ -57,8 +57,7 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-    
-    
+
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" × ")
@@ -68,8 +67,7 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-    
- 
+
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
         if calculator.theExpressionCanAddOperator(elements: elements) {
             textView.text.append(" ÷ ")
@@ -79,7 +77,7 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         if !calculator.theExpressionIsCorrect(elements: elements) {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)

@@ -62,33 +62,39 @@ class SimpleCalcTests: XCTestCase {
     func testGivenANumber1AnAdditionAndANumber2_WhenGettingCalculate_ThenResultShouldBeThree() {
         let elements = ["1", "+", "2"]
         let result = calculator.calculate(operation: elements)
-        XCTAssertEqual(result, 3.0)
+        XCTAssertEqual(result, "3")
     }
 
     // test simple addition
     func testGivenANumber1ASoustractionAndANumber2_WhenGettingCalculate_ThenResultShouldBeMinusOne() {
         let elements = ["1", "-", "2"]
         let result = calculator.calculate(operation: elements)
-        XCTAssertEqual(result, -1.0)
+        XCTAssertEqual(result, "-1")
     }
 
     // test expression with addition and soustraction
     func testGivenAnAdditionAndASoustraction_WhenGettingCalculate_ThenResultShouldBeMinusOne() {
         let elements = ["1", "-", "2", "+", "5"]
         let result = calculator.calculate(operation: elements)
-        XCTAssertEqual(result, 4.0)
+        XCTAssertEqual(result, "4")
     }
 
     func testGivenANumber5AMultiplicationAndANumber2_WhenGettingCalculate_ThenResultShouldBeTen() {
         let elements = ["5", "×", "2"]
         let result = calculator.calculate(operation: elements)
-        XCTAssertEqual(result, 10.0)
+        XCTAssertEqual(result, "10")
     }
 
     func testGivenANumber5ADivisionAndANumber2_WhenGettingCalculate_ThenResultShouldBeTwoPointFive() {
         let elements = ["5", "÷", "2"]
         let result = calculator.calculate(operation: elements)
-        XCTAssertEqual(result, 2.5)
+        XCTAssertEqual(result, "2.5")
+    }
+
+    func testGivenANumber5ADivisionAndANumber0_WhenGettingCalculate_ThenResultShouldBeErreur() {
+        let elements = ["5", "÷", "0"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "Erreur")
     }
     // Je ne peux pas avoir trop de chiffres
 }
