@@ -57,7 +57,29 @@ class ViewController: UIViewController {
             self.present(alertVC, animated: true, completion: nil)
         }
     }
-
+    
+    
+    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+        if calculator.theExpressionCanAddOperator(elements: elements) {
+            textView.text.append(" × ")
+        } else {
+            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+        }
+    }
+    
+ 
+    @IBAction func tappedDivisionButton(_ sender: UIButton) {
+        if calculator.theExpressionCanAddOperator(elements: elements) {
+            textView.text.append(" ÷ ")
+        } else {
+            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alertVC, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         if !calculator.theExpressionIsCorrect(elements: elements) {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)

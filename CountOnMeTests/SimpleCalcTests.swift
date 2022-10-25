@@ -65,19 +65,30 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(result, 3.0)
     }
 
+    // test simple addition
     func testGivenANumber1ASoustractionAndANumber2_WhenGettingCalculate_ThenResultShouldBeMinusOne() {
         let elements = ["1", "-", "2"]
         let result = calculator.calculate(operation: elements)
         XCTAssertEqual(result, -1.0)
     }
 
-//    func testGivenANumber1AWrongOperatorAndANumber2_WhenGettingCalculate_ThenResultShouldBeMinusOne() {
-//        let elements = ["1", "*", "2"]
-//        let result = calculator.calculate(operation:elements)
-//        XCTAssertEqual(result, nil)
-//    }
+    // test expression with addition and soustraction
+    func testGivenAnAdditionAndASoustraction_WhenGettingCalculate_ThenResultShouldBeMinusOne() {
+        let elements = ["1", "-", "2", "+", "5"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, 4.0)
+    }
 
-    // Je peux faire une multiplication
-    // Je peux faire une division
+    func testGivenANumber5AMultiplicationAndANumber2_WhenGettingCalculate_ThenResultShouldBeTen() {
+        let elements = ["5", "×", "2"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, 10.0)
+    }
+
+    func testGivenANumber5ADivisionAndANumber2_WhenGettingCalculate_ThenResultShouldBeTwoPointFive() {
+        let elements = ["5", "÷", "2"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, 2.5)
+    }
     // Je ne peux pas avoir trop de chiffres
 }
