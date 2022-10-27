@@ -12,7 +12,7 @@ class Calculator {
 
     // Error check computed variables
     func theExpressionIsCorrect(elements: [String]) -> Bool {
-        if elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "-" && elements.last != "÷" {
+        if elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷" {
             return true
         }
         return false
@@ -26,7 +26,7 @@ class Calculator {
     }
 
     func theExpressionCanAddOperator(elements: [String]) -> Bool {
-        if elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷"  {
+        if elements.last != "+" && elements.last != "-" && elements.last != "×" && elements.last != "÷" {
             return true
         }
         return false
@@ -37,7 +37,6 @@ class Calculator {
         var operationsToReduce = operation
         operationsToReduce = multiplicationAndDivision(operation: operation)
         // Iterate over operations while an operand still here
-        print(operationsToReduce)
         while operationsToReduce.count > 1 {
             let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
@@ -49,7 +48,7 @@ class Calculator {
             default: fatalError("Unknown operator !")
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            if result.rounded(.up) == result.rounded(.down) {
+            if result.rounded(.up) == result.rounded(.down) && result < 9999999 {
                 // number is integer
                 let resultInt = Int(result)
                 operationsToReduce.insert("\(resultInt)", at: 0)
@@ -73,14 +72,12 @@ class Calculator {
                 var result: Double
                 switch operand {
                 case "×":
-                    print("Resultat = \(left) * \(right)")
                     result = left * right
                 case "÷":
                     if right == 0 {
                         theOperation = ["Erreur"]
                         return theOperation
                     } else {
-                        print("Resultat = \(left) / \(right)")
                         result = left / right
                     }
                 default: fatalError("Unknown operator !")
@@ -88,7 +85,7 @@ class Calculator {
                 theOperation.remove(at: index+1)
                 theOperation.remove(at: index)
                 theOperation.remove(at: index-1)
-                if result.rounded(.up) == result.rounded(.down) {
+                if result.rounded(.up) == result.rounded(.down) && result < 9999999 {
                     // number is integer
                     let resultInt = Int(result)
                     theOperation.insert("\(resultInt)", at: index-1)
@@ -100,6 +97,6 @@ class Calculator {
             }
             index += 1
         }
-    return theOperation
+        return theOperation
     }
 }

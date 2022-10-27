@@ -104,7 +104,8 @@ class SimpleCalcTests: XCTestCase {
         XCTAssertEqual(result, "2")
     }
 
-    func testGivenAnAdditionAMultiplicationAndDivision_WhenGettingCalculate_ThenResultShouldBe2WithApriorisationOfMultiplicationThenDivision() {
+    // swiftlint:disable line_length
+    func testGivenAnMultipleOperation_WhenGettingCalculate_ThenResultShouldBe3Point5WithAprioOfMultiplicationThenDivision() {
         let elements = ["1", "+", "5", "×", "4", "÷", "8"]
         let result = calculator.calculate(operation: elements)
         XCTAssertEqual(result, "3.5")
@@ -127,5 +128,4 @@ class SimpleCalcTests: XCTestCase {
         let result = calculator.calculate(operation: elements)
         XCTAssertEqual(result, "0")
     }
-    // Je ne peux pas avoir trop de chiffres
 }
