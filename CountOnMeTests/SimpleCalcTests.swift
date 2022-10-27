@@ -96,5 +96,36 @@ class SimpleCalcTests: XCTestCase {
         let result = calculator.calculate(operation: elements)
         XCTAssertEqual(result, "Erreur")
     }
+
+    // test priorisation des divisions et multiplications
+    func testGivenAnAdditionAndDivision_WhenGettingCalculate_ThenResultShouldBe2WithApriorisationOfADivision() {
+        let elements = ["1", "+", "5", "÷", "5"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "2")
+    }
+
+    func testGivenAnAdditionAMultiplicationAndDivision_WhenGettingCalculate_ThenResultShouldBe2WithApriorisationOfMultiplicationThenDivision() {
+        let elements = ["1", "+", "5", "×", "4", "÷", "8"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "3.5")
+    }
+
+    func testGivenALongOperation_WhenGettingCalculate_ThenResultShouldBe5() {
+        let elements = ["1", "+", "5", "×", "4", "÷", "5", "-", "5", "+", "5", "×", "1"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "5")
+    }
+
+    func testGivenALongOperationWithADivisionBy0_WhenGettingCalculte_ThenResultShouldBeErreur() {
+        let elements = ["1", "+", "5", "×", "4", "÷", "5", "-", "5", "+", "5", "÷", "0"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "Erreur")
+    }
+
+    func testGivenALongOperationWithAMultiplicationBy0_WhenGettingCalculte_ThenResultShouldBe5() {
+        let elements = ["1", "+", "5", "×", "4", "÷", "5", "-", "5", "+", "5", "×", "0"]
+        let result = calculator.calculate(operation: elements)
+        XCTAssertEqual(result, "0")
+    }
     // Je ne peux pas avoir trop de chiffres
 }

@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if calculator.theExpressionCanAddOperator(elements: elements) {
+        if calculator.theExpressionCanAddOperator(elements: elements) && !expressionHaveResult {
             textView.text.append(" + ")
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if calculator.theExpressionCanAddOperator(elements: elements) {
+        if calculator.theExpressionCanAddOperator(elements: elements) && !expressionHaveResult {
             textView.text.append(" - ")
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
-        if calculator.theExpressionCanAddOperator(elements: elements) {
+        if calculator.theExpressionCanAddOperator(elements: elements) && !expressionHaveResult {
             textView.text.append(" × ")
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedDivisionButton(_ sender: UIButton) {
-        if calculator.theExpressionCanAddOperator(elements: elements) {
+        if calculator.theExpressionCanAddOperator(elements: elements) && !expressionHaveResult {
             textView.text.append(" ÷ ")
         } else {
             alertMessage(title: "Zéro!", message: "Un operateur est déja mis !")
